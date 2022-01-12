@@ -13,6 +13,6 @@ class Knight {
     };
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 100, 0, 400, 400);
+        ctx.drawImage(this.spritesheet, 300, 0, 400, 400);
     };
 };
