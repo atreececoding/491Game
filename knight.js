@@ -13,10 +13,6 @@ class Knight {
     };
 
     draw(ctx) {
-<<<<<<< HEAD
-        ctx.drawImage(this.spritesheet, 200, 0, 400, 400);
-=======
         ctx.drawImage(this.spritesheet, 0, 0, 400, 400);
->>>>>>> GlennBranch
     };
 };
