@@ -4,7 +4,6 @@ class Knight {
         
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
-        this.animator = new Animator(this.spritesheet, 0, 0, 99, 70, 6, 0.15);
 
         this.size = 0;
         this.facing = 0;
@@ -31,31 +30,31 @@ class Knight {
         }
         //idle
         //facing right = 0
-        this.animations[0][0] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[0][0] = new Animator(this.spritesheet, 99, 0, 85, 60, 6, 0.15);
 
         //facing left = 0
-        this.animations[0][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[0][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 6, 0.15);
 
         //walking
         //facing right = 0
-        this.animations[1][0] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[1][0] = new Animator(this.spritesheet, 97, 158, 86, 60, 6, 0.15);
 
         //facing left = 0
-        this.animations[1][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[1][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 6, 0.15);
 
         //Running
         //facing right = 0
-        this.animations[2][0] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[2][0] = new Animator(this.spritesheet, 100, 231, 99, 65, 6, 0.15);
 
         //facing left = 0
-        this.animations[2][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[2][1] = new Animator(this.spritesheet, 99, 0, 99, 65, 6, 0.15);
 
         //Jumping
         //facing right = 0
-        this.animations[3][0] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[3][0] = new Animator(this.spritesheet, 106, 323, 97, 90, 6, 0.15);
 
         //facing left = 0
-        this.animations[3][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[3][1] = new Animator(this.spritesheet, 99, 0, 99, 90, 6, 0.15);
 
         //attacking
         //facing right = 0
