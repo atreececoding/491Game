@@ -4,10 +4,6 @@ class Knight {
         
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
-<<<<<<< HEAD
-        this.animator = new Animator(this.spritesheet, 0, 0, 99, 70, 6, 0.15);
-=======
->>>>>>> AndrewBranch
 
         this.size = 0;
         this.facing = 0;
