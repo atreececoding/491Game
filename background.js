@@ -9,7 +9,7 @@ class Background {
     };
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 0, 0);
+        ctx.drawImage(this.spritesheet, 0, 0, 768, 600);
     
     };
 };

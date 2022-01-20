@@ -11,7 +11,7 @@ class Knight {
         this.dead = false;
 
         this.x = 0;
-        this.y = 415;
+        this.y = 422;
         this.speed = 100;
 
         this.fallAcc = 560;
