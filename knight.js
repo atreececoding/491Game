@@ -48,7 +48,7 @@ class Knight {
 
         //Jumping
         //facing right = 0
-        list = [110, 202, 284, 382, 480, 587, 703];
+        //list = [110, 202, 284, 382, 480, 587, 703];
         this.animations[3][0] = new Animator(this.spritesheet, 4, 234, 112, 89, 7, 0.15);
         //facing left = 0
        // this.animations[3][1] = new Animator(this.spritesheet, 99, 0, 99, 90, 6, 0.15);
