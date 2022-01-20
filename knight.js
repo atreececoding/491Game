@@ -69,6 +69,6 @@ class Knight {
     };
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     };
 };
