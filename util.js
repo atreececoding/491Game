@@ -1,5 +1,7 @@
 /** Global Parameters Object */
-const params = { };
+const PARAMS = {
+    BLOCKWIDTH: 101
+ };
 
 /** Easy access to math functions */
 const {
