@@ -125,7 +125,7 @@ class Knight {
                 
             }
         });
-        */
+        //*/
     };
 
     loseHeart() {
