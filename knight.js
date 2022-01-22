@@ -130,7 +130,12 @@ class Knight {
                 else if (abs(this.velocity.x) >= MIN_WALK) { // faster than a walk // accelerating or decelerating
                     if (this.facing === 0) {
                         if (this.game.right && !this.game.left) {
-                            this.velocity.x += ACC_WALK * TICK;
+                            if (this.game.shift) {
+                                this.velocity.x += ACC_RUN * TICK;
+                            }
+                            else {
+                                this.velocity.x += ACC_WALK * TICK;
+                            }
 
                         }
                         
@@ -146,7 +151,12 @@ class Knight {
 
                     if (this.facing === 1) {
                         if (this.game.left && !this.game.right) {
-                            this.velocity.x -= ACC_WALK * TICK;
+                            if (this.game.shift) {
+                                this.velocity.x -= ACC_RUN * TICK;
+                            }
+                            else {
+                                this.velocity.x -= ACC_WALK * TICK;
+                            }
                         }
 
                         else if (this.game.right && !this.game.left) {
@@ -186,7 +196,7 @@ class Knight {
                 // air physics
 
                 // vertical physics
-                if (this.velocity.y < 0 && this.game.A) { // holding A while jumping jumps higher
+                if (this.velocity.y < 0 && this.game.up) { // holding A while jumping jumps higher
                     if (this.fallAcc === STOP_FALL) this.velocity.y -= (STOP_FALL - STOP_FALL_A) * TICK;
                     if (this.fallAcc === WALK_FALL) this.velocity.y -= (WALK_FALL - WALK_FALL_A) * TICK;
                     if (this.fallAcc === RUN_FALL) this.velocity.y -= (RUN_FALL - RUN_FALL_A) * TICK;
@@ -223,8 +233,8 @@ class Knight {
 
             if (this.velocity.x >= MAX_RUN) this.velocity.x = MAX_RUN;
             if (this.velocity.x <= -MAX_RUN) this.velocity.x = -MAX_RUN;
-            if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-            if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+            if (this.velocity.x >= MAX_WALK && !this.game.shift) this.velocity.x = MAX_WALK;
+            if (this.velocity.x <= -MAX_WALK && !this.game.shift) this.velocity.x = -MAX_WALK;
             //i did not include the walking lines from chris's code
 
             // update position
@@ -234,7 +244,7 @@ class Knight {
             // NOTE: temporary code to make him stay on the screen
             if (this.x > 768) this.x = 0;
             if (this.x < 0) this.x = 768;
-            if (this.y > 422) this.velocity.y = 0; this.y = 422;
+            if (this.y > 422) this.velocity.y = 0; this.y = 422; this.state = 0;
             this.updateBB();
 
 
