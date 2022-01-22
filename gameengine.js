@@ -115,6 +115,10 @@ class GameEngine {
                     that.attack = true;
                     if (that.options.debugging) console.log("Space pressed");
                     break;
+                case "ShiftLeft":
+                    that.shift = true;
+                    if (that.options.debugging) console.log("Shift pressed");
+                    break;
             }
         }, false);
 
@@ -144,6 +148,10 @@ class GameEngine {
                 case "Space":
                     that.attack = false;
                     if (that.options.debugging) console.log("Space released");
+                    break;
+                case "ShiftLeft":
+                    that.shift = false;
+                    if (that.options.debugging) console.log("Shift released");
                     break;
             }
         }, false);
