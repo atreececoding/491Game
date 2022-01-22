@@ -1,17 +1,16 @@
-class Knight {
-    constructor(game) {
-        this.game = game;
-        
-
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
-
+class Goblin {
+	constructor(game) {
+		this.game = game;
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblinSprite.png");
+		
+		
         this.size = 0;
         this.facing = 0;
         this.state = 0;
         this.dead = false;
 
-        this.x = 0;
-        this.y = 422;
+        this.x = 600;
+        this.y = 450;
         this.speed = 100;
 
         this.fallAcc = 560;
@@ -20,50 +19,26 @@ class Knight {
 
         this.animations = [];
         this.loadAnimations();
+	};
 
-
-        
-    };
-
-    loadAnimations() {
+	loadAnimations() {
         for (var i = 0; i < 7; i++) {
             this.animations.push([]);
             for (var j = 0; j < 2; j++) {
                 this.animations.push([i]);
             }
         }
-        //idle
+        //walking right and left
         //facing right = 0
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 101, 65, 7, 0.15);
-        //facing left = 0
-        //this.animations[0][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 7, 0.15);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 194, 64, 54, 7, 0.15);
+        //facing left = 1
+        this.animations[0][1] = new Animator(this.spritesheet, 0, 67, 64, 54, 7, 0.15);
 
-        //walking
+        //Attacking
         //facing right = 0
-        this.animations[1][0] = new Animator(this.spritesheet, 2, 98, 101.55, 61, 7, 0.15);
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 451, 64, 54, 5, 0.15);
         //facing left = 0
-       // this.animations[1][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 6, 0.15);
-
-        //Running
-        //facing right = 0
-        this.animations[2][0] = new Animator(this.spritesheet, 4, 160, 99, 70, 7, 0.15);
-        //facing left = 0
-       // this.animations[2][1] = new Animator(this.spritesheet, 99, 0, 99, 65, 6, 0.15);
-
-       //Make individual frames? for changing widths
-        //Jumping
-        //facing right = 0
-        //list = [110, 202, 284, 382, 480, 587, 703];
-        this.animations[3][0] = new Animator(this.spritesheet, 4, 234, 112, 89, 7, 0.15);
-
-        //facing left = 0
-       // this.animations[3][1] = new Animator(this.spritesheet, 99, 0, 99, 90, 6, 0.15);
-
-        //attacking
-        //facing right = 0
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 0, 117, 401, 7, 0.15);
-        //facing left = 0
-       // this.animations[4][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        this.animations[1][1] = new Animator(this.spritesheet, 0, 324, 64, 54, 5, 0.15);
     }
 
     updateBB() {
@@ -77,12 +52,13 @@ class Knight {
 
     update() {
         
+            
+                //this.x += this.speed * 2 * this.game.clockTick;
+            
+            
+            
+            
         
-
-        if(this.game.right) {
-            if (this.x > 768) this.x = 0;
-            this.x += this.speed * 4 * this.game.clockTick;
-        }
 
         // TODO: need to call updateBB(); somewhere in here after we update his x and y positions
 
@@ -128,19 +104,9 @@ class Knight {
         //*/
     };
 
-    loseHeart() {
-
-    };
-
-
     draw(ctx) {
-        //this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        /*if(!this.game.right && !this.game.left && !this.game.up && !this.game.down && !this.game.attack) {
-            this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
-        }
-        if(this.game.right) {
-            this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.85);
-        }*/
-       // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
+        
+        
     };
-};
+}
