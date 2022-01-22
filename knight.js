@@ -11,7 +11,7 @@ class Knight {
         this.dead = false;
 
         this.x = 0;
-        this.y = 422;
+        this.y = 0;
         this.speed = 100;
         this.velocity = {
             x: 0,
@@ -71,7 +71,7 @@ class Knight {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKHEIGHT);
     };
 
     die() {
@@ -244,7 +244,7 @@ class Knight {
             // NOTE: temporary code to make him stay on the screen
             if (this.x > 768) this.x = 0;
             if (this.x < 0) this.x = 768;
-            if (this.y > 422) this.velocity.y = 0; this.y = 422; this.state = 0;
+            //if (this.y > 422) this.velocity.y = 0; this.y = 422; this.state = 0;
             this.updateBB();
 
 
@@ -262,21 +262,22 @@ class Knight {
 
         // TODO: before we can uncomment the collision handling, we need to implement the physics because it includes velocity
         // collision handling
-        /*
+    
         var that  = this;
         this.game.entities.forEach(function (entity) {
             // NOTE: may need to add a if (entity !== that) wrapper to not compare collision with self
-            if (entity.BB && that.BB.collide(entity.BB)) {
+            if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
                 if (that.velocity.y > 0) { // falling
-                    if ((entity instanceof Platform) // landing // TODO: may add more entities in here later
+                    if ((entity instanceof Floor) // landing // TODO: may add more entities in here later
                         && (that.lastBB.bottom) <= entity.BB.top) { // was above last tick
-                        that.y = entity.BB.top - PARAMS.BLOCKWIDTH; 
-                        that.velocity.y === 0; // NOTE: not sure why Chris uses === to assign velocity here, may be a bug
+                        that.y = entity.BB.top - PARAMS.BLOCKHEIGHT; 
+                        that.velocity.y = 0; // NOTE: not sure why Chris uses === to assign velocity here, may be a bug
                     } 
-                    // TODO: update state here (ex. if(that.state === 4) that.state = 0;)
-                    that.updateBB();
 
-                    if ((entity instanceof Goblin || entity instanceof Bat) // collision with enemies or obstacles, TODO: may have to add more in later
+                    if(that.state === 4) that.state = 0; // set state to idle
+                    that.updateBB(); 
+
+                    if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
                         && (that.lastBB.bottom) <= entity.BB.top // was above last tick
                         && !entity.dead) { // entity was already dead
                         loseHeart(); // lose a heart when you collide with an enemy or obstacle
@@ -286,7 +287,7 @@ class Knight {
                 }
 
                 if (that.velocity.y < 0) {
-                    if ((entity instanceof Platform)
+                    if ((entity instanceof Floor)
                         && (that.lastBB.top) >= entity.BB.bottom) { // was below last tick
                         that.velocity.y = 0;
                         } 
@@ -299,7 +300,7 @@ class Knight {
                 
             }
         });
-        */
+        
     };
 
     loseHeart() {
@@ -316,5 +317,7 @@ class Knight {
             this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.85);
         }
         this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        ctx.strokeStyle = 'Red';
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     };
 };

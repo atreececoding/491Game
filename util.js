@@ -1,6 +1,7 @@
 /** Global Parameters Object */
 const PARAMS = {
     BLOCKWIDTH: 101,
+    BLOCKHEIGHT: 130,
     SCALE: 1
  };
 
