@@ -10,7 +10,7 @@ class Goblin {
         this.dead = false;
 
         this.x = 600;
-        this.y = 450;
+        this.y = 435;
         this.speed = 100;
 
         this.fallAcc = 560;
@@ -53,7 +53,7 @@ class Goblin {
     update() {
         
             
-                //this.x += this.speed * 2 * this.game.clockTick;
+        //this.x += this.speed * 2 * this.game.clockTick;
             
             
             
@@ -105,7 +105,7 @@ class Goblin {
     };
 
     draw(ctx) {
-        this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
+        this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2.25);
         
         
     };

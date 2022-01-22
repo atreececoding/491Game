@@ -134,13 +134,13 @@ class Knight {
 
 
     draw(ctx) {
-        //this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        /*if(!this.game.right && !this.game.left && !this.game.up && !this.game.down && !this.game.attack) {
+        this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        if(!this.game.right && !this.game.left && !this.game.up && !this.game.down && !this.game.attack) {
             this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
         }
         if(this.game.right) {
             this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.85);
-        }*/
-       // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        }
+        this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     };
 };
