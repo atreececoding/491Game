@@ -1,6 +1,7 @@
 /** Global Parameters Object */
 const PARAMS = {
-    BLOCKWIDTH: 101
+    BLOCKWIDTH: 101,
+    SCALE: 1
  };
 
 /** Easy access to math functions */
