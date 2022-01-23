@@ -40,14 +40,14 @@ class Floor {
 };
 
 class Platform {
-    constructor(game, x, y, w) {
-        Object.assign(this, {game, x, y, w});
+    constructor(game, x, y, w, h) {
+        Object.assign(this, {game, x, y, w, h});
     
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
 
-        this.BB = new BoundingBox(this.x, this.y, this.w, PARAMS.BLOCKWIDTH * 2);
-        this.leftBB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
-        this.rightBB = new BoundingBox(this.x + this.w - PARAMS.BLOCKWIDTH, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
+        this.BB = new BoundingBox(this.x, this.y, this.w, PARAMS.PLATHEIGHT);
+        this.leftBB = new BoundingBox(this.x, this.y, PARAMS.PLATWIDTH, PARAMS.PLATWIDTH)
+        this.rightBB = new BoundingBox(this.x + this.w - PARAMS.PLATWIDTH, this.y, PARAMS.PLATHEIGHT, PARAMS.PLATWIDTH)
     
     };
     
@@ -60,7 +60,7 @@ class Platform {
     draw(ctx) {
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-        ctx.drawImage(this.spritesheet, 1, 200, 300, 100);
+        ctx.drawImage(this.spritesheet, 400, 300, 300, 100);
     };
 };
 

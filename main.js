@@ -13,14 +13,17 @@ ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gamecanvas");
 	const ctx = canvas.getContext("2d");
 
+	
+
 	gameEngine.addEntity(new Knight(gameEngine));
 	//gameEngine.addEntity(new Goblin(gameEngine));
 	
 	gameEngine.addEntity(new Floor(this.game, 0, 550, 768));
+	gameEngine.addEntity(new Platform(this.game, 415, 314, 270, 250));
 	
 	gameEngine.addEntity(new Background(this.game, 1, 1));
 
-	gameEngine.addEntity(new Platform(this.game, 300, 100, 300));
+	
 	
 	
 	

@@ -2,6 +2,8 @@
 const PARAMS = {
     BLOCKWIDTH: 101,
     BLOCKHEIGHT: 130,
+    PLATWIDTH: 300,
+    PLATHEIGHT: 80,
     SCALE: 1
  };
 
