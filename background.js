@@ -1,7 +1,7 @@
 class Background {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/background.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/forest.png");
 
     };
     update () {
@@ -36,4 +36,31 @@ class Floor {
         };
         
     };
+
 };
+
+class Platform {
+    constructor(game, x, y, w) {
+        Object.assign(this, {game, x, y, w});
+    
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
+
+        this.BB = new BoundingBox(this.x, this.y, this.w, PARAMS.BLOCKWIDTH * 2);
+        this.leftBB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
+        this.rightBB = new BoundingBox(this.x + this.w - PARAMS.BLOCKWIDTH, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
+    
+    };
+    
+        
+    update() {
+        // this.lastBB = this.BB;
+        // this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+    };
+
+    draw(ctx) {
+        ctx.strokeStyle = 'Red';
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        ctx.drawImage(this.spritesheet, 1, 200, 300, 100);
+    };
+};
+

@@ -4,8 +4,10 @@ const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./sprites/KnightSprites.png");
 ASSET_MANAGER.queueDownload("./sprites/background.png");
+ASSET_MANAGER.queueDownload("./sprites/forest.png");
 ASSET_MANAGER.queueDownload("./sprites/goblinSprite.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
+ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gamecanvas");
@@ -17,6 +19,8 @@ ASSET_MANAGER.downloadAll(() => {
 	gameEngine.addEntity(new Floor(this.game, 0, 550, 768));
 	
 	gameEngine.addEntity(new Background(this.game, 1, 1));
+
+	gameEngine.addEntity(new Platform(this.game, 300, 100, 300));
 	
 	
 	
