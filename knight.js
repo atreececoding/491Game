@@ -87,12 +87,12 @@ class Knight {
 
         // physics constants grabbed from chris's super marriott brothers
         const MIN_WALK = 4.453125;
-        const MAX_WALK = 93.75;
-        const MAX_RUN = 153.75;
-        const ACC_WALK = 133.59375;
-        const ACC_RUN = 200.390625;
-        const DEC_REL = 182.8125;
-        const DEC_SKID = 365.625;
+        const MAX_WALK = 250;
+        const MAX_RUN = 300;
+        const ACC_WALK = 200;
+        const ACC_RUN = 600;
+        const DEC_REL = 800;
+        const DEC_SKID = 500;
         const MIN_SKID = 33.75;
 
         const STOP_FALL = 1575;
@@ -160,7 +160,7 @@ class Knight {
                         }
 
                         else if (this.game.right && !this.game.left) {
-                            this.velocity.x -= DEC_SKID * TICK;
+                            this.velocity.x += DEC_SKID * TICK;
                             this.state = 3;
                         }
 
@@ -174,17 +174,17 @@ class Knight {
 
                 if (this.game.up) { // jump
                     if (abs(this.velocity.x) < 16) {
-                        this.velocity.y = -240;
+                        this.velocity.y = -1000;
                         this.fallAcc = STOP_FALL;
                     }
 
                     else if (abs(this.velocity.x) < 40) {
-                        this.velocity.y = -240;
+                        this.velocity.y = -1000;
                         this.fallAcc = WALK_FALL;
                     }
 
                     else {
-                        this.velocity.y = -300;
+                        this.velocity.y = -1000;
                         this.fallAcc = RUN_FALL;
                     }
                     this.state = 4;
@@ -235,7 +235,7 @@ class Knight {
             if (this.velocity.x <= -MAX_RUN) this.velocity.x = -MAX_RUN;
             if (this.velocity.x >= MAX_WALK && !this.game.shift) this.velocity.x = MAX_WALK;
             if (this.velocity.x <= -MAX_WALK && !this.game.shift) this.velocity.x = -MAX_WALK;
-            //i did not include the walking lines from chris's code
+            
 
             // update position
             this.x += this.velocity.x * TICK * PARAMS.SCALE;
@@ -268,7 +268,7 @@ class Knight {
             // NOTE: may need to add a if (entity !== that) wrapper to not compare collision with self
             if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
                 if (that.velocity.y > 0) { // falling
-                    if ((entity instanceof Floor) // landing // TODO: may add more entities in here later
+                    if ((entity instanceof Floor || entity instanceof Platform) // landing // TODO: may add more entities in here later
                         && (that.lastBB.bottom) <= entity.BB.top) { // was above last tick
                         that.y = entity.BB.top - PARAMS.BLOCKHEIGHT; 
                         that.velocity.y = 0; // NOTE: not sure why Chris uses === to assign velocity here, may be a bug
@@ -285,24 +285,50 @@ class Knight {
                     if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
                         && (that.lastBB.bottom) <= entity.BB.top // was above last tick
                         && !entity.dead) { // entity was already dead
+<<<<<<< HEAD
                         //loseHeart(); // lose a heart when you collide with an enemy or obstacle
+=======
+                        // that.loseHeart(); // lose a heart when you collide with an enemy or obstacle
+>>>>>>> main
                         that.velocity.y = -240; // bounce up
                         that.velocity.x = -240; // bounce to the left
+                        print('hit top collision of goblin');
                     }
                 }
 
                 if (that.velocity.y < 0) {
-                    if ((entity instanceof Floor)
+                    if ((entity instanceof Floor || Platform)
                         && (that.lastBB.top) >= entity.BB.bottom) { // was below last tick
+                        that.y = entity.BB.bottom;
                         that.velocity.y = 0;
+                        print('hit bottom collision of floor');
+
                         } 
                     // TODO: handle enemy collision from bottom
                 }
 
                 // TODO: handle side collision here
+                if (that.velocity.x > 0) {
+                    if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
+                    && !entity.dead) {
+                        that.x = entity.BB.left - PARAMS.BLOCKWIDTH; 
+                        that.velocity.x = 0;
+                        that.updateBB(); 
+                        print('hit side collision goblin');
+                    }
+                }
 
+                if (that.velocity.x < 0) {
+                    if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
+                    && !entity.dead) {
+                        that.x = entity.BB.left + PARAMS.BLOCKWIDTH; 
+                        that.velocity.x = 0;
+                        that.updateBB(); 
+                        print('hit side collision goblin 2');
+                    }
+                }
                 
-                
+     
             }
         });
         
