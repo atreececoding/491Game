@@ -53,8 +53,8 @@ class Platform {
     
         
     update() {
-        // this.lastBB = this.BB;
-        // this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH*2.7, PARAMS.BLOCKHEIGHT*.6);
     };
 
     draw(ctx) {

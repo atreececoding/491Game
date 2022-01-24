@@ -273,6 +273,11 @@ class Knight {
                         that.y = entity.BB.top - PARAMS.BLOCKHEIGHT; 
                         that.velocity.y = 0; // NOTE: not sure why Chris uses === to assign velocity here, may be a bug
                     } 
+                    if ((entity instanceof Platform) // landing // TODO: may add more entities in here later
+                    && (that.lastBB.bottom) <= entity.BB.top) {
+                        that.y = entity.BB.top - PARAMS.BLOCKHEIGHT; 
+                        that.velocity.y = 0;
+                    }
 
                     if(that.state === 4) that.state = 0; // set state to idle
                     that.updateBB(); 
@@ -280,7 +285,7 @@ class Knight {
                     if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
                         && (that.lastBB.bottom) <= entity.BB.top // was above last tick
                         && !entity.dead) { // entity was already dead
-                        loseHeart(); // lose a heart when you collide with an enemy or obstacle
+                        //loseHeart(); // lose a heart when you collide with an enemy or obstacle
                         that.velocity.y = -240; // bounce up
                         that.velocity.x = -240; // bounce to the left
                     }
