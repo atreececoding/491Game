@@ -1,6 +1,7 @@
 class Goblin {
 	constructor(game) {
 		this.game = game;
+        this.velocity = { x: 0, y: 0 };
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblinSprite.png");
 		
 		
@@ -10,7 +11,7 @@ class Goblin {
         this.dead = false;
 
         this.x = 600;
-        this.y = 435;
+        this.y = 200;
         this.speed = 100;
 
         this.fallAcc = 560;
@@ -39,11 +40,14 @@ class Goblin {
         this.animations[1][0] = new Animator(this.spritesheet, 0, 451, 64, 54, 5, 0.15);
         //facing left = 0
         this.animations[1][1] = new Animator(this.spritesheet, 0, 324, 64, 54, 5, 0.15);
+
+        //Idle
+        //this.animation[2][0] = new Animator(this.spritesheet, )
     }
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH*1.2, PARAMS.BLOCKHEIGHT*.95);
     };
 
     die() {
@@ -52,61 +56,34 @@ class Goblin {
 
     update() {
         
-            
-        //this.x += this.speed * 2 * this.game.clockTick;
-            
-            
-            
-            
-        
 
-        // TODO: need to call updateBB(); somewhere in here after we update his x and y positions
+        this.velocity.y += this.fallAcc * this.game.clockTick;
+        this.x += this.game.clockTick * this.velocity.x * PARAMS.SCALE;
+        this.y += this.game.clockTick * this.velocity.y * PARAMS.SCALE;
+        this.updateBB();
 
-        // TODO: before we can uncomment the collision handling, we need to implement the physics because it includes velocity
-        // collision handling
-        /*
-        var that  = this;
-        this.game.entities.forEach(function (entity) {
-            // NOTE: may need to add a if (entity !== that) wrapper to not compare collision with self
-            if (entity.BB && that.BB.collide(entity.BB)) {
-                if (that.velocity.y > 0) { // falling
-                    if ((entity instanceof Platform) // landing // TODO: may add more entities in here later
-                        && (that.lastBB.bottom) <= entity.BB.top) { // was above last tick
-                        that.y = entity.BB.top - PARAMS.BLOCKWIDTH; 
-                        that.velocity.y === 0; // NOTE: not sure why Chris uses === to assign velocity here, may be a bug
-                    } 
-                    // TODO: update state here (ex. if(that.state === 4) that.state = 0;)
-                    that.updateBB();
+        var that = this;
+            this.game.entities.forEach(function (entity) {
+                if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+                    if (entity instanceof Knight) {
 
-                    if ((entity instanceof Goblin || entity instanceof Bat) // collision with enemies or obstacles, TODO: may have to add more in later
-                        && (that.lastBB.bottom) <= entity.BB.top // was above last tick
-                        && !entity.dead) { // entity was already dead
-                        loseHeart(); // lose a heart when you collide with an enemy or obstacle
-                        that.velocity.y = -240; // bounce up
-                        that.velocity.x = -240; // bounce to the left
-                    }
-                }
-
-                if (that.velocity.y < 0) {
-                    if ((entity instanceof Platform)
-                        && (that.lastBB.top) >= entity.BB.bottom) { // was below last tick
+                    } else if ((entity instanceof Floor || entity instanceof Platform)
+                        && that.lastBB.bottom <= entity.BB.top) {
+                        that.y = entity.BB.top - PARAMS.BLOCKWIDTH;
                         that.velocity.y = 0;
-                        } 
-                    // TODO: handle enemy collision from bottom
-                }
-
-                // TODO: handle side collision here
-
-                
-                
-            }
-        });
-        //*/
+                        that.updateBB();
+                    } else if (entity !== that) {
+                        that.velocity.x = -that.velocity.x;
+                    }
+                };
+            });
     };
 
     draw(ctx) {
         this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2.25);
-        
+      
+        ctx.strokeStyle = 'Red';
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         
     };
 }

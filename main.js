@@ -16,7 +16,7 @@ ASSET_MANAGER.downloadAll(() => {
 	
 
 	gameEngine.addEntity(new Knight(gameEngine));
-	//gameEngine.addEntity(new Goblin(gameEngine));
+	gameEngine.addEntity(new Goblin(gameEngine));
 	
 	gameEngine.addEntity(new Floor(this.game, 0, 550, 768));
 	gameEngine.addEntity(new Platform(this.game, 415, 314, 270, 250));
