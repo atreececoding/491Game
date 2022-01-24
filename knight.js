@@ -87,12 +87,12 @@ class Knight {
 
         // physics constants grabbed from chris's super marriott brothers
         const MIN_WALK = 4.453125;
-        const MAX_WALK = 93.75;
-        const MAX_RUN = 153.75;
-        const ACC_WALK = 133.59375;
-        const ACC_RUN = 200.390625;
-        const DEC_REL = 182.8125;
-        const DEC_SKID = 365.625;
+        const MAX_WALK = 250;
+        const MAX_RUN = 300;
+        const ACC_WALK = 200;
+        const ACC_RUN = 600;
+        const DEC_REL = 800;
+        const DEC_SKID = 500;
         const MIN_SKID = 33.75;
 
         const STOP_FALL = 1575;
