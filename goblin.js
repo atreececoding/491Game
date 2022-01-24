@@ -47,7 +47,7 @@ class Goblin {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH*1.2, PARAMS.BLOCKHEIGHT*.95);
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH*1.2, PARAMS.BLOCKHEIGHT*.93);
     };
 
     die() {
@@ -69,7 +69,7 @@ class Goblin {
 
                     } else if ((entity instanceof Floor || entity instanceof Platform)
                         && that.lastBB.bottom <= entity.BB.top) {
-                        that.y = entity.BB.top - PARAMS.BLOCKWIDTH;
+                        that.y = entity.BB.top - PARAMS.BLOCKHEIGHT*.93;
                         that.velocity.y = 0;
                         that.updateBB();
                     } else if (entity !== that) {
