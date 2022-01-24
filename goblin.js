@@ -43,7 +43,7 @@ class Goblin {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKHEIGHT*.9);
     };
 
     die() {
@@ -105,8 +105,9 @@ class Goblin {
     };
 
     draw(ctx) {
-        this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2.25);
-        
+        this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2.25);
+        ctx.strokeStyle = 'Red';
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         
     };
 }

@@ -160,7 +160,7 @@ class Knight {
                         }
 
                         else if (this.game.right && !this.game.left) {
-                            this.velocity.x -= DEC_SKID * TICK;
+                            this.velocity.x += DEC_SKID * TICK;
                             this.state = 3;
                         }
 
@@ -235,7 +235,7 @@ class Knight {
             if (this.velocity.x <= -MAX_RUN) this.velocity.x = -MAX_RUN;
             if (this.velocity.x >= MAX_WALK && !this.game.shift) this.velocity.x = MAX_WALK;
             if (this.velocity.x <= -MAX_WALK && !this.game.shift) this.velocity.x = -MAX_WALK;
-            //i did not include the walking lines from chris's code
+            
 
             // update position
             this.x += this.velocity.x * TICK * PARAMS.SCALE;
@@ -268,7 +268,7 @@ class Knight {
             // NOTE: may need to add a if (entity !== that) wrapper to not compare collision with self
             if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
                 if (that.velocity.y > 0) { // falling
-                    if ((entity instanceof Floor) // landing // TODO: may add more entities in here later
+                    if ((entity instanceof Floor || entity instanceof Platform) // landing // TODO: may add more entities in here later
                         && (that.lastBB.bottom) <= entity.BB.top) { // was above last tick
                         that.y = entity.BB.top - PARAMS.BLOCKHEIGHT; 
                         that.velocity.y = 0; // NOTE: not sure why Chris uses === to assign velocity here, may be a bug
