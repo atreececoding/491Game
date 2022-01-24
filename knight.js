@@ -174,17 +174,17 @@ class Knight {
 
                 if (this.game.up) { // jump
                     if (abs(this.velocity.x) < 16) {
-                        this.velocity.y = -240;
+                        this.velocity.y = -1000;
                         this.fallAcc = STOP_FALL;
                     }
 
                     else if (abs(this.velocity.x) < 40) {
-                        this.velocity.y = -240;
+                        this.velocity.y = -1000;
                         this.fallAcc = WALK_FALL;
                     }
 
                     else {
-                        this.velocity.y = -300;
+                        this.velocity.y = -1000;
                         this.fallAcc = RUN_FALL;
                     }
                     this.state = 4;
@@ -280,24 +280,46 @@ class Knight {
                     if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
                         && (that.lastBB.bottom) <= entity.BB.top // was above last tick
                         && !entity.dead) { // entity was already dead
-                        loseHeart(); // lose a heart when you collide with an enemy or obstacle
+                        // that.loseHeart(); // lose a heart when you collide with an enemy or obstacle
                         that.velocity.y = -240; // bounce up
                         that.velocity.x = -240; // bounce to the left
+                        print('hit top collision of goblin');
                     }
                 }
 
                 if (that.velocity.y < 0) {
-                    if ((entity instanceof Floor)
+                    if ((entity instanceof Floor || Platform)
                         && (that.lastBB.top) >= entity.BB.bottom) { // was below last tick
+                        that.y = entity.BB.bottom;
                         that.velocity.y = 0;
+                        print('hit bottom collision of floor');
+
                         } 
                     // TODO: handle enemy collision from bottom
                 }
 
                 // TODO: handle side collision here
+                if (that.velocity.x > 0) {
+                    if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
+                    && !entity.dead) {
+                        that.x = entity.BB.left - PARAMS.BLOCKWIDTH; 
+                        that.velocity.x = 0;
+                        that.updateBB(); 
+                        print('hit side collision goblin');
+                    }
+                }
 
+                if (that.velocity.x < 0) {
+                    if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
+                    && !entity.dead) {
+                        that.x = entity.BB.left + PARAMS.BLOCKWIDTH; 
+                        that.velocity.x = 0;
+                        that.updateBB(); 
+                        print('hit side collision goblin 2');
+                    }
+                }
                 
-                
+     
             }
         });
         
