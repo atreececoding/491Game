@@ -79,8 +79,6 @@ class Knight {
     };
 
     update() {
-        if (this.game.left) this.facing = 1;
-        if (this.game.right) this.facing = 0;
 
         
         const TICK = this.game.clockTick;
@@ -247,6 +245,9 @@ class Knight {
             //if (this.y > 422) this.velocity.y = 0; this.y = 422; this.state = 0;
             this.updateBB();
 
+            // update direction
+            if (this.velocity.x < 0) this.facing = 1;
+            if (this.velocity.x > 0) this.facing = 0;
 
 
             // need to add in if we fall off the map, we die
