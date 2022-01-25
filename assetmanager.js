@@ -26,6 +26,7 @@ class AssetManager {
 
             switch (ext) {
                 case 'jpg':
+                case 'PNG':
                 case 'png':
                     var img = new Image();
                     img.addEventListener("load", function () {
