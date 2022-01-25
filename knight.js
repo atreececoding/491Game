@@ -101,7 +101,7 @@ class Knight {
         const RUN_FALL_A = 562.5;
 
 
-        const MAX_FALL = 270;
+        const MAX_FALL = 500;
 
         if (this.dead) {
             this.velocity.y += RUN_FALL * TICK;
@@ -270,7 +270,7 @@ class Knight {
             if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
                 if (that.velocity.y > 0) { // falling
                     if ((entity instanceof Floor || entity instanceof Platform) // landing // TODO: may add more entities in here later
-                        && (that.lastBB.bottom) <= entity.BB.top) { // was above last tick
+                        && (that.lastBB.bottom <= entity.BB.top)) { // was above last tick
                         that.y = entity.BB.top - PARAMS.BLOCKHEIGHT; 
                         that.velocity.y = 0; // NOTE: not sure why Chris uses === to assign velocity here, may be a bug
                     } 
@@ -279,7 +279,7 @@ class Knight {
                     that.updateBB(); 
 
                     if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
-                        && (that.lastBB.bottom) <= entity.BB.top // was above last tick
+                        && (that.lastBB.bottom <= entity.BB.top) // was above last tick
                         && !entity.dead) { // entity was already dead
                         // that.loseHeart(); // lose a heart when you collide with an enemy or obstacle
                         that.velocity.y = -240; // bounce up
@@ -290,7 +290,7 @@ class Knight {
 
                 if (that.velocity.y < 0) {
                     if ((entity instanceof Floor || Platform)
-                        && (that.lastBB.top) >= entity.BB.bottom) { // was below last tick
+                        && (that.lastBB.top >= entity.BB.bottom)) { // was below last tick
                         that.y = entity.BB.bottom;
                         that.velocity.y = 0;
                         print('hit bottom collision of floor');
@@ -308,6 +308,14 @@ class Knight {
                         that.updateBB(); 
                         print('hit side collision goblin');
                     }
+
+                    // if (entity instanceof Platform || entity instanceof Floor
+                    //     && (that.BB.right < entity.BB.left)
+                    //     && (that.BB.bottom < entity.BB.top)) {
+                    //     that.x = entity.BB.left - PARAMS.BLOCKWIDTH; 
+                    //     that.velocity.x = 0;
+                    //     that.updateBB(); 
+                    // }
                 }
 
                 if (that.velocity.x < 0) {
@@ -318,6 +326,14 @@ class Knight {
                         that.updateBB(); 
                         print('hit side collision goblin 2');
                     }
+
+                    // if (entity instanceof Platform || entity instanceof Floor
+                    //     && (that.BB.left > entity.BB.right)
+                    //     && (that.BB.bottom < entity.BB.top)) {
+                    //     that.x = entity.BB.left + PARAMS.BLOCKWIDTH; 
+                    //     that.velocity.x = 0;
+                    //     that.updateBB(); 
+                    // }
                 }
                 
      
