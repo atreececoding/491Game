@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>InsertNameHere</title>
+    <title>Hangry Night</title>
     <link rel = "stylesheet" href="">
     <style>
         body {
@@ -12,16 +12,31 @@
     </style>
     <script type="text/javascript" src="./assetmanager.js"></script>
     <script type="text/javascript" src="./timer.js"></script>
+    <script type="text/javascript" src="./boundingbox.js"></script>
     <script type="text/javascript" src="./gameengine.js"></script>
-    <script type="text/javascript" src="./knight.js"></script>
+    <script type="text/javascript" src="./animator.js"></script>
     <script type="text/javascript" src="./background.js"></script>
+    <script type="text/javascript" src="./goblin.js"></script>
+    <script type="text/javascript" src="./knight.js"></script>
     <script type="text/javascript" src="./util.js"></script>
     <script type="text/javascript" src="./main.js"></script>
 </head>
 <body>
     <div>
-        InsertNameHere <br />
+        Hangry Night <br />
     </div>
     <canvas id = "gamecanvas" width = "768" height = "600" style = "background: window" tabindex ="0" autofocus></canvas>
+    <h1>Controls:
+        <br />
+        Movement: WASD or Arrow Keys
+        <br />
+        Attack: Space
+        <br />
+        Run: Shift
+    </h1>
+    <div>
+        <br />
+        <input type="checkbox" id="debug"> Debug <input type="checkbox" id="mute"> Mute <input type="range" id="volume" min="0" max="1" value="0.1" step="0.05"> Volume
+    </div>
 </body>
 </html>
