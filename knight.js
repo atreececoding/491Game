@@ -292,6 +292,7 @@ class Knight {
                         && (that.lastBB.top >= entity.BB.bottom)) { // was below last tick
                         that.y = entity.BB.bottom;
                         that.velocity.y = 0;
+                        that.updateBB(); 
                         print('hit bottom collision of floor');
 
                         } 
