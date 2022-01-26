@@ -306,6 +306,7 @@ class Knight {
                     && !entity.dead) {
                         that.x = entity.BB.left - PARAMS.BLOCKWIDTH; 
                         that.velocity.x = 0;
+                        that.velocity.y = 0;
                         that.updateBB(); 
                         print('hit side collision goblin');
                     }
@@ -324,6 +325,7 @@ class Knight {
                     && !entity.dead) {
                         that.x = entity.BB.left + PARAMS.BLOCKWIDTH; 
                         that.velocity.x = 0;
+                        that.velocity.y = 0;
                         that.updateBB(); 
                         print('hit side collision goblin 2');
                     }
