@@ -10,6 +10,8 @@ class Knight {
         this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
         this.dead = false;
 
+        this.lives = 5;
+
         this.x = 0;
         this.y = 0;
         this.speed = 100;
@@ -80,9 +82,8 @@ class Knight {
 
     update() {
 
-        
+       
         const TICK = this.game.clockTick;
-
         // physics constants grabbed from chris's super marriott brothers
         const MIN_WALK = 4.453125;
         const MAX_WALK = 250;
@@ -285,6 +286,7 @@ class Knight {
                         that.velocity.y = -240; // bounce up
                         that.velocity.x = -240; // bounce to the left
                         print('hit top collision of goblin');
+                        
                     }
                 }
 
@@ -307,8 +309,11 @@ class Knight {
                         that.x = entity.BB.left - PARAMS.BLOCKWIDTH; 
                         that.velocity.x = 0;
                         that.velocity.y = 0;
+                        that.x = 0;
+                        that.y = 0;
                         that.updateBB(); 
                         print('hit side collision goblin');
+                        that.loseHeart();
                     }
 
                     // if (entity instanceof Platform || entity instanceof Floor
@@ -328,6 +333,7 @@ class Knight {
                         that.velocity.y = 0;
                         that.updateBB(); 
                         print('hit side collision goblin 2');
+                        
                     }
 
                     // if (entity instanceof Platform || entity instanceof Floor
@@ -346,7 +352,8 @@ class Knight {
     };
 
     loseHeart() {
-
+        this.lives--;
+        print(this.lives);
     };
 
 
