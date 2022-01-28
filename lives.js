@@ -2,9 +2,6 @@ class Lives {
     constructor(game) {
         this.game = game;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/heart.png");
-        // this.instanceOfKnight = new Knight();
-        // console.log(this.instanceOfKnight.lives);
-        // this.lifeCount = (this.instanceOfKnight.lives);
         
         this.game.camera.knight.lives
 
@@ -27,7 +24,7 @@ class Lives {
         else if (this.game.camera.knight.lives == 2) {
             ctx.drawImage(this.spritesheet, 26 ,366 ,572, 96, 5, 5, 250, 50 )
         }
-        else if (this.game.camera.knight.lives == 1) {
+        else if (this.game.camera.knight.lives <= 1) {
             ctx.drawImage(this.spritesheet, 26 ,477 ,572, 96, 5, 5, 250, 50 )
         }   
     };

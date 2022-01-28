@@ -358,10 +358,6 @@ class Knight {
                     && !entity.dead) {
                         entity.removeFromWorld = true;
                         that.x = entity.BB.left - PARAMS.BLOCKWIDTH; 
-                        that.velocity.x = 0;
-                        that.velocity.y = 0;
-                        that.x = 25;
-                        that.y = 0;
                         print("Hit energy drink");
                         that.gainEnergy();
                         that.updateBB();
