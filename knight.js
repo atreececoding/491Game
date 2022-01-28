@@ -353,18 +353,16 @@ class Knight {
                     //     that.updateBB(); 
                     // }
                 }
-                if (that.velocity.x < 0) {
+                if (that.velocity.x < 0 || that.velocity.x > 0) {
                     if ((entity instanceof EnergyJuice)
                     && !entity.dead) {
                         entity.removeFromWorld = true;
-                        that.x = entity.BB.left - PARAMS.BLOCKWIDTH; 
                         print("Hit energy drink");
                         that.gainEnergy();
                         that.updateBB();
                     };
                 };
-     
-            }
+            };
         });
         
     };
