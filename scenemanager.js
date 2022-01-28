@@ -10,7 +10,7 @@ class SceneManager {
         this.title = true;
         this.level = null;
 
-        this.knight = new Knight(gameEngine, this.lives);
+        this.knight = new Knight(this.game, this.lives);
         
     };
     clearEntities() {
@@ -33,14 +33,17 @@ class SceneManager {
             if(!this.title) {
                 ASSET_MANAGER.playAsset("./music/AstralAcademy.mp3");
             };
-            gameEngine.addEntity(this.knight);
-	
-            gameEngine.addEntity(new Floor(this.game, 0, 550, 800));
-            gameEngine.addEntity(new Platform(this.game, 415, 314, 270, 250));
-            gameEngine.addEntity(new Goblin(gameEngine));
+  
             
-            gameEngine.addEntity(new Lives(gameEngine));
-            gameEngine.addEntity(new Background(this.game, 1, 1));
+            this.game.addEntity(this.knight);
+	
+            this.game.addEntity(new Floor(this.game, 0, 550, 800));
+            this.game.addEntity(new Platform(this.game, 415, 314, 270, 250));
+            this.game.addEntity(new Platform(this.game, 0, 314, 270, 250));
+            this.game.addEntity(new Goblin(this.game));
+            // this.game.addEntity(new Dragon(this.game));
+            this.game.addEntity(new Lives(this.game));
+            this.game.addEntity(new Background(this.game, 1, 1));
         //};
     }; 
 

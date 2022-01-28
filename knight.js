@@ -291,14 +291,7 @@ class Knight {
                 }
 
                 if (that.velocity.y < 0) {
-                    if ((entity instanceof Floor || Platform)
-                        && (that.lastBB.top >= entity.BB.bottom)) { // was below last tick
-                        that.y = entity.BB.bottom;
-                        that.velocity.y = 0;
-                        that.updateBB(); 
-                        print('hit bottom collision of floor');
-
-                        } 
+                  
                     // TODO: handle enemy collision from bottom
                 }
 
@@ -365,7 +358,7 @@ class Knight {
         if(this.game.right) {
             this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.85);
         }
-        this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     };

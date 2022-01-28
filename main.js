@@ -11,7 +11,7 @@ ASSET_MANAGER.queueDownload("./sprites/goblinSprite.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
 ASSET_MANAGER.queueDownload("./sprites/heart.png");
-
+ASSET_MANAGER.queueDownload("./sprites/dragon-attack.png");
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");
 
@@ -21,18 +21,7 @@ ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gamecanvas");
 	const ctx = canvas.getContext("2d");
 
-	// gameEngine.addEntity(new Knight(gameEngine));
-	
-	// gameEngine.addEntity(new Floor(this.game, 0, 550, 800));
-	// gameEngine.addEntity(new Platform(this.game, 415, 314, 270, 250));
-	// gameEngine.addEntity(new Goblin(gameEngine));
-	
-	// gameEngine.addEntity(new Lives(gameEngine));
-	// gameEngine.addEntity(new Background(this.game, 1, 1));
-	
-
 	gameEngine.init(ctx);
 	new SceneManager(gameEngine);
-
 	gameEngine.start();
 });
