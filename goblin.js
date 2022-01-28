@@ -31,15 +31,15 @@ class Goblin {
         }
         //walking right and left
         //facing right = 0
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 194, 64, 54, 7, 0.15);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 194, 64, 54, 7, 0.15, false, true);
         //facing left = 1
-        this.animations[0][1] = new Animator(this.spritesheet, 0, 67, 64, 54, 7, 0.15);
+        this.animations[0][1] = new Animator(this.spritesheet, 0, 67, 64, 54, 7, 0.15, false, true);
 
         //Attacking
         //facing right = 0
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 451, 64, 54, 5, 0.15);
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 451, 64, 54, 5, 0.15, false, true);
         //facing left = 0
-        this.animations[1][1] = new Animator(this.spritesheet, 0, 324, 64, 54, 5, 0.15);
+        this.animations[1][1] = new Animator(this.spritesheet, 0, 324, 64, 54, 5, 0.15, false, true);
 
         //Idle
         //this.animation[2][0] = new Animator(this.spritesheet, )

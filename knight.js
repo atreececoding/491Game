@@ -4,6 +4,7 @@ class Knight {
         
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
+        this.rev_spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightRevSprites.png");
 
         this.size = 0;
         this.facing = 0; // 0 = right, 1 = left
@@ -39,41 +40,41 @@ class Knight {
         }
         //idle
         //facing right = 0
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 101, 65, 7, 0.15);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 101, 65, 7, 0.15, false, true);
         //facing left = 0
-        //this.animations[0][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 7, 0.15);
+        this.animations[0][1] = new Animator(this.rev_spritesheet, -48, 20, 101, 65, 7, 0.15, true, true);
 
         //walking
         //facing right = 0
-        this.animations[1][0] = new Animator(this.spritesheet, 2, 98, 101.55, 61, 7, 0.15);
+        this.animations[1][0] = new Animator(this.spritesheet, 2, 98, 101.55, 61, 7, 0.15, false, true);
         //facing left = 0
        // this.animations[1][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 6, 0.15);
 
         //Running
         //facing right = 0
-        this.animations[2][0] = new Animator(this.spritesheet, 4, 160, 99, 70, 7, 0.15);
+        this.animations[2][0] = new Animator(this.spritesheet, 4, 160, 99, 70, 7, 0.15, false, true);
         //facing left = 0
-       // this.animations[2][1] = new Animator(this.spritesheet, 99, 0, 99, 65, 6, 0.15);
+       this.animations[2][1] = new Animator(this.rev_spritesheet, -46, 160, 99, 70, 7, 0.15, true , true);
 
        //Make individual frames? for changing widths
         //Jumping
         //facing right = 0
         //list = [110, 202, 284, 382, 480, 587, 703];
-        this.animations[3][0] = new Animator(this.spritesheet, 4, 234, 112, 89, 7, 0.15);
+        this.animations[3][0] = new Animator(this.spritesheet, 4, 234, 112, 89, 7, 0.15, false, true);
 
         //facing left = 0
        // this.animations[3][1] = new Animator(this.spritesheet, 99, 0, 99, 90, 6, 0.15);
 
         //attacking
         //facing right = 0
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 0, 117, 401, 7, 0.15);
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 0, 117, 401, 7, 0.15, false, true);
         //facing left = 0
        // this.animations[4][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
     }
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKHEIGHT);
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH*1.7, PARAMS.BLOCKHEIGHT);
     };
 
     die() {
@@ -352,12 +353,17 @@ class Knight {
 
     draw(ctx) {
         //this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        if(!this.game.right/* && !this.game.left && !this.game.up && !this.game.down && !this.game.attack*/) {
-            this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
+        if(!this.game.right && !this.game.left/* && !this.game.left && !this.game.up && !this.game.down && !this.game.attack*/) {
+            if (this.facing === 0) this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
+            else if (this.facing === 1) this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
         }
         if(this.game.right) {
             this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.85);
         }
+        else if(this.game.left) {
+            this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.85);
+        }
+
         // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);

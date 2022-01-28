@@ -5,6 +5,7 @@ const ASSET_MANAGER = new AssetManager();
 // Images
 ASSET_MANAGER.queueDownload("./sprites/title.png");
 ASSET_MANAGER.queueDownload("./sprites/KnightSprites.png");
+ASSET_MANAGER.queueDownload("./sprites/KnightRevSprites.png");
 ASSET_MANAGER.queueDownload("./sprites/background.png");
 ASSET_MANAGER.queueDownload("./sprites/forest.png");
 ASSET_MANAGER.queueDownload("./sprites/goblinSprite.png");
