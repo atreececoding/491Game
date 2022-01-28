@@ -12,6 +12,7 @@ class Knight {
         this.dead = false;
 
         this.lives = 5;
+        this.energy = 1;
 
         this.x = 0;
         this.y = 0;
@@ -307,17 +308,7 @@ class Knight {
                 }
 
                 if (that.velocity.y < 0) {
-<<<<<<< HEAD
-                    if ((entity instanceof Floor || Platform)
-                        && (that.lastBB.top >= entity.BB.bottom)) { // was below last tick
-                        that.y = entity.BB.bottom;
-                        that.velocity.y = 0;
-                        that.updateBB(); 
-                        print('hit bottom collision of floor');
-                        } 
-=======
                   
->>>>>>> main
                     // TODO: handle enemy collision from bottom
                 }
 
@@ -362,7 +353,20 @@ class Knight {
                     //     that.updateBB(); 
                     // }
                 }
-                
+                if (that.velocity.x < 0) {
+                    if ((entity instanceof EnergyJuice)
+                    && !entity.dead) {
+                        entity.removeFromWorld = true;
+                        that.x = entity.BB.left - PARAMS.BLOCKWIDTH; 
+                        that.velocity.x = 0;
+                        that.velocity.y = 0;
+                        that.x = 25;
+                        that.y = 0;
+                        print("Hit energy drink");
+                        that.gainEnergy();
+                        that.updateBB();
+                    };
+                };
      
             }
         });
@@ -371,8 +375,18 @@ class Knight {
 
     loseHeart() {
         this.lives--;
-        print(this.lives);
+        //print(this.lives);
     };
+
+    gainEnergy(){
+        if(this.energy < 5) {
+            this.energy++; 
+        };
+    }
+
+    loseEnergy() {
+        this.energy--;
+    }
 
 
     draw(ctx) {

@@ -5,12 +5,13 @@ class SceneManager {
         this.x = 0;
 
         this.lives = 5;
+        this.energy = 5;
 
         this.gameOver = false;
         this.title = true;
         this.level = null;
 
-        this.knight = new Knight(this.game, this.lives);
+        this.knight = new Knight(this.game, this.lives, this.energy);
         
     };
     clearEntities() {
@@ -41,7 +42,9 @@ class SceneManager {
             this.game.addEntity(new Platform(this.game, 415, 314, 270, 250));
             this.game.addEntity(new Goblin(this.game));
             this.game.addEntity(new Dragon(this.game));
+            this.game.addEntity(new EnergyJuice(this.game))
             this.game.addEntity(new Lives(this.game));
+            this.game.addEntity(new Energy(this.game));
             this.game.addEntity(new Background(this.game, 1, 1));
         //};
     }; 
