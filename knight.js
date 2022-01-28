@@ -42,7 +42,7 @@ class Knight {
         //facing right = 0
         this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 101, 65, 7, 0.15, false, true);
         //facing left = 0
-        this.animations[0][1] = new Animator(this.rev_spritesheet, -48, 20, 101, 65, 7, 0.15, true, true);
+        this.animations[0][1] = new Animator(this.rev_spritesheet, 48, 20, 101, 65, 7, 0.15, true, true);
 
         //walking
         //facing right = 0
@@ -54,7 +54,7 @@ class Knight {
         //facing right = 0
         this.animations[2][0] = new Animator(this.spritesheet, 4, 160, 99, 70, 7, 0.15, false, true);
         //facing left = 0
-       this.animations[2][1] = new Animator(this.rev_spritesheet, -46, 160, 99, 70, 7, 0.15, true , true);
+       this.animations[2][1] = new Animator(this.rev_spritesheet, 50, 160, 99, 70, 7, 0.15, true , true);
 
        //Make individual frames? for changing widths
         //Jumping
@@ -132,6 +132,7 @@ class Knight {
                         if (this.game.right && !this.game.left) {
                             if (this.game.shift) {
                                 this.velocity.x += ACC_RUN * TICK;
+                                
                             }
                             else {
                                 this.velocity.x += ACC_WALK * TICK;
@@ -142,14 +143,20 @@ class Knight {
                         else if (this.game.left && !this.game.right) {
                             this.velocity.x -= DEC_SKID * TICK;
                             this.state = 3;
+                            if(this.velocity.x < 0) {
+                                this.velocity.x = 0;
+                            }
                         }
 
                         else {
                             this.velocity.x -= DEC_REL * TICK;
+                            if(this.velocity.x < 0) {
+                                this.velocity.x = 0;
+                            }
                         }
                     }
 
-                    if (this.facing === 1) {
+                    else if (this.facing === 1) {
                         if (this.game.left && !this.game.right) {
                             if (this.game.shift) {
                                 this.velocity.x -= ACC_RUN * TICK;
@@ -162,10 +169,18 @@ class Knight {
                         else if (this.game.right && !this.game.left) {
                             this.velocity.x += DEC_SKID * TICK;
                             this.state = 3;
+
+                            if(this.velocity.x > 0) {
+                                this.velocity.x = 0;
+                            }
                         }
 
                         else {
                             this.velocity.x += DEC_REL * TICK;
+
+                            if(this.velocity.x > 0) {
+                                this.velocity.x = 0;
+                            }
                         }
                     }
                 }
