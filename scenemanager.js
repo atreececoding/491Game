@@ -46,12 +46,22 @@ class SceneManager {
         //};
     }; 
 
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+
+    };
+
     draw(ctx) {
         if(this.title) {
             ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 768, 600);
         };
     };
     update() {
+        this.updateAudio();
         if(this.title && this.game.click) {
             this.title = false;
             this.loadLevel(1, 1, 1, true, false);
