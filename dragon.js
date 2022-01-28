@@ -52,23 +52,23 @@ class Dragon {
     };
 
     loadAnimations() {
-        // for (let i = 0; i < Object.keys(STATE).length; i++) {
-        //     this.animations.push([]);
-        //     for (let j = 0; j < Object.keys(FACING).length; j++) {
-        //         this.animations[i].push([]);
-        //     }
-        // }
+        for (let i = 0; i < Object.keys(STATE).length; i++) {
+            this.animations.push([]);
+            for (let j = 0; j < Object.keys(FACING).length; j++) {
+                this.animations[i].push([]);
+            }
+        }
 
-        //idle
-        //facing right = 0
-        // this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 222, 92, 5, 0.2);
-        this.animation = new Animator(this.spritesheet, 0, 0, 222, 92, 5, 0.2, false, false);
+        // idle
+        // facing right = 0
+        this.animations[0][0] = new Animator(this.spritesheet, 25, 0, 222, 92, 5, 0.2, false, true);
+
         
     };
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH * 1.3, PARAMS.BLOCKWIDTH);
     };
 
     die() {
@@ -113,10 +113,8 @@ class Dragon {
 
     draw(ctx) {
         const TICK = this.game.clockTick;
-        // this.animations[0][0].drawFrame(TICK, ctx, this.x, this.y);
-        this.animation.drawFrame(TICK, ctx, this.x, this.y);
-
-        ctx.strokeStyle = 'Red';
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        this.animations[0][0].drawFrame(TICK, ctx, this.x, this.y, 1);
+        // ctx.strokeStyle = 'Red';
+        // ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     };
 };

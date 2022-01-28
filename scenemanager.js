@@ -39,9 +39,8 @@ class SceneManager {
 	
             this.game.addEntity(new Floor(this.game, 0, 550, 800));
             this.game.addEntity(new Platform(this.game, 415, 314, 270, 250));
-            this.game.addEntity(new Platform(this.game, 0, 314, 270, 250));
             this.game.addEntity(new Goblin(this.game));
-            // this.game.addEntity(new Dragon(this.game));
+            this.game.addEntity(new Dragon(this.game));
             this.game.addEntity(new Lives(this.game));
             this.game.addEntity(new Background(this.game, 1, 1));
         //};
