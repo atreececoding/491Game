@@ -297,7 +297,6 @@ class Knight {
                         that.velocity.y = 0;
                         that.updateBB(); 
                         print('hit bottom collision of floor');
-
                         } 
                     // TODO: handle enemy collision from bottom
                 }
@@ -328,12 +327,11 @@ class Knight {
                 if (that.velocity.x < 0) {
                     if ((entity instanceof Goblin) // collision with enemies or obstacles, TODO: may have to add more in later
                     && !entity.dead) {
-                        that.x = entity.BB.right; 
+                        that.x = entity.BB.left + PARAMS.BLOCKWIDTH; 
                         that.velocity.x = 0;
                         that.velocity.y = 0;
                         that.updateBB(); 
                         print('hit side collision goblin 2');
-                        
                     }
 
                     // if (entity instanceof Platform || entity instanceof Floor
