@@ -16,13 +16,13 @@ ASSET_MANAGER.queueDownload("./sprites/dragon-attack.png");
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");
 
-ASSET_MANAGER.downloadAll(() => {	
-	ASSET_MANAGER.autoRepeat("./music/AstralAcademy.mp3");
-	
-	const canvas = document.getElementById("gamecanvas");
-	const ctx = canvas.getContext("2d");
+ASSET_MANAGER.downloadAll(() => {
+  ASSET_MANAGER.autoRepeat("./music/AstralAcademy.mp3");
 
-	gameEngine.init(ctx);
-	new SceneManager(gameEngine);
-	gameEngine.start();
+  const canvas = document.getElementById("gamecanvas");
+  const ctx = canvas.getContext("2d");
+
+  gameEngine.init(ctx);
+  new SceneManager(gameEngine);
+  gameEngine.start();
 });
