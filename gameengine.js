@@ -112,8 +112,9 @@ class GameEngine {
                     if (that.options.debugging) console.log("Down/S pressed");
                     break;
                 case "Space":
+                case "KeyV":
                     that.attack = true;
-                    if (that.options.debugging) console.log("Space pressed");
+                    if (that.options.debugging) console.log("Space/V pressed");
                     break;
                 case "ShiftLeft":
                     that.shift = true;
@@ -146,6 +147,7 @@ class GameEngine {
                     if (that.options.debugging) console.log("Down/S released");
                     break;
                 case "Space":
+                case "KeyV":
                     that.attack = false;
                     if (that.options.debugging) console.log("Space released");
                     break;

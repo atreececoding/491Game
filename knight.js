@@ -378,8 +378,8 @@ class Knight {
         //this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         if(!this.game.right && !this.game.left/* && !this.game.left && !this.game.up && !this.game.down && !this.game.attack*/) {
-            if (this.facing === 0) this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
-            else if (this.facing === 1) this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
+            if (this.facing === 0) this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.facing === 1) this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
         }
         if(this.game.right) {
             this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
@@ -391,7 +391,7 @@ class Knight {
             }
         }
         else if(this.game.left) {
-            this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.85);
+            this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
         }
 
 
