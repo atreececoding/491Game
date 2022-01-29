@@ -17,7 +17,7 @@ const STATE = {
 class Dragon {
   constructor(game) {
     // game engine
-    this.game = game;
+    Object.assign(this, { game });
 
     // default spritesheet for the dragon
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dragon-attack.png");

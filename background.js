@@ -1,5 +1,5 @@
 class Background {
-  constructor(game, x, y) {
+  constructor(game, x = 0, y = 0) {
     Object.assign(this, { game, x, y });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/forest.png");
   }
@@ -11,7 +11,7 @@ class Background {
 }
 
 class Floor {
-  constructor(game, x, y, w) {
+  constructor(game, x = 0, y = 0, w) {
     Object.assign(this, { game, x, y, w });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
 
@@ -42,7 +42,7 @@ class Floor {
 }
 
 class Platform {
-  constructor(game, x, y, w, h) {
+  constructor(game, x = 0, y = 0, w, h) {
     Object.assign(this, { game, x, y, w, h });
 
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");

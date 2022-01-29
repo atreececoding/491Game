@@ -1,14 +1,14 @@
 class Animator {
   constructor(
     spritesheet,
-    xStart,
-    yStart,
+    xStart = 0,
+    yStart = 0,
     width,
     height,
     frameCount,
     frameDuration,
-    reverse,
-    loop
+    reverse = false,
+    loop = false
   ) {
     Object.assign(this, {
       spritesheet,
@@ -27,7 +27,7 @@ class Animator {
     this.totalTime = frameCount * frameDuration;
   }
 
-  drawFrame(tick, ctx, x, y, scale) {
+  drawFrame(tick, ctx, x = 0, y = 0, scale = 1) {
     this.elapsedTime += tick;
 
     if (this.elapsedTime > this.totalTime && this.loop)
