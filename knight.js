@@ -39,45 +39,26 @@ class Knight {
             }
         }
 
- //       constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, reverse, loop) {
- //           Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, reverse, loop});
-     
-
-        //idle
+        //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die
+        
         //facing right = 0
-
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 10, 270, 120, 7, 0.35, false, true);
-
-        //walking
-        //facing right = 0
-
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 120, 270, 120, 7, 0.35, false, true);
-
-        //facing left = 0
-       // this.animations[1][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 6, 0.15);
-
-        //Running
-        //facing right = 0
-
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 10, 270, 120, 7, 0.35, false, true);        
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 130, 270, 120, 7, 0.35, false, true);
         this.animations[2][0] = new Animator(this.spritesheet, 0, 240, 270, 120, 7, 0.35, false, true);
-
-       //Make individual frames? for changing widths
-        //Jumping
-        //facing right = 0
-        //list = [110, 202, 284, 382, 480, 587, 703];
-
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 360, 270, 120, 7, 0.15, false, false);
-
-        //facing left = 0
-       // this.animations[3][1] = new Animator(this.spritesheet, 99, 0, 99, 90, 6, 0.15);
-
-        //attacking
-        //facing right = 0
-
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 360, 270, 120, 7, 0.15, false, true);
         this.animations[4][0] = new Animator(this.spritesheet, 0, 480, 270, 120, 7, 0.15, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
+        this.animations[6][0] = new Animator(this.spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
 
-        //facing left = 0
-       // this.animations[4][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+        
+        //facing left = 1
+        this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 10, 270, 120, 7, 0.35, true, true);
+        this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 130, 270, 120, 7, 0.35, true, true);
+        this.animations[2][1] = new Animator(this.rev_spritesheet, 0, 240, 270, 120, 7, 0.35, false, true);
+        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 360, 270, 120, 7, 0.15, false, true);
+        this.animations[4][1] = new Animator(this.rev_spritesheet, 0, 480, 270, 120, 7, 0.15, false, true);
+        this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
+        this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
     }
 
     updateBB() {
@@ -377,21 +358,37 @@ class Knight {
     draw(ctx) {
         //this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
-        if(!this.game.right && !this.game.left/* && !this.game.left && !this.game.up && !this.game.down && !this.game.attack*/) {
-            if (this.facing === 0) this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            else if (this.facing === 1) this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-        }
-        if(this.game.right) {
-            this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            if (this.game.attack) {
-                this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        if(!this.game.right && !this.game.left) {
+            if (this.facing === 0) {
+                if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+                else if (this.game.up) this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+              else this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
             }
-            if (this.game.jump) {
+            else if (this.facing === 1) { 
+                if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+                else if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            }
+        }
+
+        if(this.facing === 0) {
+            if (this.game.up) {
                 this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
             }
+            else if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.velocity.x > 0 ) {
+                if (this.game.shift) this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+                else this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2); 
+            }
         }
-        else if(this.game.left) {
-            this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        else if(this.facing === 1) {
+            if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.game.jump) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.velocity.x < 0 ) {
+                if (this.game.shift) this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.s, this.y, 1.2);
+                else this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            }
         }
 
 
