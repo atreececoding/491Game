@@ -384,7 +384,6 @@ class Knight {
             else this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
         }
     };
-  }
 
     // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     ctx.strokeStyle = "Red";
