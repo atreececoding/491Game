@@ -2,58 +2,33 @@ class Knight {
 
     constructor(game) {
         this.game = game;
-        
 
-//         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
-//         this.rev_spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightRevSprites.png");
+      this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
+      this.rev_spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightRevSprites.png");
 
-//         this.size = 0;
-//         this.facing = 0; // 0 = right, 1 = left
-//         this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
-//         this.dead = false;
+      this.size = 0;
+      this.facing = 0; // 0 = right, 1 = left
+      this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
+      this.dead = false;
 
-//         this.lives = 5;
+      this.lives = 5;
+      this.energy = 1;
 
-//         this.x = 0;
-//         this.y = 0;
-//         this.speed = 100;
-//         this.velocity = {
-//             x: 0,
-//             y: 0
-//         };
-      
-     constructor(game) {
-     this.game = game;
+      this.x = 0;
+      this.y = 0;
+      this.speed = 100;
+      this.velocity = {
+        x: 0,
+        y: 0,
+      };
 
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
-    this.rev_spritesheet = ASSET_MANAGER.getAsset(
-      "./sprites/KnightRevSprites.png"
-    );
+      this.fallAcc = 560;
 
-    this.size = 0;
-    this.facing = 0; // 0 = right, 1 = left
-    this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
-    this.dead = false;
+      this.updateBB();
 
-    this.lives = 5;
-    this.energy = 1;
-
-    this.x = 0;
-    this.y = 0;
-    this.speed = 100;
-    this.velocity = {
-      x: 0,
-      y: 0
-        this.fallAcc = 560;
-
-        this.updateBB();
-
-        this.animations = [];
-        this.loadAnimations();
-
-
-        
-    };
+      this.animations = [];
+      this.loadAnimations();
+      };
 
     loadAnimations() {
         for (var i = 0; i < 7; i++) {
@@ -63,8 +38,8 @@ class Knight {
             }
         }
 
-        //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die
         
+        //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die   
         //facing right = 0
         this.animations[0][0] = new Animator(this.spritesheet, 0, 10, 270, 120, 7, 0.35, false, true);        
         this.animations[1][0] = new Animator(this.spritesheet, 0, 130, 270, 120, 7, 0.35, false, true);
@@ -74,7 +49,6 @@ class Knight {
         this.animations[5][0] = new Animator(this.spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
         this.animations[6][0] = new Animator(this.spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
 
-        
         //facing left = 1
         this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 10, 270, 120, 7, 0.35, true, true);
         this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 130, 270, 120, 7, 0.35, true, true);
@@ -84,154 +58,6 @@ class Knight {
         this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
         this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
     }
-
-    updateBB() {
-        this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH*1.7, PARAMS.BLOCKHEIGHT)
-      
-      //Workshop conflict
-//   constructor(game) {
-//     this.game = game;
-
-//     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
-//     this.rev_spritesheet = ASSET_MANAGER.getAsset(
-//       "./sprites/KnightRevSprites.png"
-//     );
-
-//     this.size = 0;
-//     this.facing = 0; // 0 = right, 1 = left
-//     this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
-//     this.dead = false;
-
-//     this.lives = 5;
-//     this.energy = 1;
-
-//     this.x = 0;
-//     this.y = 0;
-//     this.speed = 100;
-//     this.velocity = {
-//       x: 0,
-//       y: 0
-    };
-    this.fallAcc = 560;
-
-    this.updateBB();
-
-    this.animations = [];
-    this.loadAnimations();
-  }
-
-  loadAnimations() {
-    for (var i = 0; i < 7; i++) {
-      this.animations.push([]);
-      for (var j = 0; j < 2; j++) {
-        this.animations.push([i]);
-      }
-    }
-    //idle
-    //facing right = 0
-    this.animations[0][0] = new Animator(
-      this.spritesheet,
-      0,
-      20,
-      101,
-      65,
-      7,
-      0.15,
-      false,
-      true
-    );
-    //facing left = 0
-    this.animations[0][1] = new Animator(
-      this.rev_spritesheet,
-      48,
-      20,
-      101,
-      65,
-      7,
-      0.15,
-      true,
-      true
-    );
-
-    //walking
-    //facing right = 0
-    this.animations[1][0] = new Animator(
-      this.spritesheet,
-      2,
-      98,
-      101.55,
-      61,
-      7,
-      0.15,
-      false,
-      true
-    );
-    //facing left = 0
-    // this.animations[1][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 6, 0.15);
-
-    //Running
-    //facing right = 0
-    this.animations[2][0] = new Animator(
-      this.spritesheet,
-      4,
-      160,
-      99,
-      70,
-      7,
-      0.15,
-      false,
-      true
-    );
-    //facing left = 0
-    this.animations[2][1] = new Animator(
-      this.rev_spritesheet,
-      50,
-      160,
-      99,
-      70,
-      7,
-      0.15,
-      true,
-      true
-    );
-
-    //Make individual frames? for changing widths
-    //Jumping
-    //facing right = 0
-    //list = [110, 202, 284, 382, 480, 587, 703];
-    this.animations[3][0] = new Animator(
-      this.spritesheet,
-      4,
-      234,
-      112,
-      89,
-      7,
-      0.15,
-      false,
-      true
-    );
-
-    //facing left = 0
-    // this.animations[3][1] = new Animator(this.spritesheet, 99, 0, 99, 90, 6, 0.15);
-
-    //attacking
-    //facing right = 0
-    this.animations[4][0] = new Animator(
-      this.spritesheet,
-      0,
-      0,
-      117,
-      401,
-      7,
-      0.15,
-      false,
-      true
-    );
-    //facing left = 0
-    // this.animations[4][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
-  }
-
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
@@ -243,6 +69,7 @@ class Knight {
   }
 
   die() {}
+
 
   update() {
     const TICK = this.game.clockTick;
@@ -407,7 +234,7 @@ class Knight {
       // need to add in if we fall off the map, we die
     }
 
-    // old code
+        // old code
     // if(this.game.right) {
     //     if (this.x > 768) this.x = 0;
     //     this.x += this.speed * 4 * this.game.clockTick;
@@ -451,9 +278,8 @@ class Knight {
           // TODO: handle enemy collision from bottom
         }
 
-
-    draw(ctx) {
-              if (that.velocity.x > 0) {
+        // TODO: handle side collision here
+        if (that.velocity.x > 0) {
           if (
             entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
             !entity.dead
@@ -468,46 +294,7 @@ class Knight {
             that.loseHeart();
           }
 
-        if(!this.game.right && !this.game.left) {
-            if (this.facing === 0) {
-                if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-                else if (this.game.up) this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-              else this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            }
-            else if (this.facing === 1) { 
-                if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-                else if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            else this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            }
-        }
-
-        if(this.facing === 0) {
-            if (this.game.up) {
-                this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            }
-            else if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            else if (this.velocity.x > 0 ) {
-                if (this.game.shift) this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-                else this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2); 
-            }
-        }
-        else if(this.facing === 1) {
-            if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            else if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            else if (this.game.jump) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            else if (this.velocity.x < 0 ) {
-                if (this.game.shift) this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.s, this.y, 1.2);
-                else this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            }
-        if (that.velocity.x < 0 || that.velocity.x > 0) {
-          if (entity instanceof EnergyJuice && !entity.dead) {
-            entity.removeFromWorld = true;
-            print("Hit energy drink");
-            that.gainEnergy();
-            that.updateBB();
-        // TODO: handle side collision here
-
-          // if (entity instanceof Platform || entity instanceof Floor
+                    // if (entity instanceof Platform || entity instanceof Floor
           //     && (that.BB.right < entity.BB.left)
           //     && (that.BB.bottom < entity.BB.top)) {
           //     that.x = entity.BB.left - PARAMS.BLOCKWIDTH;
@@ -536,6 +323,13 @@ class Knight {
           //     that.updateBB();
           // }
         }
+        if (that.velocity.x < 0 || that.velocity.x > 0) {
+          if (entity instanceof EnergyJuice && !entity.dead) {
+            entity.removeFromWorld = true;
+            print("Hit energy drink");
+            that.gainEnergy();
+            that.updateBB();
+          }
         }
       }
     });
@@ -557,51 +351,39 @@ class Knight {
   }
 
   draw(ctx) {
-    //this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    if (
-      !this.game.right &&
-      !this.game
-        .left /* && !this.game.left && !this.game.up && !this.game.down && !this.game.attack*/
-    ) {
-      if (this.facing === 0)
-        this.animations[0][0].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x,
-          this.y,
-          2
-        );
-      else if (this.facing === 1)
-        this.animations[0][1].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x,
-          this.y,
-          2
-        );
-    }
-    if (this.game.right) {
-      this.animations[2][0].drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x,
-        this.y,
-        1.85
-      );
-    } else if (this.game.left) {
-      this.animations[2][1].drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x,
-        this.y,
-        1.85
-      );
+    if(!this.game.right && !this.game.left) {
+      if (this.facing === 0) {
+          if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+          else if (this.game.up) this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        else this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+      }
+      else if (this.facing === 1) { 
+          if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+          else if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+      else this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+      }
     }
 
-//         // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    if(this.facing === 0) {
+        if (this.game.up) {
+            this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        }
+        else if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        else if (this.velocity.x > 0 ) {
+            if (this.game.shift) this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2); 
+        }
+    }
 
-//         ctx.strokeStyle = 'Red';
-//         ctx.strokeRect(this.BB.x, this.BB.y, 270, 120);
+    else if(this.facing === 1) {
+        if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        else if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        else if (this.game.jump) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        else if (this.velocity.x < 0 ) {
+            if (this.game.shift) this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.s, this.y, 1.2);
+            else this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        }
+    };
 
     // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     ctx.strokeStyle = "Red";
