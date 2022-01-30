@@ -15,7 +15,6 @@ ASSET_MANAGER.queueDownload("./sprites/energydrink.png");
 ASSET_MANAGER.queueDownload("./sprites/heart.png");
 ASSET_MANAGER.queueDownload("./sprites/energy.png");
 ASSET_MANAGER.queueDownload("./sprites/dragon-attack.png");
-ASSET_MANAGER.queueDownload("./sprites/ratAndBat.png");
 
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");
