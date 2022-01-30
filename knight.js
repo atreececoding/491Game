@@ -39,106 +39,24 @@ class Knight {
     }
     //idle
     //facing right = 0
-    this.animations[0][0] = new Animator(
-      this.spritesheet,
-      0,
-      20,
-      101,
-      65,
-      7,
-      0.15,
-      false,
-      true
-    );
-    //facing left = 0
-    this.animations[0][1] = new Animator(
-      this.rev_spritesheet,
-      48,
-      20,
-      101,
-      65,
-      7,
-      0.15,
-      true,
-      true
-    );
-
-    //walking
-    //facing right = 0
-    this.animations[1][0] = new Animator(
-      this.spritesheet,
-      2,
-      98,
-      101.55,
-      61,
-      7,
-      0.15,
-      false,
-      true
-    );
-    //facing left = 0
-    // this.animations[1][1] = new Animator(this.spritesheet, 99, 0, 99, 60, 6, 0.15);
-
-    //Running
-    //facing right = 0
-    this.animations[2][0] = new Animator(
-      this.spritesheet,
-      4,
-      160,
-      99,
-      70,
-      7,
-      0.15,
-      false,
-      true
-    );
-    //facing left = 0
-    this.animations[2][1] = new Animator(
-      this.rev_spritesheet,
-      50,
-      160,
-      99,
-      70,
-      7,
-      0.15,
-      true,
-      true
-    );
-
-    //Make individual frames? for changing widths
-    //Jumping
-    //facing right = 0
-    //list = [110, 202, 284, 382, 480, 587, 703];
-    this.animations[3][0] = new Animator(
-      this.spritesheet,
-      4,
-      234,
-      112,
-      89,
-      7,
-      0.15,
-      false,
-      true
-    );
-
-    //facing left = 0
-    // this.animations[3][1] = new Animator(this.spritesheet, 99, 0, 99, 90, 6, 0.15);
-
-    //attacking
-    //facing right = 0
-    this.animations[4][0] = new Animator(
-      this.spritesheet,
-      0,
-      0,
-      117,
-      401,
-      7,
-      0.15,
-      false,
-      true
-    );
-    //facing left = 0
-    // this.animations[4][1] = new Animator(this.spritesheet, 99, 0, 99, 70, 6, 0.15);
+   //Animation Key : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die  
+    //facing key : right = 0, left = 1
+    this.animations[0][0] = new Animator(this.spritesheet, 0, 10, 270, 120, 7, 0.35, false, true);        
+    this.animations[1][0] = new Animator(this.spritesheet, 0, 130, 270, 120, 7, 0.35, false, true);
+    this.animations[2][0] = new Animator(this.spritesheet, 0, 240, 270, 120, 7, 0.35, false, true);
+    this.animations[3][0] = new Animator(this.spritesheet, 0, 360, 270, 120, 7, 0.15, false, true);
+    this.animations[4][0] = new Animator(this.spritesheet, 0, 480, 270, 120, 7, 0.15, false, true);
+    this.animations[5][0] = new Animator(this.spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
+    this.animations[6][0] = new Animator(this.spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
+    
+    //left = 1
+    this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 10, 270, 120, 7, 0.35, true, true);
+    this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 130, 270, 120, 7, 0.35, true, true);
+    this.animations[2][1] = new Animator(this.rev_spritesheet, 0, 240, 270, 120, 7, 0.35, false, true);
+    this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 360, 270, 120, 7, 0.15, false, true);
+    this.animations[4][1] = new Animator(this.rev_spritesheet, 0, 480, 270, 120, 7, 0.15, false, true);
+    this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
+    this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
   }
 
   updateBB() {
