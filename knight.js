@@ -1,6 +1,29 @@
 class Knight {
-  constructor(game) {
-    this.game = game;
+
+    constructor(game) {
+        this.game = game;
+        
+
+//         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
+//         this.rev_spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightRevSprites.png");
+
+//         this.size = 0;
+//         this.facing = 0; // 0 = right, 1 = left
+//         this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
+//         this.dead = false;
+
+//         this.lives = 5;
+
+//         this.x = 0;
+//         this.y = 0;
+//         this.speed = 100;
+//         this.velocity = {
+//             x: 0,
+//             y: 0
+//         };
+      
+     constructor(game) {
+     this.game = game;
 
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
     this.rev_spritesheet = ASSET_MANAGER.getAsset(
@@ -20,7 +43,75 @@ class Knight {
     this.speed = 100;
     this.velocity = {
       x: 0,
-      y: 0,
+      y: 0
+        this.fallAcc = 560;
+
+        this.updateBB();
+
+        this.animations = [];
+        this.loadAnimations();
+
+
+        
+    };
+
+    loadAnimations() {
+        for (var i = 0; i < 7; i++) {
+            this.animations.push([]);
+            for (var j = 0; j < 2; j++) {
+                this.animations.push([i]);
+            }
+        }
+
+        //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die
+        
+        //facing right = 0
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 10, 270, 120, 7, 0.35, false, true);        
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 130, 270, 120, 7, 0.35, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 240, 270, 120, 7, 0.35, false, true);
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 360, 270, 120, 7, 0.15, false, true);
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 480, 270, 120, 7, 0.15, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
+        this.animations[6][0] = new Animator(this.spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
+
+        
+        //facing left = 1
+        this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 10, 270, 120, 7, 0.35, true, true);
+        this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 130, 270, 120, 7, 0.35, true, true);
+        this.animations[2][1] = new Animator(this.rev_spritesheet, 0, 240, 270, 120, 7, 0.35, false, true);
+        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 360, 270, 120, 7, 0.15, false, true);
+        this.animations[4][1] = new Animator(this.rev_spritesheet, 0, 480, 270, 120, 7, 0.15, false, true);
+        this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
+        this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
+    }
+
+    updateBB() {
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH*1.7, PARAMS.BLOCKHEIGHT)
+      
+      //Workshop conflict
+//   constructor(game) {
+//     this.game = game;
+
+//     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
+//     this.rev_spritesheet = ASSET_MANAGER.getAsset(
+//       "./sprites/KnightRevSprites.png"
+//     );
+
+//     this.size = 0;
+//     this.facing = 0; // 0 = right, 1 = left
+//     this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
+//     this.dead = false;
+
+//     this.lives = 5;
+//     this.energy = 1;
+
+//     this.x = 0;
+//     this.y = 0;
+//     this.speed = 100;
+//     this.velocity = {
+//       x: 0,
+//       y: 0
     };
     this.fallAcc = 560;
 
@@ -360,8 +451,9 @@ class Knight {
           // TODO: handle enemy collision from bottom
         }
 
-        // TODO: handle side collision here
-        if (that.velocity.x > 0) {
+
+    draw(ctx) {
+              if (that.velocity.x > 0) {
           if (
             entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
             !entity.dead
@@ -375,6 +467,45 @@ class Knight {
             print("hit side collision goblin");
             that.loseHeart();
           }
+
+        if(!this.game.right && !this.game.left) {
+            if (this.facing === 0) {
+                if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+                else if (this.game.up) this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+              else this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            }
+            else if (this.facing === 1) { 
+                if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+                else if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            }
+        }
+
+        if(this.facing === 0) {
+            if (this.game.up) {
+                this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            }
+            else if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.velocity.x > 0 ) {
+                if (this.game.shift) this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+                else this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2); 
+            }
+        }
+        else if(this.facing === 1) {
+            if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.game.jump) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            else if (this.velocity.x < 0 ) {
+                if (this.game.shift) this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.s, this.y, 1.2);
+                else this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+            }
+        if (that.velocity.x < 0 || that.velocity.x > 0) {
+          if (entity instanceof EnergyJuice && !entity.dead) {
+            entity.removeFromWorld = true;
+            print("Hit energy drink");
+            that.gainEnergy();
+            that.updateBB();
+        // TODO: handle side collision here
 
           // if (entity instanceof Platform || entity instanceof Floor
           //     && (that.BB.right < entity.BB.left)
@@ -405,13 +536,6 @@ class Knight {
           //     that.updateBB();
           // }
         }
-        if (that.velocity.x < 0 || that.velocity.x > 0) {
-          if (entity instanceof EnergyJuice && !entity.dead) {
-            entity.removeFromWorld = true;
-            print("Hit energy drink");
-            that.gainEnergy();
-            that.updateBB();
-          }
         }
       }
     });
@@ -473,6 +597,11 @@ class Knight {
         1.85
       );
     }
+
+//         // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+
+//         ctx.strokeStyle = 'Red';
+//         ctx.strokeRect(this.BB.x, this.BB.y, 270, 120);
 
     // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     ctx.strokeStyle = "Red";
