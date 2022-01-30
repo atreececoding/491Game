@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
+
     <title>Hangry Night</title>
-    <link rel = "stylesheet" href="">
+
+    <link rel="stylesheet" href="" />
+
     <style>
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 24px;
-        }
+      body {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 24px;
+      }
     </style>
+
     <script type="text/javascript" src="./assetmanager.js"></script>
     <script type="text/javascript" src="./timer.js"></script>
     <script type="text/javascript" src="./boundingbox.js"></script>
@@ -17,29 +21,44 @@
     <script type="text/javascript" src="./animator.js"></script>
     <script type="text/javascript" src="./knight.js"></script>
     <script type="text/javascript" src="./goblin.js"></script>
+    <script type="text/javascript" src="./ratAndBat.js"></script>
     <script type="text/javascript" src="./lives.js"></script>
+    <script type="text/javascript" src="./energy.js"></script>
+    <script type="text/javascript" src="./energyjuice.js"></script>
     <script type="text/javascript" src="./dragon.js"></script>
     <script type="text/javascript" src="./background.js"></script>
     <script type="text/javascript" src="./scenemanager.js"></script>
     <script type="text/javascript" src="./util.js"></script>
     <script type="text/javascript" src="./main.js"></script>
-</head>
-<body>
-    <div>
-        Hangry Night <br />
-    </div>
-    <canvas id = "gamecanvas" width = "768" height = "600" style = "background: window" tabindex ="0" autofocus></canvas>
-    <h1>Controls:
-        <br />
-        Movement: WASD or Arrow Keys
-        <br />
-        Attack: Space
-        <br />
-        Run: Shift
+  </head>
+  <body>
+    <div>Hangry Night <br /></div>
+
+    <canvas
+      id="gamecanvas"
+      width="768"
+      height="600"
+      style="background: window"
+      tabindex="0"
+      autofocus
+    ></canvas>
+
+    <h1>
+      Controls:
+      <br />
+      Movement: WASD or Arrow Keys
+      <br />
+      Attack: Space
+      <br />
+      Run: Shift
     </h1>
+
     <div>
-        <br />
-        <input type="checkbox" id="debug"> Debug <input type="checkbox" id="mute"> Mute <input type="range" id="volume" min="0" max="1" value="0.1" step="0.05"> Volume
+      <br />
+      <input type="checkbox" id="debug" /> Debug
+      <input type="checkbox" id="mute" /> Mute
+      <input type="range" id="volume" min="0" max="1" value="0.1" step="0.05" />
+      Volume
     </div>
-</body>
+  </body>
 </html>

@@ -1,26 +1,44 @@
 /** Global Parameters Object */
 const PARAMS = {
-    BLOCKWIDTH: 101,
-    BLOCKHEIGHT: 130,
-    PLATWIDTH: 300,
-    PLATHEIGHT: 80,
-    SCALE: 1
- };
+  BLOCKWIDTH: 101,
+  BLOCKHEIGHT: 130,
+  PLATWIDTH: 300,
+  PLATHEIGHT: 80,
+  SCALE: 1,
+};
 
 /** Easy access to math functions */
 const {
-    pow, ceil, floor, round, log, log2: lg, max, min, random, sqrt, abs,
-    PI, E, sin, cos, tan, asin, acos, atan, atan2,
-} = Math
+  pow,
+  ceil,
+  floor,
+  round,
+  log,
+  log2: lg,
+  max,
+  min,
+  random,
+  sqrt,
+  abs,
+  PI,
+  E,
+  sin,
+  cos,
+  tan,
+  asin,
+  acos,
+  atan,
+  atan2,
+} = Math;
 
 /** Easy access to logging :) (Python syntax XD) */
-const {log: print} = console
+const { log: print } = console;
 
 /**
  * @param {Number} n
  * @returns Random Integer Between 0 and n-1
  */
-const randomInt = n => floor(random() * n);
+const randomInt = (n) => floor(random() * n);
 
 /**
  * @param {Number} r Red Value
@@ -49,19 +67,21 @@ const hsl = (h, s, l) => `hsl(${h}, ${s}, ${l})`;
 
 /** Creates an alias for requestAnimationFrame for backwards compatibility */
 window.requestAnimFrame = (() => {
-    return window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.oRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        /**
-         * Compatibility for requesting animation frames in older browsers
-         * @param {Function} callback Function
-         * @param {DOM} element DOM ELEMENT
-         */
-        ((callback, element) => {
-            window.setTimeout(callback, 1000 / 60);
-        });
+  return (
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    /**
+     * Compatibility for requesting animation frames in older browsers
+     * @param {Function} callback Function
+     * @param {DOM} element DOM ELEMENT
+     */
+    ((callback, element) => {
+      window.setTimeout(callback, 1000 / 60);
+    })
+  );
 })();
 
 /**
@@ -90,7 +110,7 @@ const logBase = (base, x) => log(x) / log(base);
  * @param {Object} object Object to deep copy
  * @returns Deep copy of the object
  */
-const deepObjectCopy = object => JSON.parse(JSON.stringify(object));
+const deepObjectCopy = (object) => JSON.parse(JSON.stringify(object));
 
 /**
  * Returns distance from two points
@@ -98,7 +118,7 @@ const deepObjectCopy = object => JSON.parse(JSON.stringify(object));
  * @returns Distance between the two points
  */
 const getDistance = (x1, y1, x2, y2) => {
-    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+  return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 };
 
 /**
@@ -106,6 +126,5 @@ const getDistance = (x1, y1, x2, y2) => {
  * @param {Array} items
  * @returns Returns random element from array. Null if empty
  */
-const chooseRandom = items => items.length > 0
-    ? items[floor(random() * items.length)]
-    : null;
+const chooseRandom = (items) =>
+  items.length > 0 ? items[floor(random() * items.length)] : null;
