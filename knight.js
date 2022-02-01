@@ -242,16 +242,18 @@ class Knight {
         this.velocity.y += this.fallAcc * TICK;
 
         if (this.game.up) {
+          if(this.energy > 0)
+          this.loseEnergy();
           // jump
           if (abs(this.velocity.x) < 16) {
             this.velocity.y = -1000;
             this.fallAcc = STOP_FALL;
           } else if (abs(this.velocity.x) < 40) {
             this.velocity.y = -1000;
-            this.fallAcc = WALK_FALL;
+            this.fallAcc = WALK_FALL;           
           } else {
             this.velocity.y = -1000;
-            this.fallAcc = RUN_FALL;
+            this.fallAcc = RUN_FALL; 
           }
           this.state = 4;
         }
@@ -410,6 +412,7 @@ class Knight {
             entity.removeFromWorld = true;
             print("Hit energy drink");
             that.gainEnergy();
+            print(that.energy);
             that.updateBB();
           }
         }
@@ -418,6 +421,7 @@ class Knight {
             entity.removeFromWorld = true;
             print("Hit apple");
             that.gainAppleEnergy();
+            print(that.energy);
             that.updateBB();
           }
         }
