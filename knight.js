@@ -413,6 +413,14 @@ class Knight {
             that.updateBB();
           }
         }
+        if (that.velocity.x < 0 || that.velocity.x > 0) {
+          if (entity instanceof Apple && !entity.dead) {
+            entity.removeFromWorld = true;
+            print("Hit apple");
+            that.gainAppleEnergy();
+            that.updateBB();
+          }
+        }
       }
     });
   }
@@ -426,6 +434,10 @@ class Knight {
     if (this.energy < 5) {
       this.energy++;
     }
+  }
+
+  gainAppleEnergy() {
+    this.energy += 200;
   }
 
   loseEnergy() {
