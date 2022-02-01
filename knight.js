@@ -13,7 +13,7 @@ class Knight {
     this.dead = false;
 
     this.lives = 5;
-    this.energy = 1;
+    this.energy = 2;
 
     this.x = 0;
     this.y = 0;
@@ -242,18 +242,21 @@ class Knight {
         this.velocity.y += this.fallAcc * TICK;
 
         if (this.game.up) {
-          // jump
-          if (abs(this.velocity.x) < 16) {
-            this.velocity.y = -1000;
-            this.fallAcc = STOP_FALL;
-          } else if (abs(this.velocity.x) < 40) {
-            this.velocity.y = -1000;
-            this.fallAcc = WALK_FALL;
-          } else {
-            this.velocity.y = -1000;
-            this.fallAcc = RUN_FALL;
+          if (this.energy > 0) {
+            if (this.energy > 0) this.loseEnergy();
+            // jump
+            if (abs(this.velocity.x) < 16) {
+              this.velocity.y = -1000;
+              this.fallAcc = STOP_FALL;
+            } else if (abs(this.velocity.x) < 40) {
+              this.velocity.y = -1000;
+              this.fallAcc = WALK_FALL;
+            } else {
+              this.velocity.y = -1000;
+              this.fallAcc = RUN_FALL;
+            }
+            this.state = 4;
           }
-          this.state = 4;
         }
       } else {
         // air physics
@@ -395,6 +398,15 @@ class Knight {
             entity.removeFromWorld = true;
             print("Hit energy drink");
             that.gainEnergy();
+            print(that.energy);
+          }
+        }
+        if (that.velocity.x < 0 || that.velocity.x > 0) {
+          if (entity instanceof Apple && !entity.dead) {
+            entity.removeFromWorld = true;
+            print("Hit apple");
+            that.gainAppleEnergy();
+            print(that.energy);
           }
         }
       }
@@ -411,6 +423,10 @@ class Knight {
     if (this.energy < 5) {
       this.energy++;
     }
+  }
+
+  gainAppleEnergy() {
+    this.energy += 200;
   }
 
   loseEnergy() {

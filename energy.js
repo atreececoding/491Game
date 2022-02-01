@@ -10,7 +10,11 @@ class Energy {
 
     };
     draw(ctx) {
-        if(this.game.camera.knight.energy >= 5) {
+        if(this.game.camera.knight.energy > 100) {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goldenergy.png");
+            ctx.drawImage(this.spritesheet, 20 ,40 ,360, 40, 5, 60, 250, 50 );
+        }
+        if(this.game.camera.knight.energy >= 5 && this.game.camera.knight.energy < 100) {
             ctx.drawImage(this.spritesheet, 20 ,40 ,360, 40, 5, 60, 250, 50 )
         }
         else if (this.game.camera.knight.energy == 4) {
