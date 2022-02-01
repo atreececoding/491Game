@@ -340,8 +340,6 @@ class Knight {
             that.lastBB.bottom <= entity.BB.top && // was above last tick
             !entity.dead
           ) {
-            if (that.facing === 0) that.velocity.x = -0; // bounce to the left
-            if (that.facing === 1) that.velocity.x = 0; // bounce to the right
             that.velocity.y = 0; // bounce up
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
           }
