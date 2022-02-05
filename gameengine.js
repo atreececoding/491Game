@@ -24,6 +24,7 @@ class GameEngine {
       },
       debugging: true,
     };
+  }
 
   init(ctx) {
     this.ctx = ctx;
@@ -38,7 +39,6 @@ class GameEngine {
       if (this.running) {
         requestAnimFrame(gameLoop, this.ctx.canvas);
       }
-
     };
     gameLoop();
   }
