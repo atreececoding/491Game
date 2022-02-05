@@ -5,6 +5,8 @@ class Knight {
 
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
       this.rev_spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightRevSprites.png");
+      this.lives = 5;
+      this.energy = 2;
 
       this.size = 0;
       this.facing = 0; // 0 = right, 1 = left
@@ -160,18 +162,22 @@ class Knight {
         this.velocity.y += this.fallAcc * TICK;
 
         if (this.game.up) {
+          if (this.energy > 0) {
+            if(this.energy > 0)
+             this.loseEnergy();
           // jump
-          if (abs(this.velocity.x) < 16) {
-            this.velocity.y = -1000;
-            this.fallAcc = STOP_FALL;
-          } else if (abs(this.velocity.x) < 40) {
-            this.velocity.y = -1000;
-            this.fallAcc = WALK_FALL;
-          } else {
-            this.velocity.y = -1000;
-            this.fallAcc = RUN_FALL;
-          }
+            if (abs(this.velocity.x) < 16) {
+              this.velocity.y = -1000;
+              this.fallAcc = STOP_FALL;
+            } else if (abs(this.velocity.x) < 40) {
+              this.velocity.y = -1000;
+              this.fallAcc = WALK_FALL;           
+            } else {
+              this.velocity.y = -1000;
+              this.fallAcc = RUN_FALL; 
+            }
           this.state = 4;
+        }
         }
       } else {
         // air physics
@@ -328,6 +334,16 @@ class Knight {
             entity.removeFromWorld = true;
             print("Hit energy drink");
             that.gainEnergy();
+            print(that.energy);
+            that.updateBB();
+          }
+        }
+        if (that.velocity.x < 0 || that.velocity.x > 0) {
+          if (entity instanceof Apple && !entity.dead) {
+            entity.removeFromWorld = true;
+            print("Hit apple");
+            that.gainAppleEnergy();
+            print(that.energy);
             that.updateBB();
           }
         }
@@ -344,6 +360,10 @@ class Knight {
     if (this.energy < 5) {
       this.energy++;
     }
+  }
+
+  gainAppleEnergy() {
+    this.energy += 200;
   }
 
   loseEnergy() {

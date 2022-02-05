@@ -12,8 +12,10 @@ ASSET_MANAGER.queueDownload("./sprites/goblinSprite.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
 ASSET_MANAGER.queueDownload("./sprites/energydrink.png");
+ASSET_MANAGER.queueDownload("./sprites/goldApple.png");
 ASSET_MANAGER.queueDownload("./sprites/heart.png");
 ASSET_MANAGER.queueDownload("./sprites/energy.png");
+ASSET_MANAGER.queueDownload("./sprites/goldenergy.png")
 ASSET_MANAGER.queueDownload("./sprites/dragon-attack.png");
 
 // Music

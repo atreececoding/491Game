@@ -41,6 +41,7 @@ class SceneManager {
     this.game.addEntity(new Goblin(this.game));
     this.game.addEntity(new Dragon(this.game));
     this.game.addEntity(new EnergyJuice(this.game));
+    this.game.addEntity(new Apple(this.game));
     this.game.addEntity(new Lives(this.game));
     this.game.addEntity(new Energy(this.game));
     this.game.addEntity(new Background(this.game, 1, 1));
