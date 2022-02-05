@@ -378,7 +378,7 @@ class Knight {
             that.lastBB.left >= entity.BB.right
           ) {
             that.x = entity.BB.right;
-            that.velocity.y = 240; // bounce up
+            that.velocity.y = -240; // bounce up
             that.velocity.x = 240; // bounce to the left
             that.loseHeart();
           }
