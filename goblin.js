@@ -98,12 +98,12 @@ class Goblin {
   update() {
     if (this.x <= 300 && this.facing === 1) {
       this.x = 300;
-      this.velocity.x = 100;
+      this.velocity.x = 75;
       this.facing = 0;
     } 
     if (this.x >= 600 && this.facing === 0) {
       this.x = 600;
-      this.velocity.x = -100;
+      this.velocity.x = -75;
       this.facing = 1;
     }
     this.velocity.y += this.fallAcc * this.game.clockTick;
@@ -126,15 +126,15 @@ class Goblin {
           that.lastAttack = that.game.clockTick;
           that.timeSinceLastAttack = 0;
         } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
-          that.velocity.x = 0;
-          if (that.facing === 0) {
-            that.velocity.x = 100;
-            that.lastAttack = undefined;
-          } 
-          if (that.facing === 1) {
-            that.velocity.x = -100;
-            that.lastAttack = undefined;
-          }
+            that.velocity.x = 0;
+            if (that.facing === 0) {
+              that.velocity.x = 75;
+              that.lastAttack = undefined;
+            } 
+            if (that.facing === 1) {
+              that.velocity.x = -75;
+              that.lastAttack = undefined;
+            }
           that.state = 0;
         } else {
           that.timeSinceLastAttack += that.game.clockTick;
@@ -148,9 +148,7 @@ class Goblin {
           that.velocity.y = 0;
 
         } 
-        if (entity !== that) {
-          that.velocity.x = -that.velocity.x;
-        }
+
       }
     });
     that.updateBB();
