@@ -1,6 +1,4 @@
 // global misc. constants
-const START_POS_X = 200;
-const START_POS_Y = 200;
 const VELOCITY_X = 0;
 const VELOCITY_Y = 0;
 const FACING = {
@@ -15,9 +13,9 @@ const STATE = {
 
 // dragon final boss class
 class Dragon {
-  constructor(game) {
+  constructor(game, x, y, size) {
     // game engine
-    Object.assign(this, { game });
+    Object.assign(this, { game, x, y, size });
 
     // default spritesheet for the dragon
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dragon-attack.png");
@@ -28,10 +26,6 @@ class Dragon {
     this.dead = false;
 
     this.lives = 3;
-
-    // start position on canvas
-    this.x = START_POS_X;
-    this.y = START_POS_Y;
 
     // velocity
     this.velocity = {

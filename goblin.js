@@ -1,6 +1,7 @@
 class Goblin {
-  constructor(game) {
-    this.game = game;
+  constructor(game, x, y, size) {
+    Object.assign(this, { game, x, y, size });
+
     this.velocity = { x: 0, y: 0 };
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblinSprite.png");
 
@@ -9,8 +10,6 @@ class Goblin {
     this.state = 0;
     this.dead = false;
 
-    this.x = 600;
-    this.y = 200;
     this.speed = 100;
 
     this.fallAcc = 560;

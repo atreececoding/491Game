@@ -1,36 +1,37 @@
 class Energy {
-    constructor(game) {
-        this.game = game;
+    constructor(game, x, y, size) {
+        Object.assign(this, { game, x, y, size });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/energy.png");
-        
-        this.game.camera.knight.energy
 
     };
+
     update() {
 
     };
     draw(ctx) {
-        if(this.game.camera.knight.energy > 100) {
+        this.state = this.game.camera.knight.energy;
+
+        if(this.state > 100) {
             this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goldenergy.png");
-            ctx.drawImage(this.spritesheet, 20 ,40 ,360, 40, 5, 60, 250, 50 );
+            ctx.drawImage(this.spritesheet, 20 ,40 ,360, 40, this.x, this.y, 250, 50 );
         }
-        if(this.game.camera.knight.energy >= 5 && this.game.camera.knight.energy < 100) {
-            ctx.drawImage(this.spritesheet, 20 ,40 ,360, 40, 5, 60, 250, 50 )
+        if(this.state >= 5 && this.game.camera.knight.energy < 100) {
+            ctx.drawImage(this.spritesheet, 20 ,40 ,360, 40, this.x, this.y, 250, 50 )
         }
-        else if (this.game.camera.knight.energy == 4) {
-            ctx.drawImage(this.spritesheet, 20 ,102 ,360, 40, 5, 60, 250, 50 )
+        else if (this.state == 4) {
+            ctx.drawImage(this.spritesheet, 20 ,102 ,360, 40, this.x, this.y, 250, 50 )
         }
-        else if (this.game.camera.knight.energy == 3) {
-            ctx.drawImage(this.spritesheet, 20 ,165 ,360, 40, 5, 60, 250, 50 )
+        else if (this.state == 3) {
+            ctx.drawImage(this.spritesheet, 20 ,165 ,360, 40, this.x, this.y, 250, 50 )
         }
-        else if (this.game.camera.knight.energy == 2) {
-            ctx.drawImage(this.spritesheet, 20 ,226,360, 40, 5, 60, 250, 50 )
+        else if (this.state == 2) {
+            ctx.drawImage(this.spritesheet, 20 ,226,360, 40, this.x, this.y, 250, 50 )
         }
-        else if (this.game.camera.knight.energy == 1) {
-            ctx.drawImage(this.spritesheet, 20 ,350 ,360, 40, 5, 60, 250, 50 )
+        else if (this.state == 1) {
+            ctx.drawImage(this.spritesheet, 20 ,350 ,360, 40, this.x, this.y, 250, 50 )
         }   
-        else if (this.game.camera.knight.energy == 0) {
-            ctx.drawImage(this.spritesheet, 20 ,288 ,360, 40, 5, 60, 250, 50 )
+        else if (this.state == 0) {
+            ctx.drawImage(this.spritesheet, 20 ,288 ,360, 40, this.x, this.y, 250, 50 )
         }   
     };
 }

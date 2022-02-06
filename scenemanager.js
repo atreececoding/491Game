@@ -9,7 +9,7 @@ class SceneManager {
 
     this.gameOver = false;
     this.title = true;
-    this.level = null;
+    this.level = levelOne;
 
     this.knight = new Knight(this.game, this.lives, this.energy);
   }
@@ -29,24 +29,84 @@ class SceneManager {
     // if(transition) {
     //     this.game.addEntity(new TransitionScreen(this.game, level, x, y, title));
     // } else {
-
+    
     if (!this.title) {
-      ASSET_MANAGER.playAsset("./music/AstralAcademy.mp3");
+      if (level.music) {
+        ASSET_MANAGER.playAsset(level.music);
+      }
     }
 
-    this.game.addEntity(this.knight);
+    if (level.knights) {
+      this.game.addEntity(this.knight);
+    }
+    // TODO: We should convert our values to be based on blockwidth like super marriott brothers
+    if (level.floors) {
+      for (var i = 0; i < level.floors.length; i++) {
+        let floor = level.floors[i];
+        this.game.addEntity(new Floor(this.game, floor.x, floor.y, floor.size));
+      }
+    }
+    if (level.floors) {
+      for (var i = 0; i < level.floors.length; i++) {
+        let floor = level.floors[i];
+        this.game.addEntity(new Floor(this.game, floor.x, floor.y, floor.size));
+      }
+    }
+    if (level.platforms) {
+      for (var i = 0; i < level.platforms.length; i++) {
+        let platform = level.platforms[i];
+        this.game.addEntity(new Platform(this.game, platform.x, platform.y, platform.w, platform.h));
+      }
+    }
+    if (level.ratsandbats) {
+      for (var i = 0; i < level.ratsandbats.length; i++) {
+        let ratandbat = level.ratsandbats[i];
+        this.game.addEntity(new RatAndBat(this.game, ratandbat.x, ratandbat.y, ratandbat.size));
+      }
+    }
+    if (level.goblins) {
+      for (var i = 0; i < level.goblins.length; i++) {
+        let goblin = level.goblins[i];
+        this.game.addEntity(new Goblin(this.game, goblin.x, goblin.y, goblin.size));
+      }
+    }
+    if (level.dragons) {
+      for (var i = 0; i < level.dragons.length; i++) {
+        let dragon = level.dragons[i];
+        this.game.addEntity(new Dragon(this.game, dragon.x, dragon.y, dragon.size));
+      }
+    }
+    if (level.energyjuices) {
+      for (var i = 0; i < level.energyjuices.length; i++) {
+        let energyjuice = level.energyjuices[i];
+        this.game.addEntity(new EnergyJuice(this.game, energyjuice.x, energyjuice.y, energyjuice.size));
+      }
+    }
+    if (level.apples) {
+      for (var i = 0; i < level.apples.length; i++) {
+        let apple = level.apples[i];
+        this.game.addEntity(new Apple(this.game, apple.x, apple.y, apple.size));
+      }
+    }
+    if (level.lives) {
+      for (var i = 0; i < level.lives.length; i++) {
+        let lives = level.lives[i];
+        this.game.addEntity(new Lives(this.game, lives.x, lives.y, lives.size));
+      }
+    }
+    if (level.energies) {
+      for (var i = 0; i < level.energies.length; i++) {
+        let energy = level.energies[i];
+        this.game.addEntity(new Energy(this.game, energy.x, energy.y, energy.size));
+      }
+    }
+    if (level.backgrounds) {
+      for (var i = 0; i < level.backgrounds.length; i++) {
+        let background = level.backgrounds[i];
+        this.game.addEntity(new Background(this.game, background.x, background.y, background.size));
+      }
+    }
 
-    this.game.addEntity(new Floor(this.game, 0, 550, 800));
-    this.game.addEntity(new Platform(this.game, 415, 314, 270, 250));
-    this.game.addEntity(new RatAndBat(this.game));
-    this.game.addEntity(new Goblin(this.game));
-    this.game.addEntity(new Dragon(this.game));
-    this.game.addEntity(new EnergyJuice(this.game));
-    this.game.addEntity(new Apple(this.game));
-    this.game.addEntity(new Lives(this.game));
-    this.game.addEntity(new Energy(this.game));
-    this.game.addEntity(new Background(this.game, 1, 1));
-    //};
   }
 
   updateAudio() {
@@ -72,7 +132,7 @@ class SceneManager {
     this.updateAudio();
     if (this.title && this.game.click) {
       this.title = false;
-      this.loadLevel(1, 1, 1, true, false);
+      this.loadLevel(this.level, 1, 1, true, false);
     }
   }
 }
