@@ -49,7 +49,7 @@ class Goblin {
       54,
       7,
       0.15,
-      false,
+      true,
       true
     );
 
@@ -75,7 +75,7 @@ class Goblin {
       54,
       5,
       0.15,
-      false,
+      true,
       true
     );
 
