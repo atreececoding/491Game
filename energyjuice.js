@@ -1,13 +1,13 @@
 class EnergyJuice {
-    constructor(game) {
-        this.game = game;
+    constructor(game, x, y, size) {
+        Object.assign(this, { game, x, y, size });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/energydrink.png");
         this.updateBB();
     };
 
     updateBB() {
         //this.lastBB = this.BB;
-        this.BB = new BoundingBox(575, 150, PARAMS.BLOCKWIDTH*.5, PARAMS.BLOCKHEIGHT*.3);
+        this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH*.5, PARAMS.BLOCKHEIGHT*.3);
     };
 
     update() {
@@ -15,21 +15,19 @@ class EnergyJuice {
     };
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 59 ,19 ,141, 221, 575, 150, 50, 40 )
+        ctx.drawImage(this.spritesheet, 59, 19, 141, 221, this.x, this.y, 50, 40 )
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     };
 }
 
 class Apple {
-    constructor(game) {
-        this.x = 650;
-        this.y = 230;
+    constructor(game, x, y, size) {
+        Object.assign(this, { game, x, y, size });
 
         this.width = 50;
         this.height = 50;
 
-        this.game = game;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goldApple.png");
         this.updateBB();
     };

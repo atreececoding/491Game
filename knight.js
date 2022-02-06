@@ -163,21 +163,20 @@ class Knight {
 
         if (this.game.up) {
           if (this.energy > 0) {
-            if(this.energy > 0)
-             this.loseEnergy();
-          // jump
+            if (this.energy > 0) this.loseEnergy();
+            // jump
             if (abs(this.velocity.x) < 16) {
               this.velocity.y = -1000;
               this.fallAcc = STOP_FALL;
             } else if (abs(this.velocity.x) < 40) {
               this.velocity.y = -1000;
-              this.fallAcc = WALK_FALL;           
+              this.fallAcc = WALK_FALL;
             } else {
               this.velocity.y = -1000;
-              this.fallAcc = RUN_FALL; 
+              this.fallAcc = RUN_FALL;
             }
-          this.state = 4;
-        }
+            this.state = 4;
+          }
         }
       } else {
         // air physics
@@ -240,18 +239,8 @@ class Knight {
       // need to add in if we fall off the map, we die
     }
 
-        // old code
-    // if(this.game.right) {
-    //     if (this.x > 768) this.x = 0;
-    //     this.x += this.speed * 4 * this.game.clockTick;
-    // }
-
-    // TODO: before we can uncomment the collision handling, we need to implement the physics because it includes velocity
-    // collision handling
-
     var that = this;
     this.game.entities.forEach(function (entity) {
-      // NOTE: may need to add a if (entity !== that) wrapper to not compare collision with self
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (that.velocity.y > 0) {
           // falling
@@ -261,22 +250,18 @@ class Knight {
           ) {
             // was above last tick
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
-            that.velocity.y = 0; // NOTE: not sure why Chris uses === to assign velocity here, may be a bug
+            that.velocity.y = 0;
           }
 
           if (that.state === 4) that.state = 0; // set state to idle
-          that.updateBB();
 
           if (
-            entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
+            entity instanceof Goblin &&
             that.lastBB.bottom <= entity.BB.top && // was above last tick
             !entity.dead
           ) {
-            // entity was already dead
-            // that.loseHeart(); // lose a heart when you collide with an enemy or obstacle
-            that.velocity.y = -240; // bounce up
-            that.velocity.x = -240; // bounce to the left
-            print("hit top collision of goblin");
+            that.velocity.y = 0; // bounce up
+            that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
           }
         }
 
@@ -285,18 +270,15 @@ class Knight {
         }
 
         // TODO: handle side collision here
-        if (that.velocity.x > 0) {
+        if (that.velocity.x >= 0) {
           if (
             entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
-            !entity.dead
+            !entity.dead &&
+            that.lastBB.right <= entity.BB.left
           ) {
-            that.x = entity.BB.left - PARAMS.BLOCKWIDTH;
-            that.velocity.x = 0;
-            that.velocity.y = 0;
-            that.x = 0;
-            that.y = 0;
-            that.updateBB();
-            print("hit side collision goblin");
+            that.x = entity.BB.left - PARAMS.BLOCKWIDTH * 1.7;
+            that.velocity.y = -240; // bounce up
+            that.velocity.x = -240; // bounce to the left
             that.loseHeart();
           }
 
@@ -309,16 +291,16 @@ class Knight {
           // }
         }
 
-        if (that.velocity.x < 0) {
+        if (that.velocity.x <= 0) {
           if (
             entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
-            !entity.dead
+            !entity.dead &&
+            that.lastBB.left >= entity.BB.right
           ) {
-            that.x = entity.BB.left + PARAMS.BLOCKWIDTH;
-            that.velocity.x = 0;
-            that.velocity.y = 0;
-            that.updateBB();
-            print("hit side collision goblin 2");
+            that.x = entity.BB.right;
+            that.velocity.y = -240; // bounce up
+            that.velocity.x = 240; // bounce to the left
+            that.loseHeart();
           }
 
           // if (entity instanceof Platform || entity instanceof Floor
@@ -335,7 +317,6 @@ class Knight {
             print("Hit energy drink");
             that.gainEnergy();
             print(that.energy);
-            that.updateBB();
           }
         }
         if (that.velocity.x < 0 || that.velocity.x > 0) {
@@ -344,11 +325,11 @@ class Knight {
             print("Hit apple");
             that.gainAppleEnergy();
             print(that.energy);
-            that.updateBB();
           }
         }
       }
     });
+    that.updateBB();
   }
 
   loseHeart() {

@@ -1,6 +1,7 @@
 class RatAndBat {
-  constructor(game) {
-    this.game = game;
+  constructor(game, x, y, size) {
+    Object.assign(this, { game, x, y, size });
+
     this.velocity = { x: 0, y: 0 };
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ratAndBat.png");
 
@@ -8,9 +9,6 @@ class RatAndBat {
     this.facing = 0;
     this.state = 0;
     this.dead = false;
-
-    this.x = 550;
-    this.y = 50;
 
     this.updateBB();
 
