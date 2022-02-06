@@ -97,10 +97,12 @@ class Goblin {
 
   update() {
     if (this.x <= 300 && this.facing === 1) {
+      this.x = 300;
       this.velocity.x = 100;
       this.facing = 0;
     } 
     if (this.x >= 600 && this.facing === 0) {
+      this.x = 600;
       this.velocity.x = -100;
       this.facing = 1;
     }
