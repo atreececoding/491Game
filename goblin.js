@@ -125,11 +125,11 @@ class Goblin {
           that.timeSinceLastAttack = 0;
         } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 1) {
           that.velocity.x = 0;
-          if (that.facing === 1) {
+          if (that.facing === 0) {
             that.velocity.x = 100;
             that.lastAttack = undefined;
           } 
-          if (that.facing === 0) {
+          if (that.facing === 1) {
             that.velocity.x = -100;
             that.lastAttack = undefined;
           }
