@@ -125,6 +125,7 @@ class Goblin {
           }
           that.lastAttack = that.game.clockTick;
           that.timeSinceLastAttack = 0;
+          entity.lives -= 1;
         } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
             that.velocity.x = 0;
             if (that.facing === 0) {
