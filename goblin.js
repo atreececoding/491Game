@@ -7,7 +7,7 @@ class Goblin {
 
     this.size = 0;
     this.facing = 0;
-    this.state = 0;
+    this.state = 0; // 0 = walking, 1 = attacking
     this.dead = false;
 
     this.speed = 100;
@@ -66,7 +66,7 @@ class Goblin {
       false,
       true
     );
-    //facing left = 0
+    //facing left = 1
     this.animations[1][1] = new Animator(
       this.spritesheet,
       0,
@@ -96,31 +96,66 @@ class Goblin {
   die() {}
 
   update() {
+    if (this.x <= 300 && this.facing === 1) {
+      this.velocity.x = 100;
+      this.facing = 0;
+    } 
+    if (this.x >= 600 && this.facing === 0) {
+      this.velocity.x = -100;
+      this.facing = 1;
+    }
     this.velocity.y += this.fallAcc * this.game.clockTick;
-    this.x += this.game.clockTick * this.velocity.x * PARAMS.SCALE;
-    this.y += this.game.clockTick * this.velocity.y * PARAMS.SCALE;
+    this.x += this.game.clockTick * this.velocity.x;
+    this.y += this.game.clockTick * this.velocity.y;
     this.updateBB();
 
     var that = this;
     this.game.entities.forEach(function (entity) {
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (entity instanceof Knight) {
-        } else if (
+          that.state = 1;
+          that.velocity.x = 0;
+          if (that.facing === 1) {
+            that.x = entity.BB.left + PARAMS.BLOCKWIDTH * 1.7;
+          }
+          else {
+            that.x = entity.BB.left - PARAMS.BLOCKWIDTH * 1.2;
+          }
+          that.lastAttack = that.game.clockTick;
+          that.timeSinceLastAttack = 0;
+        } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 1) {
+          that.velocity.x = 0;
+          if (that.facing === 1) {
+            that.velocity.x = 100;
+            that.lastAttack = undefined;
+          } 
+          if (that.facing === 0) {
+            that.velocity.x = -100;
+            that.lastAttack = undefined;
+          }
+          that.state = 0;
+        } else {
+          that.timeSinceLastAttack += that.game.clockTick;
+        }
+
+        if (
           (entity instanceof Floor || entity instanceof Platform) &&
           that.lastBB.bottom <= entity.BB.top
         ) {
           that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 0.93;
           that.velocity.y = 0;
-          that.updateBB();
-        } else if (entity !== that) {
+
+        } 
+        if (entity !== that) {
           that.velocity.x = -that.velocity.x;
         }
       }
     });
+    that.updateBB();
   }
 
   draw(ctx) {
-    this.animations[1][1].drawFrame(
+    this.animations[this.state][this.facing].drawFrame(
       this.game.clockTick,
       ctx,
       this.x,
