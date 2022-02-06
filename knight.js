@@ -279,7 +279,6 @@ class Knight {
             that.x = entity.BB.left - PARAMS.BLOCKWIDTH * 1.7;
             that.velocity.y = -240; // bounce up
             that.velocity.x = -240; // bounce to the left
-            that.loseHeart();
           }
 
                     // if (entity instanceof Platform || entity instanceof Floor
@@ -300,7 +299,6 @@ class Knight {
             that.x = entity.BB.right;
             that.velocity.y = -240; // bounce up
             that.velocity.x = 240; // bounce to the left
-            that.loseHeart();
           }
 
           // if (entity instanceof Platform || entity instanceof Floor
