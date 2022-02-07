@@ -35,18 +35,7 @@ class SceneManager {
         ASSET_MANAGER.playAsset(level.music);
       }
     }
-    if (level.lives) {
-      for (var i = 0; i < level.lives.length; i++) {
-        let lives = level.lives[i];
-        this.game.addEntity(new Lives(this.game, lives.x, lives.y, lives.size));
-      }
-    }
-    if (level.energies) {
-      for (var i = 0; i < level.energies.length; i++) {
-        let energy = level.energies[i];
-        this.game.addEntity(new Energy(this.game, energy.x, energy.y, energy.size));
-      }
-    }
+
     if (level.knights) {
       this.game.addEntity(this.knight);
     }
@@ -99,21 +88,18 @@ class SceneManager {
         this.game.addEntity(new Apple(this.game, apple.x, apple.y, apple.size));
       }
     }
-<<<<<<< HEAD
-=======
     if (level.healthbars) {
-      for (var i = 0; i < level.health_bars.length; i++) {
-        let health_bar = level.health_bars[i];
+      for (var i = 0; i < level.healthbars.length; i++) {
+        let health_bar = level.healthbars[i];
         this.game.addEntity(new HealthBar(this.game, health_bar.x, health_bar.y, health_bar.size));
       }
     }
     if (level.hungerbars) {
       for (var i = 0; i < level.hungerbars.length; i++) {
         let hunger_bar = level.hungerbars[i];
-        this.game.addEntity(new Energy(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
+        this.game.addEntity(new HungerBar(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
       }
     }
->>>>>>> main
     if (level.backgrounds) {
       for (var i = 0; i < level.backgrounds.length; i++) {
         let background = level.backgrounds[i];
