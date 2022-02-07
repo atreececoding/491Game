@@ -61,7 +61,7 @@ class SceneManager {
     if (level.ratsandbats) {
       for (var i = 0; i < level.ratsandbats.length; i++) {
         let ratandbat = level.ratsandbats[i];
-        this.game.addEntity(new RatAndBat(this.game, ratandbat.x, ratandbat.y, ratandbat.size));
+        this.game.addEntity(new Bat(this.game, ratandbat.x, ratandbat.y, ratandbat.size));
       }
     }
     if (level.goblins) {
