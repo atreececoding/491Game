@@ -163,7 +163,6 @@ class Knight {
 
         if (this.game.up) {
           if (this.energy > 0) {
-            if (this.energy > 0) this.loseEnergy();
             // jump
             if (abs(this.velocity.x) < 16) {
               this.velocity.y = -1000;
@@ -176,6 +175,7 @@ class Knight {
               this.fallAcc = RUN_FALL;
             }
             this.state = 4;
+            if (this.energy > 0) this.loseEnergy();
           }
         }
       } else {
@@ -364,25 +364,25 @@ class Knight {
     // }
     // for every drawFrame this.x add (- this.game.camera.x)
     if(this.facing === 0) {
-        if (this.game.up && this.energy > 0 && this.velocity.y == 0) {
-            this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        if (this.game.up && this.energy > 0) {
+            this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y, 1.2);
         }
-        else if (this.velocity.x === 0) this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3);
-        else if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        else if (this.velocity.x === 0) this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.3);
+        else if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.2);
         else if (this.velocity.x > 0 ) {
-            if (this.game.shift) this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            else this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3); 
+            if (this.game.shift) this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.2);
+            else this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.3); 
         }
     }
 
     else if(this.facing === 1) {
-        if (this.game.up && this.energy > 0 && this.velocity.y == 0) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-        else if (this.velocity.x === 0) this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3);
-        else if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-        else if (this.game.jump) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        if (this.game.up && this.energy > 0 ) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.2);
+        else if (this.velocity.x === 0) this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.3);
+        else if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.2);
+        else if (this.game.jump) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.2);
         else if (this.velocity.x < 0 ) {
-            if (this.game.shift) this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-            else this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3);
+            if (this.game.shift) this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.2);
+            else this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, 1.3);
         }
     };
 

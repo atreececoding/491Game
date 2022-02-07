@@ -36,8 +36,8 @@ class Floor {
     // hard coded i; need to change
     for (var i = 0; i <= 5000; i += 78) {
       ctx.strokeStyle = "Red";
-      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width , this.BB.height);
-      ctx.drawImage(this.spritesheet, i , 550, 78, 77);
+      ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width , this.BB.height);
+      ctx.drawImage(this.spritesheet, i -this.game.camera.x, 550, 78, 77);
     }
   }
 }
