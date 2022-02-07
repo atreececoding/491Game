@@ -353,12 +353,12 @@ class Knight {
     if(!this.game.right && !this.game.left) {
       if (this.facing === 0) {
           if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-          else if (this.game.up) this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+          else if (this.game.up && this.energy > 0) this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
         else this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
       }
       else if (this.facing === 1) { 
           if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-          else if (this.game.up) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+          else if (this.game.up && this.energy > 0) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
       else this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
       }
     }
