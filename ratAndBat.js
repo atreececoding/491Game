@@ -55,7 +55,7 @@ class RatAndBat {
 
   draw(ctx) {
     const TICK = this.game.clockTick;
-    this.animations[0][0].drawFrame(TICK, ctx, this.x, this.y, 5);
+    this.animations[0][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 5);
     // ctx.strokeStyle = "Red";
     // ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
   }

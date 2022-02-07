@@ -45,6 +45,7 @@ class SceneManager {
     this.game.addEntity(new Apple(this.game));
     this.game.addEntity(new Lives(this.game));
     this.game.addEntity(new Energy(this.game));
+    this.game.addEntity(new Cloud(this.game))
     this.game.addEntity(new Background(this.game, 1, 1));
     //};
   }
@@ -69,6 +70,12 @@ class SceneManager {
     }
   }
   update() {
+    let midpoint = 768/2 - PARAMS.BLOCKWIDTH/2;
+
+    //if (this.x < (this.knight.x - midpoint)) this.x = this.knight.x - midpoint;
+    this.x = this.knight.x - midpoint;
+
+
     this.updateAudio();
     if (this.title && this.game.click) {
       this.title = false;

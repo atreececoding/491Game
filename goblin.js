@@ -124,12 +124,12 @@ class Goblin {
     this.animations[1][1].drawFrame(
       this.game.clockTick,
       ctx,
-      this.x,
+      this.x - this.game.camera.x,
       this.y,
       2.25
     );
 
     ctx.strokeStyle = "Red";
-    ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
   }
 }
