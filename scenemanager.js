@@ -58,10 +58,10 @@ class SceneManager {
         this.game.addEntity(new Platform(this.game, platform.x, platform.y, platform.w, platform.h));
       }
     }
-    if (level.ratsandbats) {
-      for (var i = 0; i < level.ratsandbats.length; i++) {
-        let ratandbat = level.ratsandbats[i];
-        this.game.addEntity(new Bat(this.game, ratandbat.x, ratandbat.y, ratandbat.size));
+    if (level.rats) {
+      for (var i = 0; i < level.rats.length; i++) {
+        let rat = level.rats[i];
+        this.game.addEntity(new Rat(this.game, rat.x, rat.y, rat.size));
       }
     }
     if (level.goblins) {
@@ -78,8 +78,8 @@ class SceneManager {
     }
     if (level.energyjuices) {
       for (var i = 0; i < level.energyjuices.length; i++) {
-        let energyjuice = level.energyjuices[i];
-        this.game.addEntity(new EnergyJuice(this.game, energyjuice.x, energyjuice.y, energyjuice.size));
+        let energy_juice = level.energyjuices[i];
+        this.game.addEntity(new EnergyJuice(this.game, energy_juice.x, energy_juice.y, energy_juice.size));
       }
     }
     if (level.apples) {
@@ -88,16 +88,16 @@ class SceneManager {
         this.game.addEntity(new Apple(this.game, apple.x, apple.y, apple.size));
       }
     }
-    if (level.lives) {
-      for (var i = 0; i < level.lives.length; i++) {
-        let lives = level.lives[i];
-        this.game.addEntity(new Lives(this.game, lives.x, lives.y, lives.size));
+    if (level.healthbars) {
+      for (var i = 0; i < level.health_bars.length; i++) {
+        let health_bar = level.health_bars[i];
+        this.game.addEntity(new HealthBar(this.game, health_bar.x, health_bar.y, health_bar.size));
       }
     }
-    if (level.energies) {
-      for (var i = 0; i < level.energies.length; i++) {
-        let energy = level.energies[i];
-        this.game.addEntity(new Energy(this.game, energy.x, energy.y, energy.size));
+    if (level.hungerbars) {
+      for (var i = 0; i < level.hungerbars.length; i++) {
+        let hunger_bar = level.hungerbars[i];
+        this.game.addEntity(new Energy(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
       }
     }
     if (level.backgrounds) {
