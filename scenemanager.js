@@ -58,10 +58,10 @@ class SceneManager {
         this.game.addEntity(new Platform(this.game, platform.x, platform.y, platform.w, platform.h));
       }
     }
-    if (level.rats) {
-      for (var i = 0; i < level.rats.length; i++) {
-        let rat = level.rats[i];
-        this.game.addEntity(new Rat(this.game, rat.x, rat.y, rat.size));
+    if (level.bats) {
+      for (var i = 0; i < level.bats.length; i++) {
+        let bat = level.bats[i];
+        this.game.addEntity(new Bat(this.game, bat.x, bat.y, bat.size));
       }
     }
     if (level.goblins) {
@@ -89,15 +89,15 @@ class SceneManager {
       }
     }
     if (level.healthbars) {
-      for (var i = 0; i < level.health_bars.length; i++) {
-        let health_bar = level.health_bars[i];
+      for (var i = 0; i < level.healthbars.length; i++) {
+        let health_bar = level.healthbars[i];
         this.game.addEntity(new HealthBar(this.game, health_bar.x, health_bar.y, health_bar.size));
       }
     }
     if (level.hungerbars) {
       for (var i = 0; i < level.hungerbars.length; i++) {
         let hunger_bar = level.hungerbars[i];
-        this.game.addEntity(new Energy(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
+        this.game.addEntity(new HungerBar(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
       }
     }
     if (level.backgrounds) {
