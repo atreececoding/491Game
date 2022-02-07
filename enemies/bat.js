@@ -1,4 +1,4 @@
-class RatAndBat {
+class Bat {
   constructor(game, x, y, size) {
     Object.assign(this, { game, x, y, size });
 
