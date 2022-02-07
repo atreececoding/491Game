@@ -46,12 +46,6 @@ class SceneManager {
         this.game.addEntity(new Floor(this.game, floor.x, floor.y, floor.size));
       }
     }
-    if (level.floors) {
-      for (var i = 0; i < level.floors.length; i++) {
-        let floor = level.floors[i];
-        this.game.addEntity(new Floor(this.game, floor.x, floor.y, floor.size));
-      }
-    }
     if (level.platforms) {
       for (var i = 0; i < level.platforms.length; i++) {
         let platform = level.platforms[i];
