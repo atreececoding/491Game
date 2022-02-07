@@ -364,7 +364,7 @@ class Knight {
     // }
 
     if(this.facing === 0) {
-        if (this.game.up && this.energy > 0) {
+        if (this.game.up && this.energy > 0 && this.velocity.y == 0) {
             this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
         }
         else if (this.velocity.x === 0) this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3);
@@ -376,7 +376,7 @@ class Knight {
     }
 
     else if(this.facing === 1) {
-        if (this.game.up && this.energy > 0) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
+        if (this.game.up && this.energy > 0 && this.velocity.y == 0) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
         else if (this.velocity.x === 0) this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3);
         else if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
         else if (this.game.jump) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);

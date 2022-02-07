@@ -89,6 +89,32 @@ class GameEngine {
     //window.addEventListener("keyup", event => this.keys[event.key] = false);
 
     window.addEventListener(
+      "mousedown",
+      function(e) {
+          switch (e.button) {
+            case 0:
+            that.attack = true;
+            if (that.options.debugging) console.log("Click clicked");
+            break;
+          }
+        },
+        false
+    );
+
+    window.addEventListener(
+      "mouseup",
+      function(e) {
+          switch (e.button) {
+            case 0:
+            that.attack = false;
+            if (that.options.debugging) console.log("Click unclicks");
+            break;
+          }
+        },
+        false
+    );
+
+    window.addEventListener(
       "keydown",
       function (e) {
         switch (e.code) {
@@ -111,10 +137,6 @@ class GameEngine {
           case "KeyS":
             that.down = true;
             if (that.options.debugging) console.log("Down/S pressed");
-            break;
-          case "Space":
-            that.attack = true;
-            if (that.options.debugging) console.log("Space pressed");
             break;
           case "ShiftLeft":
             that.shift = true;
@@ -148,10 +170,6 @@ class GameEngine {
           case "KeyS":
             that.down = false;
             if (that.options.debugging) console.log("Down/S released");
-            break;
-          case "Space":
-            that.attack = false;
-            if (that.options.debugging) console.log("Space released");
             break;
           case "ShiftLeft":
             that.shift = false;
