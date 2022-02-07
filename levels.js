@@ -2,7 +2,8 @@ var levelOne = {
     music: "./music/AstralAcademy.mp3",
     label: "1-1",
     knights: [ {} ],
-    floors: [{ x: 0, y: 550, size: 800 }],
+    // hardcoded y for bounding box
+    floors: [{ x: 0, y: 725, size: 800 }],
     clouds: [{x:366, y:222, w: 200, h: 90}],
     platforms: [{ x: 415, y: 314, w: 270, h: 250 }],
     ratsandbats: [{ x: 550, y: 50, size: 1 }],

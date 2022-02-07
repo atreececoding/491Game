@@ -6,7 +6,8 @@ class Background {
   update() {}
 
   draw(ctx) {
-    ctx.drawImage(this.spritesheet, 0, 0, 768, 600);
+    // Hardcoded
+    ctx.drawImage(this.spritesheet, 0, 0, 1000, 800);
   }
 }
 
@@ -37,7 +38,7 @@ class Floor {
     for (var i = 0; i <= 5000; i += 78) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width , this.BB.height);
-      ctx.drawImage(this.spritesheet, i -this.game.camera.x, 550, 78, 77);
+      ctx.drawImage(this.spritesheet, i -this.game.camera.x, 725, 78, 77);
     }
   }
 }

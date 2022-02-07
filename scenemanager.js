@@ -35,7 +35,18 @@ class SceneManager {
         ASSET_MANAGER.playAsset(level.music);
       }
     }
-
+    if (level.lives) {
+      for (var i = 0; i < level.lives.length; i++) {
+        let lives = level.lives[i];
+        this.game.addEntity(new Lives(this.game, lives.x, lives.y, lives.size));
+      }
+    }
+    if (level.energies) {
+      for (var i = 0; i < level.energies.length; i++) {
+        let energy = level.energies[i];
+        this.game.addEntity(new Energy(this.game, energy.x, energy.y, energy.size));
+      }
+    }
     if (level.knights) {
       this.game.addEntity(this.knight);
     }
@@ -86,18 +97,6 @@ class SceneManager {
       for (var i = 0; i < level.apples.length; i++) {
         let apple = level.apples[i];
         this.game.addEntity(new Apple(this.game, apple.x, apple.y, apple.size));
-      }
-    }
-    if (level.lives) {
-      for (var i = 0; i < level.lives.length; i++) {
-        let lives = level.lives[i];
-        this.game.addEntity(new Lives(this.game, lives.x, lives.y, lives.size));
-      }
-    }
-    if (level.energies) {
-      for (var i = 0; i < level.energies.length; i++) {
-        let energy = level.energies[i];
-        this.game.addEntity(new Energy(this.game, energy.x, energy.y, energy.size));
       }
     }
     if (level.backgrounds) {
