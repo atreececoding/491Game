@@ -227,8 +227,8 @@ class Knight {
       this.y += this.velocity.y * TICK * PARAMS.SCALE;
 
       // NOTE: temporary code to make him stay on the screen
-      if (this.x > 768) this.x = 0;
-      if (this.x < 0) this.x = 768;
+      // if (this.x > 768) this.x = 0;
+      // if (this.x < 0) this.x = 768;
       //if (this.y > 422) this.velocity.y = 0; this.y = 422; this.state = 0;
       this.updateBB();
 
@@ -362,7 +362,7 @@ class Knight {
     //   else this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
     //   }
     // }
-
+    // for every drawFrame this.x add (- this.game.camera.x)
     if(this.facing === 0) {
         if (this.game.up && this.energy > 0 && this.velocity.y == 0) {
             this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
@@ -388,6 +388,6 @@ class Knight {
 
     // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     ctx.strokeStyle = "Red";
-    ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
   }
 }

@@ -46,10 +46,10 @@ class SceneManager {
         this.game.addEntity(new Floor(this.game, floor.x, floor.y, floor.size));
       }
     }
-    if (level.floors) {
-      for (var i = 0; i < level.floors.length; i++) {
-        let floor = level.floors[i];
-        this.game.addEntity(new Floor(this.game, floor.x, floor.y, floor.size));
+    if (level.clouds) {
+      for (var i = 0; i < level.clouds.length; i++) {
+        let cloud = level.clouds[i];
+        this.game.addEntity(new Cloud(this.game, cloud.x, cloud.y, cloud.w, cloud.h));
       }
     }
     if (level.platforms) {
@@ -129,6 +129,12 @@ class SceneManager {
     }
   }
   update() {
+    let midpoint = 768/2 - PARAMS.BLOCKWIDTH/2;
+
+    //if (this.x < (this.knight.x - midpoint)) this.x = this.knight.x - midpoint;
+    this.x = this.knight.x - midpoint;
+
+
     this.updateAudio();
     if (this.title && this.game.click) {
       this.title = false;
