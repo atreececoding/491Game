@@ -338,10 +338,16 @@ class Knight {
     if (this.energy < 5) {
       this.energy++;
     }
+    if(this.lives < 5) {
+      this.lives++;;
+    }
   }
 
   gainAppleEnergy() {
     this.energy += 200;
+    if(this.lives < 5) {
+      this.lives = 5;
+    }
   }
 
   loseEnergy() {
