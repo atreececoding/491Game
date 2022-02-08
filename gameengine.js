@@ -43,45 +43,99 @@ class GameEngine {
     gameLoop();
   }
 
-  startInput() {
+
+  inputToggle(onOrOff) {
     var that = this;
+    // EVENT LISTENERS
+      
+    function leftClick(e) {
+      if (that.options.debugging) console.log("LEFT_CLICK");
+      that.keys["click"] = true;
+    }
 
-    const getXandY = (e) => ({
-      x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
-      y: e.clientY - this.ctx.canvas.getBoundingClientRect().top,
-    });
+    function keyDown(e) {
+      switch (e.code) {
+        case "ArrowLeft":
+        case "KeyA":
+          that.keys["left"] = true;
+          if (that.options.debugging) console.log("Left/A pressed");
+          break;
+        case "ArrowRight":
+        case "KeyD":
+          that.keys["right"] = true;
+          if (that.options.debugging) console.log("Right/D pressed");
+          break;
+        case "ArrowUp":
+        case "KeyW":
+          that.keys["up"] = true;
+          if (that.options.debugging) console.log("Up/W pressed");
+          break;
+        case "ArrowDown":
+        case "KeyS":
+          that.keys["down"] = true;
+          if (that.options.debugging) console.log("Down/S pressed");
+          break;
+        case "Space":
+          that.keys["space"] = true;
+          if (that.options.debugging) console.log("Space pressed");
+          break;
+        case "ShiftLeft":
+          that.keys["shift"] = true;
+          if (that.options.debugging) console.log("Shift pressed");
+          break;
+      }
+    }
 
-    this.ctx.canvas.addEventListener("mousemove", (e) => {
-      if (this.options.debugging) {
-        // console.log("MOUSE_MOVE", getXandY(e));
+    function keyUp(e) {
+      switch (e.code) {
+        case "ArrowLeft":
+        case "KeyA":
+          that.keys["left"] = false;
+          if (that.options.debugging) console.log("Left/A released");
+          break;
+        case "ArrowRight":
+        case "KeyD":
+          that.keys["right"] = false;
+          if (that.options.debugging) console.log("Right/D released");
+          break;
+        case "ArrowUp":
+        case "KeyW":
+          that.keys["up"] = false;
+          if (that.options.debugging) console.log("Up/W released");
+          break;
+        case "ArrowDown":
+        case "KeyS":
+          that.keys["down"] = false;
+          if (that.options.debugging) console.log("Down/S released");
+          break;
+        case "Space":
+          that.keys["space"] = false;
+          if (that.options.debugging) console.log("Space released");
+          break;
+        case "ShiftLeft":
+          that.keys["shift"] = false;
+          if (that.options.debugging) console.log("Shift released");
+          break;
       }
-      this.mouse = getXandY(e);
-    });
+    }
 
-    this.ctx.canvas.addEventListener("click", (e) => {
-      if (this.options.debugging) {
-        console.log("CLICK", getXandY(e));
-      }
-      this.click = true;
-    });
 
-    this.ctx.canvas.addEventListener("wheel", (e) => {
-      if (this.options.debugging) {
-        console.log("WHEEL", getXandY(e), e.wheelDelta);
+    if (onOrOff === "start") {
+      that.clickListener = leftClick;
+      that.keyDownListener = keyDown;
+      that.keyUpListener = keyUp;
+      that.ctx.canvas.addEventListener("click", that.clickListener);
+      that.ctx.canvas.addEventListener("keydown", that.keyDownListener);
+      that.ctx.canvas.addEventListener("keyup", that.keyUpListener);
+      if (that.options.debugging) console.log("INPUT STARTED!");
+    } else if (onOrOff === "stop") {
+      that.ctx.canvas.removeEventListener("click", that.clickListener);
+      that.ctx.canvas.removeEventListener("keydown", that.keyDownListener);
+      that.ctx.canvas.removeEventListener("keyup", that.keyUpListener);
+      for (const [key, value] of Object.entries(that.keys)) {
+        that.keys[key] = false;
       }
-      if (this.options.prevent.scrolling) {
-        e.preventDefault(); // Prevent Scrolling
-      }
-      this.wheel = e;
-    });
-
-    this.ctx.canvas.addEventListener("contextmenu", (e) => {
-      if (this.options.debugging) {
-        console.log("RIGHT_CLICK", getXandY(e));
-      }
-      if (this.options.prevent.contextMenu) {
-        e.preventDefault(); // Prevent Context Menu
-      }
+<<<<<<< HEAD
       this.rightclick = getXandY(e);
     });
 
@@ -179,6 +233,20 @@ class GameEngine {
       },
       false
     );
+=======
+      if (that.options.debugging) console.log("INPUT DISABLED!");
+    } else {
+      throw new Error("ERROR: WRONG USAGE OF inputToggle(), please pass in 'start' or 'stop'");
+    }
+  }
+
+  startInput() {
+    this.inputToggle("start");
+  }
+
+  pauseInput() {
+    this.inputToggle("stop");
+>>>>>>> main
   }
 
   addEntity(entity) {

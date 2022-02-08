@@ -117,6 +117,11 @@ class SceneManager {
     ASSET_MANAGER.adjustVolume(volume);
   }
 
+  updateOptions() {
+    var debug = document.getElementById("debug").checked;
+    this.game.options.debugging = debug;
+  }
+
   draw(ctx) {
     if (this.title) {
       ctx.drawImage(
@@ -136,7 +141,8 @@ class SceneManager {
 
 
     this.updateAudio();
-    if (this.title && this.game.click) {
+    this.updateOptions();
+    if (this.title && this.game.keys["click"]) {
       this.title = false;
       this.loadLevel(this.level, 1, 1, true, false);
     }
