@@ -53,6 +53,32 @@ class GameEngine {
       that.keys["click"] = true;
     }
 
+    window.addEventListener(
+      "mousedown",
+      function(e) {
+          switch (e.button) {
+            case 0:
+            that.attack = true;
+            if (that.options.debugging) console.log("Click clicked");
+            break;
+          }
+        },
+        false
+    );
+
+    window.addEventListener(
+      "mouseup",
+      function(e) {
+          switch (e.button) {
+            case 0:
+            that.attack = false;
+            if (that.options.debugging) console.log("Click unclicks");
+            break;
+          }
+        },
+        false
+    );
+
     function keyDown(e) {
       switch (e.code) {
         case "ArrowLeft":

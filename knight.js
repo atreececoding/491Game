@@ -39,7 +39,6 @@ class Knight {
                 this.animations.push([i]);
             }
         }
-
         
         //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die   
         //facing right = 0
