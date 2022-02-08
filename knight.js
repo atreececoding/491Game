@@ -45,7 +45,7 @@ class Knight {
         this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 270, 110, 7, 0.15, false, true);        
         this.animations[1][0] = new Animator(this.spritesheet, 0, 140, 270, 110, 7, 0.15, false, true);
         this.animations[2][0] = new Animator(this.spritesheet, 0, 250, 270, 110, 7, 0.15, false, true);
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 370, 270, 110, 7, 0.15, false, true);
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 360, 270, 110, 7, 0.15, false, true);
         this.animations[4][0] = new Animator(this.spritesheet, 0, 490, 270, 110, 7, 0.15, false, true);
         this.animations[5][0] = new Animator(this.spritesheet, 0, 610, 270, 110, 7, 0.15, false, true);
         this.animations[6][0] = new Animator(this.spritesheet, 0, 730, 270, 110, 7, 0.15, false, true);
@@ -54,7 +54,7 @@ class Knight {
         this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 20, 270, 110, 7, 0.15, true, true);
         this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 140, 265, 110, 7, 0.15, true, true);
         this.animations[2][1] = new Animator(this.rev_spritesheet, 0, 250, 270, 110, 7, 0.15, true, true);
-        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 370, 270, 110, 7, 0.15, true, true);
+        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 360, 270, 110, 7, 0.15, true, true);
         this.animations[4][1] = new Animator(this.rev_spritesheet, 0, 490, 270, 110, 7, 0.15, true, true);
         this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 610, 270, 110, 7, 0.15, true, true);
         this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 730, 270, 110, 7, 0.15, true, true);
@@ -349,7 +349,7 @@ class Knight {
   }
 
   draw(ctx) {
-    if (this.facing === 0 && this.velocity.x === 0)
+    if (this.facing === 0 && this.velocity.x === 0 && !this.game.keys["up"])
         this.animations[0][0].drawFrame(
           this.game.clockTick,
           ctx,
@@ -357,7 +357,7 @@ class Knight {
           this.y,
           1.45
         );
-      else if (this.facing === 1 && this.velocity.x === 0)
+      else if (this.facing === 1 && this.velocity.x === 0 && !this.game.keys["up"])
         this.animations[0][1].drawFrame(
           this.game.clockTick,
           ctx,
@@ -365,7 +365,7 @@ class Knight {
           this.y,
           1.45
         );
-    if (this.game.keys["right"] && !this.game.keys["up"] || this.velocity.x > 0) {
+    if (this.game.keys["right"] && !this.game.keys["up"] || this.velocity.x > 0 && !this.game.keys["up"]) {
       this.animations[2][0].drawFrame(
         this.game.clockTick,
         ctx,
@@ -374,7 +374,7 @@ class Knight {
         1.34125
       );
       this.facing = 0;
-    }else if (this.game.keys["left"] && !this.game.keys["up"] || this.velocity.x < 0) {
+    }else if (this.game.keys["left"] && !this.game.keys["up"] || this.velocity.x < 0 && !this.game.keys["up"]) {
       this.animations[2][1].drawFrame(
         this.game.clockTick,
         ctx,
