@@ -16,8 +16,10 @@ class EnergyJuice {
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 59, 19, 141, 221, this.x, this.y, 50, 40 )
-        ctx.strokeStyle = 'Red';
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        if (this.game.options.debugging) {
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
     };
 }
 
@@ -40,7 +42,9 @@ class Apple {
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, this.x, this.y, this.width, this.height);
-        ctx.strokeStyle = 'Red';
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        if (this.game.options.debugging) {
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
     }
 }

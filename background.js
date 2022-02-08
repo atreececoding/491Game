@@ -33,9 +33,11 @@ class Floor {
   update() {}
 
   draw(ctx) {
-    for (var i = 0; i <= 702; i += 78) {
+    if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    }
+    for (var i = 0; i <= 702; i += 78) {
       ctx.drawImage(this.spritesheet, i, 550, 78, 77);
     }
   }
@@ -68,8 +70,10 @@ class Platform {
   }
 
   draw(ctx) {
-    ctx.strokeStyle = "Red";
-    ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    if (this.game.options.debugging) {
+      ctx.strokeStyle = "Red";
+      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    }
     ctx.drawImage(this.spritesheet, 400, 300, 300, 100);
   }
 }

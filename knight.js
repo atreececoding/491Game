@@ -187,23 +187,23 @@ class Knight {
           // slower than a walk // starting, stopping or turning around
           this.velocity.x = 0;
           this.state = 0;
-          if (this.game.left) {
+          if (this.game.keys["left"]) {
             this.velocity.x -= MIN_WALK;
           }
 
-          if (this.game.right) {
+          if (this.game.keys["right"]) {
             this.velocity.x += MIN_WALK;
           }
         } else if (abs(this.velocity.x) >= MIN_WALK) {
           // faster than a walk // accelerating or decelerating
           if (this.facing === 0) {
-            if (this.game.right && !this.game.left) {
-              if (this.game.shift) {
+            if (this.game.keys["right"] && !this.game.keys["left"]) {
+              if (this.game.keys["shift"]) {
                 this.velocity.x += ACC_RUN * TICK;
               } else {
                 this.velocity.x += ACC_WALK * TICK;
               }
-            } else if (this.game.left && !this.game.right) {
+            } else if (this.game.keys["left"] && !this.game.keys["right"]) {
               this.velocity.x -= DEC_SKID * TICK;
               this.state = 3;
               if (this.velocity.x < 0) {
@@ -216,13 +216,13 @@ class Knight {
               }
             }
           } else if (this.facing === 1) {
-            if (this.game.left && !this.game.right) {
-              if (this.game.shift) {
+            if (this.game.keys["left"] && !this.game.keys["right"]) {
+              if (this.game.keys["shift"]) {
                 this.velocity.x -= ACC_RUN * TICK;
               } else {
                 this.velocity.x -= ACC_WALK * TICK;
               }
-            } else if (this.game.right && !this.game.left) {
+            } else if (this.game.keys["right"] && !this.game.keys["left"]) {
               this.velocity.x += DEC_SKID * TICK;
               this.state = 3;
 
@@ -241,7 +241,7 @@ class Knight {
 
         this.velocity.y += this.fallAcc * TICK;
 
-        if (this.game.up) {
+        if (this.game.keys["up"]) {
           if (this.energy > 0) {
             if (this.energy > 0) this.loseEnergy();
             // jump
@@ -262,7 +262,7 @@ class Knight {
         // air physics
 
         // vertical physics
-        if (this.velocity.y < 0 && this.game.up) {
+        if (this.velocity.y < 0 && this.game.keys["up"]) {
           // holding A while jumping jumps higher
           if (this.fallAcc === STOP_FALL)
             this.velocity.y -= (STOP_FALL - STOP_FALL_A) * TICK;
@@ -274,13 +274,13 @@ class Knight {
         this.velocity.y += this.fallAcc * TICK;
 
         // horizontal physics
-        if (this.game.right && !this.game.left) {
+        if (this.game.keys["right"] && !this.game.keys["left"]) {
           if (abs(this.velocity.x) > MAX_WALK) {
             this.velocity.x += ACC_RUN * TICK;
           } else {
             this.velocity.x += ACC_WALK * TICK;
           }
-        } else if (this.game.left && !this.game.right) {
+        } else if (this.game.keys["left"] && !this.game.keys["right"]) {
           if (abs(this.velocity.x) > MAX_WALK) {
             this.velocity.x -= ACC_RUN * TICK;
           } else {
@@ -297,9 +297,9 @@ class Knight {
 
       if (this.velocity.x >= MAX_RUN) this.velocity.x = MAX_RUN;
       if (this.velocity.x <= -MAX_RUN) this.velocity.x = -MAX_RUN;
-      if (this.velocity.x >= MAX_WALK && !this.game.shift)
+      if (this.velocity.x >= MAX_WALK && !this.game.keys["shift"])
         this.velocity.x = MAX_WALK;
-      if (this.velocity.x <= -MAX_WALK && !this.game.shift)
+      if (this.velocity.x <= -MAX_WALK && !this.game.keys["shift"])
         this.velocity.x = -MAX_WALK;
 
       // update position
@@ -392,17 +392,17 @@ class Knight {
         if (that.velocity.x < 0 || that.velocity.x > 0) {
           if (entity instanceof EnergyJuice && !entity.dead) {
             entity.removeFromWorld = true;
-            print("Hit energy drink");
+            if (that.game.options.debugging) print("Hit energy drink");
             that.gainEnergy();
-            print(that.energy);
+            if (that.game.options.debugging) print(that.energy);
           }
         }
         if (that.velocity.x < 0 || that.velocity.x > 0) {
           if (entity instanceof Apple && !entity.dead) {
             entity.removeFromWorld = true;
-            print("Hit apple");
+            if (that.game.options.debugging) print("Hit apple");
             that.gainAppleEnergy();
-            print(that.energy);
+            if (that.game.options.debugging) print(that.energy);
           }
         }
       }
@@ -430,11 +430,11 @@ class Knight {
   }
 
   draw(ctx) {
+    
     //this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     if (
-      !this.game.right &&
-      !this.game
-        .left /* && !this.game.left && !this.game.up && !this.game.down && !this.game.attack*/
+      !this.game.keys["right"] &&
+      !this.game.keys["left"] /* && !this.game.left && !this.game.up && !this.game.down && !this.game.attack*/
     ) {
       if (this.facing === 0)
         this.animations[0][0].drawFrame(
@@ -453,7 +453,7 @@ class Knight {
           2
         );
     }
-    if (this.game.right) {
+    if (this.game.keys["right"]) {
       this.animations[2][0].drawFrame(
         this.game.clockTick,
         ctx,
@@ -461,7 +461,7 @@ class Knight {
         this.y,
         1.85
       );
-    } else if (this.game.left) {
+    } else if (this.game.keys["left"]) {
       this.animations[2][1].drawFrame(
         this.game.clockTick,
         ctx,
@@ -471,8 +471,11 @@ class Knight {
       );
     }
 
-    // this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    ctx.strokeStyle = "Red";
-    ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    if (this.game.options.debugging) {
+      ctx.strokeStyle = "Red";
+      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    }
+
+
   }
 }
