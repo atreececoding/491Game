@@ -135,105 +135,6 @@ class GameEngine {
       for (const [key, value] of Object.entries(that.keys)) {
         that.keys[key] = false;
       }
-<<<<<<< HEAD
-      this.rightclick = getXandY(e);
-    });
-
-    //window.addEventListener("keydown", event => this.keys[event.key] = true);
-    //window.addEventListener("keyup", event => this.keys[event.key] = false);
-
-    window.addEventListener(
-      "mousedown",
-      function(e) {
-          switch (e.button) {
-            case 0:
-            that.attack = true;
-            if (that.options.debugging) console.log("Click clicked");
-            break;
-          }
-        },
-        false
-    );
-
-    window.addEventListener(
-      "mouseup",
-      function(e) {
-          switch (e.button) {
-            case 0:
-            that.attack = false;
-            if (that.options.debugging) console.log("Click unclicks");
-            break;
-          }
-        },
-        false
-    );
-
-    window.addEventListener(
-      "keydown",
-      function (e) {
-        switch (e.code) {
-          case "ArrowLeft":
-          case "KeyA":
-            that.left = true;
-            if (that.options.debugging) console.log("Left/A pressed");
-            break;
-          case "ArrowRight":
-          case "KeyD":
-            that.right = true;
-            if (that.options.debugging) console.log("Right/D pressed");
-            break;
-          case "ArrowUp":
-          case "KeyW":
-            that.up = true;
-            if (that.options.debugging) console.log("Up/W pressed");
-            break;
-          case "ArrowDown":
-          case "KeyS":
-            that.down = true;
-            if (that.options.debugging) console.log("Down/S pressed");
-            break;
-          case "ShiftLeft":
-            that.shift = true;
-            if (that.options.debugging) console.log("Shift pressed");
-            break;
-        }
-      },
-      false
-    );
-
-    window.addEventListener(
-      "keyup",
-      function (e) {
-        switch (e.code) {
-          case "ArrowLeft":
-          case "KeyA":
-            that.left = false;
-            if (that.options.debugging) console.log("Left/A released");
-            break;
-          case "ArrowRight":
-          case "KeyD":
-            that.right = false;
-            if (that.options.debugging) console.log("Right/D released");
-            break;
-          case "ArrowUp":
-          case "KeyW":
-            that.up = false;
-            if (that.options.debugging) console.log("Up/W released");
-            break;
-          case "ArrowDown":
-          case "KeyS":
-            that.down = false;
-            if (that.options.debugging) console.log("Down/S released");
-            break;
-          case "ShiftLeft":
-            that.shift = false;
-            if (that.options.debugging) console.log("Shift released");
-            break;
-        }
-      },
-      false
-    );
-=======
       if (that.options.debugging) console.log("INPUT DISABLED!");
     } else {
       throw new Error("ERROR: WRONG USAGE OF inputToggle(), please pass in 'start' or 'stop'");
@@ -246,7 +147,6 @@ class GameEngine {
 
   pauseInput() {
     this.inputToggle("stop");
->>>>>>> main
   }
 
   addEntity(entity) {
