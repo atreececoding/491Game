@@ -365,7 +365,7 @@ class Knight {
           this.y,
           1.45
         );
-    if (this.game.keys["right"] && !this.game.keys["up"]) {
+    if (this.game.keys["right"] && !this.game.keys["up"] || this.velocity.x > 0) {
       this.animations[2][0].drawFrame(
         this.game.clockTick,
         ctx,
@@ -374,7 +374,7 @@ class Knight {
         1.34125
       );
       this.facing = 0;
-    }else if (this.game.keys["left"] && !this.game.keys["up"]) {
+    }else if (this.game.keys["left"] && !this.game.keys["up"] || this.velocity.x < 0) {
       this.animations[2][1].drawFrame(
         this.game.clockTick,
         ctx,
