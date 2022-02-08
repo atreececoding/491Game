@@ -5,7 +5,7 @@ var levelOne = {
     // hardcoded y for bounding box
     floors: [{ x: 0, y: 735, size: 800 }],
     clouds: [{x:366, y:222, w: 200, h: 90}],
-    platforms: [{ x: 415, y: 314, w: 270, h: 250 }],
+    platforms: [{ x: 615, y: 514, w: 270, h: 250 }],
     bats: [{ x: 550, y: 50, size: 1 }],
     goblins: [{ x: 600, y: 400, size: 1 }],
     dragons: [{ x: 200, y: 200, size: 1 }],

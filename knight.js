@@ -42,13 +42,13 @@ class Knight {
         
         //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die   
         //facing right = 0
-        this.animations[0][0] = new Animator(this.spritesheet, 80, 20, 270, 110, 7, 0.15, false, true);        
-        this.animations[1][0] = new Animator(this.spritesheet, 80, 140, 270, 110, 7, 0.15, false, true);
-        this.animations[2][0] = new Animator(this.spritesheet, 80, 250, 270, 110, 7, 0.15, false, true);
-        this.animations[3][0] = new Animator(this.spritesheet, 80, 370, 270, 110, 7, 0.15, false, true);
-        this.animations[4][0] = new Animator(this.spritesheet, 80, 490, 270, 110, 7, 0.15, false, true);
-        this.animations[5][0] = new Animator(this.spritesheet, 80, 610, 270, 110, 7, 0.15, false, true);
-        this.animations[6][0] = new Animator(this.spritesheet, 80, 730, 270, 110, 7, 0.15, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 270, 110, 7, 0.15, false, true);        
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 140, 270, 110, 7, 0.15, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 250, 270, 110, 7, 0.15, false, true);
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 370, 270, 110, 7, 0.15, false, true);
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 490, 270, 110, 7, 0.15, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 610, 270, 110, 7, 0.15, false, true);
+        this.animations[6][0] = new Animator(this.spritesheet, 0, 730, 270, 110, 7, 0.15, false, true);
 
         //facing left = 1
         this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 20, 270, 110, 7, 0.15, true, true);
@@ -399,6 +399,7 @@ class Knight {
         this.y,
         1.34125
       );
+      this.facing = 0;
     }else if (this.game.keys["left"]) {
       this.animations[2][1].drawFrame(
         this.game.clockTick,
@@ -407,6 +408,7 @@ class Knight {
         this.y,
         1.34125
       );
+      this.facing = 1;
     } 
     if (this.game.keys["up"]) {
       if (this.facing === 0) {

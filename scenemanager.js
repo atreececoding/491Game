@@ -127,8 +127,8 @@ class SceneManager {
         ASSET_MANAGER.getAsset("./sprites/title.png"),
         0,
         0,
-        768,
-        600
+        1000,
+        800
       );
     }
   }

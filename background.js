@@ -75,7 +75,7 @@ class Platform {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     }
-    ctx.drawImage(this.spritesheet, 400, 300, 300, 100);
+    ctx.drawImage(this.spritesheet, 600, 500, 300, 100);
   }
 }
 
