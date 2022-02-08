@@ -62,7 +62,7 @@ class Knight {
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
-      this.x - this.game.camera.x,
+      this.x,
       this.y,
       PARAMS.BLOCKWIDTH * 1.7,
       PARAMS.BLOCKHEIGHT
@@ -349,37 +349,11 @@ class Knight {
   }
 
   draw(ctx) {
-
-  //   if(this.facing === 0) {
-  //     if (this.game.up && this.energy > 0) {
-  //         this.animations[3][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-  //     }
-  //     else if (this.velocity.x === 0) this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3);
-  //     else if (this.game.attack) this.animations[4][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-  //     else if (this.velocity.x > 0 ) {
-  //         if (this.game.shift) this.animations[2][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-  //         else this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3); 
-  //     }
-  // }
-
-  // else if(this.facing === 1) {
-  //     if (this.game.up && this.energy > 0) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-  //     else if (this.velocity.x === 0) this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3);
-  //     else if (this.game.attack) this.animations[4][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-  //     else if (this.game.jump) this.animations[3][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-  //     else if (this.velocity.x < 0 ) {
-  //         if (this.game.shift) this.animations[2][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.2);
-  //         else this.animations[1][1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.3);
-  //     }
-  // };
-    
-    //this.animations[1][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    
     if (this.facing === 0 && this.velocity.x === 0)
         this.animations[0][0].drawFrame(
           this.game.clockTick,
           ctx,
-          this.x - this.game.camera.x,
+          this.x - 110 - this.game.camera.x,
           this.y,
           1.45
         );
@@ -387,44 +361,44 @@ class Knight {
         this.animations[0][1].drawFrame(
           this.game.clockTick,
           ctx,
-          this.x - this.game.camera.x,
+          this.x - 110 - this.game.camera.x,
           this.y,
           1.45
         );
-    if (this.game.keys["right"]) {
+    if (this.game.keys["right"] && !this.game.keys["up"]) {
       this.animations[2][0].drawFrame(
         this.game.clockTick,
         ctx,
-        this.x - this.game.camera.x,
+        this.x - 110 - this.game.camera.x,
         this.y,
         1.34125
       );
       this.facing = 0;
-    }else if (this.game.keys["left"]) {
+    }else if (this.game.keys["left"] && !this.game.keys["up"]) {
       this.animations[2][1].drawFrame(
         this.game.clockTick,
         ctx,
-        this.x - this.game.camera.x,
+        this.x - 110 - this.game.camera.x,
         this.y,
         1.34125
       );
       this.facing = 1;
     } 
     if (this.game.keys["up"]) {
-      if (this.facing === 0) {
+      if (this.facing === 0 || (this.facing === 0 && this.velocity.x > 0)) {
         this.animations[3][0].drawFrame(
           this.game.clockTick,
           ctx,
-          this.x - this.game.camera.x,
+          this.x - 110 - this.game.camera.x,
           this.y,
           1.34125
         );
         }
-        else if (this.facing === 1){
+        else if (this.facing === 1 || (this.facing === 0 && this.velocity.x < 0)){
           this.animations[3][1].drawFrame(
             this.game.clockTick,
             ctx,
-            this.x - this.game.camera.x,
+            this.x - 110 - this.game.camera.x,
             this.y,
             1.34125
           );
@@ -435,7 +409,7 @@ class Knight {
 
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
-      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
 
 
