@@ -40,6 +40,12 @@ class SceneManager {
       this.game.addEntity(this.knight);
     }
     // TODO: We should convert our values to be based on blockwidth like super marriott brothers
+    if (level.goblins) {
+      for (var i = 0; i < level.goblins.length; i++) {
+        let goblin = level.goblins[i];
+        this.game.addEntity(new Goblin(this.game, goblin.x, goblin.y, goblin.size));
+      }
+    }
     if (level.floors) {
       for (var i = 0; i < level.floors.length; i++) {
         let floor = level.floors[i];
@@ -62,12 +68,6 @@ class SceneManager {
       for (var i = 0; i < level.bats.length; i++) {
         let bat = level.bats[i];
         this.game.addEntity(new Bat(this.game, bat.x, bat.y, bat.size));
-      }
-    }
-    if (level.goblins) {
-      for (var i = 0; i < level.goblins.length; i++) {
-        let goblin = level.goblins[i];
-        this.game.addEntity(new Goblin(this.game, goblin.x, goblin.y, goblin.size));
       }
     }
     if (level.dragons) {

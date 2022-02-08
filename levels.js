@@ -3,7 +3,7 @@ var levelOne = {
     label: "1-1",
     knights: [ {} ],
     // hardcoded y for bounding box
-    floors: [{ x: 0, y: 725, size: 800 }],
+    floors: [{ x: 0, y: 735, size: 800 }],
     clouds: [{x:366, y:222, w: 200, h: 90}],
     platforms: [{ x: 415, y: 314, w: 270, h: 250 }],
     bats: [{ x: 550, y: 50, size: 1 }],

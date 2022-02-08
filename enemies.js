@@ -359,7 +359,7 @@ class Goblin {
         ctx,
         this.x,
         this.y,
-        2.25
+        2.45
       );
   
       if (this.game.options.debugging) {

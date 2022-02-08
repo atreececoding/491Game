@@ -14,7 +14,7 @@ class Knight {
       this.dead = false;
 
       this.lives = 5;
-      this.energy = 1;
+      this.energy = 3;
 
       this.x = 0;
       this.y = 0;
@@ -43,22 +43,22 @@ class Knight {
         
         //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die   
         //facing right = 0
-        this.animations[0][0] = new Animator(this.spritesheet, 85, 20, 270, 115, 7, 0.35, false, true);        
-        this.animations[1][0] = new Animator(this.spritesheet, 85, 140, 265, 115, 7, 0.35, false, true);
-        this.animations[2][0] = new Animator(this.spritesheet, 85, 250, 270, 115, 7, 0.35, false, true);
-        this.animations[3][0] = new Animator(this.spritesheet, 85, 370, 270, 115, 7, 0.15, false, true);
-        this.animations[4][0] = new Animator(this.spritesheet, 85, 490, 270, 115, 7, 0.15, false, true);
-        this.animations[5][0] = new Animator(this.spritesheet, 85, 610, 270, 115, 7, 0.15, false, true);
-        this.animations[6][0] = new Animator(this.spritesheet, 85, 730, 270, 115, 7, 0.15, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 80, 20, 270, 110, 7, 0.15, false, true);        
+        this.animations[1][0] = new Animator(this.spritesheet, 80, 140, 270, 110, 7, 0.15, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 80, 250, 270, 110, 7, 0.15, false, true);
+        this.animations[3][0] = new Animator(this.spritesheet, 80, 370, 270, 110, 7, 0.15, false, true);
+        this.animations[4][0] = new Animator(this.spritesheet, 80, 490, 270, 110, 7, 0.15, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 80, 610, 270, 110, 7, 0.15, false, true);
+        this.animations[6][0] = new Animator(this.spritesheet, 80, 730, 270, 110, 7, 0.15, false, true);
 
         //facing left = 1
-        this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 10, 270, 120, 7, 0.35, true, true);
-        this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 130, 270, 120, 7, 0.35, true, true);
-        this.animations[2][1] = new Animator(this.rev_spritesheet, 0, 240, 270, 120, 7, 0.35, false, true);
-        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 360, 270, 120, 7, 0.15, false, true);
-        this.animations[4][1] = new Animator(this.rev_spritesheet, 0, 480, 270, 120, 7, 0.15, false, true);
-        this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 600, 270, 120, 7, 0.15, false, true);
-        this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 720, 270, 120, 7, 0.15, false, true);
+        this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 20, 270, 110, 7, 0.15, true, true);
+        this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 140, 265, 110, 7, 0.15, true, true);
+        this.animations[2][1] = new Animator(this.rev_spritesheet, 0, 250, 270, 110, 7, 0.15, true, true);
+        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 370, 270, 110, 7, 0.15, true, true);
+        this.animations[4][1] = new Animator(this.rev_spritesheet, 0, 490, 270, 110, 7, 0.15, true, true);
+        this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 610, 270, 110, 7, 0.15, true, true);
+        this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 730, 270, 110, 7, 0.15, true, true);
     }
   updateBB() {
     this.lastBB = this.BB;
@@ -362,7 +362,7 @@ class Knight {
           ctx,
           this.x,
           this.y,
-          2
+          1.45
         );
       else if (this.facing === 1)
         this.animations[0][1].drawFrame(
@@ -370,7 +370,7 @@ class Knight {
           ctx,
           this.x,
           this.y,
-          2
+          1.45
         );
     }
     if (this.game.keys["right"]) {
@@ -379,7 +379,7 @@ class Knight {
         ctx,
         this.x,
         this.y,
-        1.85
+        1.34125
       );
     } else if (this.game.keys["left"]) {
       this.animations[2][1].drawFrame(
@@ -387,7 +387,7 @@ class Knight {
         ctx,
         this.x,
         this.y,
-        1.85
+        1.34125
       );
     }
 
