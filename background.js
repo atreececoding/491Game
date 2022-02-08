@@ -58,7 +58,7 @@ class Platform {
       PARAMS.PLATWIDTH
     );
     this.rightBB = new BoundingBox(
-      this.x + this.w - PARAMS.PLATWIDTH - this.game.camera.x,
+      this.x + this.w - PARAMS.PLATWIDTH,
       this.y,
       PARAMS.PLATHEIGHT,
       PARAMS.PLATWIDTH
