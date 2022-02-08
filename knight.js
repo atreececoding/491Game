@@ -380,7 +380,7 @@ class Knight {
         this.y,
         1.34125
       );
-    } else if (this.game.keys["left"]) {
+    }else if (this.game.keys["left"]) {
       this.animations[2][1].drawFrame(
         this.game.clockTick,
         ctx,
@@ -388,7 +388,29 @@ class Knight {
         this.y,
         1.34125
       );
-    }
+    } 
+    if (this.game.keys["up"]) {
+      if (this.facing === 0) {
+        this.animations[3][0].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x,
+          this.y,
+          1.34125
+        );
+        }
+        else if (this.facing === 1){
+          this.animations[3][1].drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x,
+            this.y,
+            1.34125
+          );
+        }
+    } 
+    
+    
 
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";

@@ -35,7 +35,18 @@ class SceneManager {
         ASSET_MANAGER.playAsset(level.music);
       }
     }
-
+    if (level.healthbars) {
+      for (var i = 0; i < level.healthbars.length; i++) {
+        let health_bar = level.healthbars[i];
+        this.game.addEntity(new HealthBar(this.game, health_bar.x, health_bar.y, health_bar.size));
+      }
+    }
+    if (level.hungerbars) {
+      for (var i = 0; i < level.hungerbars.length; i++) {
+        let hunger_bar = level.hungerbars[i];
+        this.game.addEntity(new HungerBar(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
+      }
+    }
     if (level.knights) {
       this.game.addEntity(this.knight);
     }
@@ -88,18 +99,6 @@ class SceneManager {
         this.game.addEntity(new Apple(this.game, apple.x, apple.y, apple.size));
       }
     }
-    if (level.healthbars) {
-      for (var i = 0; i < level.healthbars.length; i++) {
-        let health_bar = level.healthbars[i];
-        this.game.addEntity(new HealthBar(this.game, health_bar.x, health_bar.y, health_bar.size));
-      }
-    }
-    if (level.hungerbars) {
-      for (var i = 0; i < level.hungerbars.length; i++) {
-        let hunger_bar = level.hungerbars[i];
-        this.game.addEntity(new HungerBar(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
-      }
-    }
     if (level.backgrounds) {
       for (var i = 0; i < level.backgrounds.length; i++) {
         let background = level.backgrounds[i];
@@ -137,7 +136,7 @@ class SceneManager {
     let midpoint = 768/2 - PARAMS.BLOCKWIDTH/2;
 
     //if (this.x < (this.knight.x - midpoint)) this.x = this.knight.x - midpoint;
-    this.x = this.knight.x - midpoint;
+    //this.x = this.knight.x - midpoint;
 
 
     this.updateAudio();
