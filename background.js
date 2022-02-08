@@ -75,10 +75,42 @@ class Platform {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
-    ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, 500, 300, 100);
+    ctx.drawImage(this.spritesheet, this.x - 15 - this.game.camera.x, 500, 300, 100);
   }
 }
 
+// class Platform {
+//   constructor(game, x = 0, y = 0, w, h) {
+//     Object.assign(this, { game, x, y, w, h });
+
+//     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
+
+//     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, PARAMS.PLATHEIGHT);
+//     this.leftBB = new BoundingBox(
+//       this.x - this.game.camera.x,
+//       this.y,
+//       PARAMS.PLATWIDTH,
+//       PARAMS.PLATWIDTH
+//     );
+//     this.rightBB = new BoundingBox(
+//       this.x + this.w - PARAMS.PLATWIDTH,
+//       this.y,
+//       PARAMS.PLATHEIGHT,
+//       PARAMS.PLATWIDTH
+//     );
+//   }
+
+//   update() {
+//     // this.lastBB = this.BB;
+//     // this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+//   }
+
+//   draw(ctx) {
+//     ctx.strokeStyle = "Red";
+//     ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+//     ctx.drawImage(this.spritesheet, 400 - this.game.camera.x, 300 , 300, 100);
+//   }
+// }
 class Cloud {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h });
