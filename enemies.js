@@ -40,7 +40,7 @@ class Bat {
     updateBB() {
       this.lastBB = this.BB;
       this.BB = new BoundingBox(
-        this.x + 35,
+        this.x + 35 - this.game.camera.x,
         this.y - 10,
         PARAMS.BLOCKWIDTH * 0.9,
         PARAMS.BLOCKHEIGHT * 0.55
@@ -72,7 +72,7 @@ class Bat {
   
     draw(ctx) {
       const TICK = this.game.clockTick;
-      this.animations[this.state][0].drawFrame(TICK, ctx, this.x, this.y, 5);
+      this.animations[this.state][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 5);
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
@@ -149,7 +149,7 @@ class Dragon {
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
-      this.x,
+      this.x - this.game.camera.x,
       this.y,
       PARAMS.BLOCKWIDTH * 1.3,
       PARAMS.BLOCKWIDTH
@@ -188,10 +188,10 @@ class Dragon {
 
   draw(ctx) {
     const TICK = this.game.clockTick;
-    this.animations[0][0].drawFrame(TICK, ctx, this.x, this.y, 1);
+    this.animations[0][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 1);
     if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
   }
 }
@@ -284,7 +284,7 @@ class Goblin {
     updateBB() {
       this.lastBB = this.BB;
       this.BB = new BoundingBox(
-        this.x,
+        this.x - this.game.camera.x,
         this.y,
         PARAMS.BLOCKWIDTH * 1.2,
         PARAMS.BLOCKHEIGHT * 0.93
@@ -357,7 +357,7 @@ class Goblin {
       this.animations[this.state][this.facing].drawFrame(
         this.game.clockTick,
         ctx,
-        this.x,
+        this.x - this.game.camera.x,
         this.y,
         2.45
       );

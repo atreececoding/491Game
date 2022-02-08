@@ -58,7 +58,7 @@ class Platform {
       PARAMS.PLATWIDTH
     );
     this.rightBB = new BoundingBox(
-      this.x + this.w - PARAMS.PLATWIDTH,
+      this.x + this.w - PARAMS.PLATWIDTH - this.game.camera.x,
       this.y,
       PARAMS.PLATHEIGHT,
       PARAMS.PLATWIDTH
@@ -73,9 +73,9 @@ class Platform {
   draw(ctx) {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
-      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
-    ctx.drawImage(this.spritesheet, 600, 500, 300, 100);
+    ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, 500, 300, 100);
   }
 }
 

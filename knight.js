@@ -62,7 +62,7 @@ class Knight {
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
-      this.x,
+      this.x - this.game.camera.x,
       this.y,
       PARAMS.BLOCKWIDTH * 1.7,
       PARAMS.BLOCKHEIGHT
