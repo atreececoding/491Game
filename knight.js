@@ -379,7 +379,7 @@ class Knight {
         this.animations[0][0].drawFrame(
           this.game.clockTick,
           ctx,
-          this.x,
+          this.x - this.game.camera.x,
           this.y,
           1.45
         );
@@ -387,7 +387,7 @@ class Knight {
         this.animations[0][1].drawFrame(
           this.game.clockTick,
           ctx,
-          this.x,
+          this.x - this.game.camera.x,
           this.y,
           1.45
         );
@@ -395,7 +395,7 @@ class Knight {
       this.animations[2][0].drawFrame(
         this.game.clockTick,
         ctx,
-        this.x,
+        this.x - this.game.camera.x,
         this.y,
         1.34125
       );
@@ -404,7 +404,7 @@ class Knight {
       this.animations[2][1].drawFrame(
         this.game.clockTick,
         ctx,
-        this.x,
+        this.x - this.game.camera.x,
         this.y,
         1.34125
       );
@@ -415,7 +415,7 @@ class Knight {
         this.animations[3][0].drawFrame(
           this.game.clockTick,
           ctx,
-          this.x,
+          this.x - this.game.camera.x,
           this.y,
           1.34125
         );
@@ -424,7 +424,7 @@ class Knight {
           this.animations[3][1].drawFrame(
             this.game.clockTick,
             ctx,
-            this.x,
+            this.x - this.game.camera.x,
             this.y,
             1.34125
           );
