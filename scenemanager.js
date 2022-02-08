@@ -137,7 +137,7 @@ class SceneManager {
 
     //if (this.x < (this.knight.x - midpoint)) this.x = this.knight.x - midpoint;
     //this.x = this.knight.x - midpoint;
-
+    this.x = this.knight.x - midpoint;
 
     this.updateAudio();
     this.updateOptions();
