@@ -145,8 +145,12 @@ class SceneManager {
       this.title = false;
       this.loadLevel(this.level, 1, 1, true, false);
     }
-    // else if (this.knight.dead) {
-    //   this.loadLevel(this.level, 1, 1, true, false);
-    // }
+    else if (this.knight.gameOver) {
+      this.knight.gameOver = false;
+      this.clearEntities();
+      this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver)
+      this.loadLevel(this.level, 1, 1, true, false);
+      this.lives = 5;
+    }
   }
 }

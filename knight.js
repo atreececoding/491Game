@@ -359,6 +359,7 @@ class Knight {
   draw(ctx) {
 
     if (this.lives < 2){
+      let flag = false;
       console.log("DEAD");
       this.animations[6][0].drawFrame(
         this.game.clockTick,
@@ -367,7 +368,14 @@ class Knight {
         this.y,
         1.34125
       );
-      this.dead = true;
+      if(this.animations[6][0].isDone()) {
+        flag = true;
+      }
+
+      if(flag) {
+        this.dead = true;
+        this.gameOver = true;
+      }
     }
     else {
       if (this.facing === 0 && this.velocity.x === 0 && !this.game.keys["up"] && !this.game.keys["attack"])
