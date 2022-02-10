@@ -1,7 +1,7 @@
 class Knight {
 
     constructor(game) {
-        this.game = game;
+      this.game = game;
 
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
       this.rev_spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightRevSprites.png");
@@ -63,9 +63,16 @@ class Knight {
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
-      this.x,
+      this.x + 20,
       this.y,
-      PARAMS.BLOCKWIDTH * 1.7,
+      PARAMS.BLOCKWIDTH,
+      PARAMS.BLOCKHEIGHT
+    );
+    this.lastSpearBB = this.spearBox;
+    this.spearBox = new BoundingBox(
+      this.x - 70,
+      this.y,
+      PARAMS.BLOCKWIDTH * 2.8,
       PARAMS.BLOCKHEIGHT
     );
   }
@@ -319,7 +326,7 @@ class Knight {
             if (that.game.options.debugging) print(that.energy);
           }
         }
-        if (that.velocity.x < 0 || that.velocity.x > 0) {
+        if (that.velocity.x < 0 || that.velocity.x > 0 || that.velocity.x > 0 || that.velocity.y > 0) {
           if (entity instanceof Apple && !entity.dead) {
             entity.removeFromWorld = true;
             if (that.game.options.debugging) print("Hit apple");
@@ -328,6 +335,23 @@ class Knight {
           }
         }
       }
+      if(entity.BB && that.spearBox.collide(entity.BB) && entity !== that) {
+        if(entity instanceof Goblin && !entity.dead) {
+          if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
+            if(that.game.keys["attack"]) {
+              entity.loseHeart();
+              console.log("got here");
+            }
+          }
+          else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
+            if(that.game.keys["attack"]) {
+              entity.loseHeart();
+              console.log("got here");
+            }
+          }
+        }
+      }
+      
     });
     that.updateBB();
   }
@@ -463,6 +487,7 @@ class Knight {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);
     }
 
 

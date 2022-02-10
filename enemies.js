@@ -9,6 +9,7 @@ class Bat {
       this.facing = 0;
       this.state = 0;
       this.dead = false;
+      this.lives = 1;
   
       this.updateBB();
   
@@ -70,6 +71,10 @@ class Bat {
       this.updateBB();
     }
   
+    loseHeart() {
+      this.lives--;
+    }
+
     draw(ctx) {
       const TICK = this.game.clockTick;
       this.animations[this.state][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 5);
@@ -107,7 +112,7 @@ class Dragon {
 
     this.dead = false;
 
-    this.lives = 3;
+    this.lives = 20;
 
     // velocity
     this.velocity = {
@@ -207,6 +212,7 @@ class Goblin {
       this.facing = 0;
       this.state = 0; // 0 = walking, 1 = attacking
       this.dead = false;
+      this.lives = 3;
   
       this.speed = 100;
   
@@ -276,6 +282,32 @@ class Goblin {
         true,
         true
       );
+
+      //this.animations[2][0] = new Animator(this.spritesheet, 0, 511, 65, 50, 5, 0.15, false, false);
+
+      this.animations[2][0] = new Animator(
+        this.spritesheet,
+        0,
+        511,
+        65,
+        50,
+        5,
+        0.15,
+        false,
+        false
+      );
+
+      this.animations[2][1] = new Animator(
+        this.spritesheet,
+        0,
+        511,
+        65,
+        50,
+        5,
+        0.15,
+        false,
+        false
+      );
   
       //Idle
       //this.animation[2][0] = new Animator(this.spritesheet, )
@@ -316,10 +348,10 @@ class Goblin {
             that.state = 1;
             that.velocity.x = 0;
             if (that.facing === 1) {
-              that.x = entity.BB.left + PARAMS.BLOCKWIDTH * 1.7;
+              that.x = entity.BB.left + PARAMS.BLOCKWIDTH;
             }
             else {
-              that.x = entity.BB.left - PARAMS.BLOCKWIDTH * 1.2;
+              that.x = entity.BB.left - PARAMS.BLOCKWIDTH;
             }
             that.lastAttack = that.game.clockTick;
             that.timeSinceLastAttack = 0;
@@ -352,16 +384,39 @@ class Goblin {
       });
       that.updateBB();
     }
+    loseHeart() {
+      this.lives--;
+      console.log(this.lives);
+      if(this.lives <= 0) {
+        this.state = 2;
+      }
+    }
   
     draw(ctx) {
-      this.animations[this.state][this.facing].drawFrame(
+      if(this.lives > 0) {
+        this.animations[this.state][this.facing].drawFrame(
         this.game.clockTick,
         ctx,
         this.x - this.game.camera.x,
         this.y,
         2.45
-      );
-  
+        );
+      } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+        this.velocity.x = 0;
+        this.animations[this.state][this.facing].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x - this.game.camera.x,
+          this.y,
+          2.45
+        );
+        if(this.animations[this.state][this.facing].isDone()) {
+          this.dead = true;
+        }
+        if(this.dead === true) {
+          this.removeFromWorld = true;
+        }
+      }
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
