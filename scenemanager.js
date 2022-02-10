@@ -11,7 +11,7 @@ class SceneManager {
     this.title = true;
     this.level = levelOne;
 
-    this.knight = new Knight(this.game, this.lives, this.energy);
+    this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver);
   }
   clearEntities() {
     this.game.entities.forEach(function (entity) {
@@ -145,5 +145,8 @@ class SceneManager {
       this.title = false;
       this.loadLevel(this.level, 1, 1, true, false);
     }
+    // else if (this.knight.dead) {
+    //   this.loadLevel(this.level, 1, 1, true, false);
+    // }
   }
 }

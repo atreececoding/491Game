@@ -30,6 +30,7 @@ class Knight {
 
       this.animations = [];
       this.loadAnimations();
+      this.gameOver = false;
       };
 
     loadAnimations() {
@@ -47,8 +48,8 @@ class Knight {
         this.animations[2][0] = new Animator(this.spritesheet, 0, 250, 270, 110, 7, 0.15, false, true);
         this.animations[3][0] = new Animator(this.spritesheet, 0, 365, 270, 110, 7, 0.15, false, true);
         this.animations[4][0] = new Animator(this.spritesheet, 0, 490, 270, 110, 7, 0.15, false, true);
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 610, 270, 110, 7, 0.15, false, true);
-        this.animations[6][0] = new Animator(this.spritesheet, 0, 730, 270, 110, 7, 0.15, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 610, 270, 110, 7, 0.15, false, false);
+        this.animations[6][0] = new Animator(this.spritesheet, 0, 730, 270, 110, 7, 0.15, false, false);
 
         //facing left = 1
         this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 20, 270, 110, 7, 0.15, true, true);
@@ -69,7 +70,9 @@ class Knight {
     );
   }
 
-  die() {}
+  die() {
+    console.log("DEAD");
+  }
 
 
   update() {
@@ -331,7 +334,6 @@ class Knight {
 
   loseHeart() {
     this.lives--;
-    //print(this.lives);
   }
 
   gainEnergy() {
@@ -355,61 +357,98 @@ class Knight {
   }
 
   draw(ctx) {
-    if (this.facing === 0 && this.velocity.x === 0 && !this.game.keys["up"])
-        this.animations[0][0].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - 110 - this.game.camera.x,
-          this.y,
-          1.45
-        );
-      else if (this.facing === 1 && this.velocity.x === 0 && !this.game.keys["up"])
-        this.animations[0][1].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - 110 - this.game.camera.x,
-          this.y,
-          1.45
-        );
-    if (this.game.keys["right"] && !this.game.keys["up"] || this.velocity.x > 0 && !this.game.keys["up"]) {
-      this.animations[2][0].drawFrame(
+
+    if (this.lives < 2){
+      console.log("DEAD");
+      this.animations[6][0].drawFrame(
         this.game.clockTick,
         ctx,
         this.x - 110 - this.game.camera.x,
         this.y,
         1.34125
       );
-      this.facing = 0;
-    }else if (this.game.keys["left"] && !this.game.keys["up"] || this.velocity.x < 0 && !this.game.keys["up"]) {
-      this.animations[2][1].drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x - 110 - this.game.camera.x,
-        this.y,
-        1.34125
-      );
-      this.facing = 1;
-    } 
-    if (this.game.keys["up"]) {
-      if (this.facing === 0 || (this.facing === 0 && this.velocity.x > 0)) {
-        this.animations[3][0].drawFrame(
+      this.dead = true;
+    }
+    else {
+      if (this.facing === 0 && this.velocity.x === 0 && !this.game.keys["up"] && !this.game.keys["attack"])
+          this.animations[0][0].drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x - 110 - this.game.camera.x,
+            this.y,
+            1.45
+          );
+        else if (this.facing === 1 && this.velocity.x === 0 && !this.game.keys["up"] && !this.game.keys["attack"])
+          this.animations[0][1].drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x - 110 - this.game.camera.x,
+            this.y,
+            1.45
+          );
+      if (this.game.keys["right"] && !this.game.keys["up"] && !this.game.keys["attack"] || this.velocity.x > 0 && !this.game.keys["up"] && !this.game.keys["attack"]) {
+        this.animations[2][0].drawFrame(
           this.game.clockTick,
           ctx,
           this.x - 110 - this.game.camera.x,
           this.y,
           1.34125
         );
-        }
-        else if (this.facing === 1 || (this.facing === 0 && this.velocity.x < 0)){
-          this.animations[3][1].drawFrame(
+        this.facing = 0;
+      }else if (this.game.keys["left"] && !this.game.keys["up"] && !this.game.keys["attack"]|| this.velocity.x < 0 && !this.game.keys["up"] && !this.game.keys["attack"]) {
+        this.animations[2][1].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x - 110 - this.game.camera.x,
+          this.y,
+          1.34125
+        );
+        this.facing = 1;
+      } 
+
+      if(this.game.keys["attack"] && this.facing === 0) {
+        console.log("Inside of if this.attack");
+        this.animations[4][0].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x - 110 - this.game.camera.x,
+          this.y,
+          1.34125
+        );
+      }
+      else if(this.game.keys["attack"] && this.facing === 1) {
+        console.log("Inside of if this.attack");
+        this.animations[4][1].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x - 110 - this.game.camera.x,
+          this.y,
+          1.34125
+        );
+      }
+
+      if (this.game.keys["up"] && !this.game.keys["attack"]) {
+        if (this.facing === 0 || (this.facing === 0 && this.velocity.x > 0)) {
+          this.animations[3][0].drawFrame(
             this.game.clockTick,
             ctx,
             this.x - 110 - this.game.camera.x,
             this.y,
             1.34125
           );
-        }
-    } 
+          }
+          else if (this.facing === 1 || (this.facing === 0 && this.velocity.x < 0)){
+            this.animations[3][1].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - 110 - this.game.camera.x,
+              this.y,
+              1.34125
+            );
+          }
+      } 
+    }
+
     
     
 
