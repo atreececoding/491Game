@@ -42,10 +42,10 @@ class Knight {
         
         //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die   
         //facing right = 0
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 270, 110, 7, 0.15, false, true);        
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 270, 106, 7, 0.25, false, true);        
         this.animations[1][0] = new Animator(this.spritesheet, 0, 140, 270, 110, 7, 0.15, false, true);
         this.animations[2][0] = new Animator(this.spritesheet, 0, 250, 270, 110, 7, 0.15, false, true);
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 360, 270, 110, 7, 0.15, false, true);
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 365, 270, 110, 7, 0.15, false, true);
         this.animations[4][0] = new Animator(this.spritesheet, 0, 490, 270, 110, 7, 0.15, false, true);
         this.animations[5][0] = new Animator(this.spritesheet, 0, 610, 270, 110, 7, 0.15, false, true);
         this.animations[6][0] = new Animator(this.spritesheet, 0, 730, 270, 110, 7, 0.15, false, true);
@@ -54,7 +54,7 @@ class Knight {
         this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 20, 270, 110, 7, 0.15, true, true);
         this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 140, 265, 110, 7, 0.15, true, true);
         this.animations[2][1] = new Animator(this.rev_spritesheet, 0, 250, 270, 110, 7, 0.15, true, true);
-        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 360, 270, 110, 7, 0.15, true, true);
+        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 365, 270, 110, 7, 0.15, true, true);
         this.animations[4][1] = new Animator(this.rev_spritesheet, 0, 490, 270, 110, 7, 0.15, true, true);
         this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 610, 270, 110, 7, 0.15, true, true);
         this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 730, 270, 110, 7, 0.15, true, true);
