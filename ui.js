@@ -54,7 +54,7 @@ class HealthBar {
         ctx.drawImage(this.spritesheet, 26, 256, 572, 96, this.x, this.y, 250, 50);
       } else if (this.game.camera.knight.lives == 2) {
         ctx.drawImage(this.spritesheet, 26, 366, 572, 96, this.x, this.y, 250, 50);
-      } else if (this.game.camera.knight.lives <= 1) {
+      } else if (this.game.camera.knight.lives == 1) {
         ctx.drawImage(this.spritesheet, 26, 477, 572, 96, this.x, this.y, 250, 50);
       }
     }

@@ -358,7 +358,7 @@ class Knight {
 
   draw(ctx) {
 
-    if (this.lives < 2){
+    if (this.lives <= 0){
       let flag = false;
       console.log("DEAD");
       this.animations[6][0].drawFrame(
