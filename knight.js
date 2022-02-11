@@ -8,12 +8,7 @@ class Knight {
 
       this.size = 0;
       this.facing = 0; // 0 = right, 1 = left
-<<<<<<< HEAD
-      this.state = 4; // 0 = idle, 1 = walking, 2 = running, 3 = jumping, 4 = attacking, 5 = hurting, 6 = dying
-      this.dead = false;
-=======
       this.state = 3; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
->>>>>>> workshop
 
       this.lives = 5;
       this.energy = 3;
