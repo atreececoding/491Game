@@ -4,7 +4,7 @@ const PARAMS = {
   BLOCKHEIGHT: 140,
   PLATWIDTH: 300,
   PLATHEIGHT: 80,
-  SCALE: 1.5,
+  SCALE: 5,
 };
 
 /** Easy access to math functions */

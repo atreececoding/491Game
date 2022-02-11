@@ -62,6 +62,7 @@ class GameEngine {
             case 0:
             that.attack = true;
             if (that.options.debugging) console.log("Click clicked");
+            that.keys["attack"] = true;
             break;
           }
         },
@@ -76,6 +77,7 @@ class GameEngine {
             case 0:
             that.attack = false;
             if (that.options.debugging) console.log("Click unclicks");
+            that.keys["attack"] = false;
             break;
           }
         },
