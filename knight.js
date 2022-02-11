@@ -5,13 +5,15 @@ class Knight {
 
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightSprites.png");
       this.rev_spritesheet = ASSET_MANAGER.getAsset("./sprites/KnightRevSprites.png");
-      this.lives = 5;
-      this.energy = 2;
 
       this.size = 0;
       this.facing = 0; // 0 = right, 1 = left
+<<<<<<< HEAD
       this.state = 4; // 0 = idle, 1 = walking, 2 = running, 3 = jumping, 4 = attacking, 5 = hurting, 6 = dying
       this.dead = false;
+=======
+      this.state = 3; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
+>>>>>>> workshop
 
       this.lives = 5;
       this.energy = 3;
@@ -28,7 +30,9 @@ class Knight {
 
       this.animations = [];
       this.loadAnimations();
-      this.timer = 0;
+
+      this.animationScales = [1.45, 1.45, 1.45, 1.45, 1.34125, 1.45, 1.45]
+
       this.gameOver = false;
       };
 
@@ -59,6 +63,7 @@ class Knight {
         this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 610, 270, 110, 7, 0.15, true, true);
         this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 730, 270, 110, 7, 0.15, true, true);
     }
+
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
@@ -90,38 +95,47 @@ class Knight {
     const JUMP_SPEED = -1000;
     const FALL_SPEED = 500;
 
-    this.timer += 2;
-
-    if (this.dead) {
-      this.y += FALL_SPEED;
+    if (this.state === 6) {
+      this.y += FALL_SPEED / 5;
     } else {
         // update velocity
         // ground physics
-        if (this.state < 4) {
-          if (this.game.keys["left"] && !this.game.keys["right"]) {
+        if (this.state !== 3) {
+          
+          if (this.game.keys["left"] && !this.game.keys["right"]) { // move left
             if (this.game.keys["shift"]) {
               this.velocity.x = -RUN_SPEED;
+              this.state = 2;
             } else {
               this.velocity.x = -WALK_SPEED;
+              this.state = 1;
             }
-          } else if (!this.game.keys["left"] && this.game.keys["right"]) {
+          } else if (!this.game.keys["left"] && this.game.keys["right"]) { // move right
               if (this.game.keys["shift"]) {
                 this.velocity.x = RUN_SPEED;
+                this.state = 2;
               } else {
                 this.velocity.x = WALK_SPEED;
+                this.state = 1;
               }
           } else {
             this.velocity.x = 0;
+            this.state = 0;
           }
-
+          
+          // fall if you step off platform
           this.velocity.y = FALL_SPEED;
+
+          if (this.game.keys["attack"]) {
+            this.state = 4;
+          }
 
           if (this.game.keys["up"]) {
             if (this.energy > 0) {
               // jump
               this.velocity.y = JUMP_SPEED;
-              this.state = 4;
-              if (this.energy > 0) this.loseEnergy();
+              this.state = 3;
+              this.loseEnergy();
             }
           }
         }
@@ -130,15 +144,14 @@ class Knight {
         // vertical physics
         this.velocity.y += FALL_SPEED * TICK * PARAMS.SCALE;
       
-
         // horizontal physics
-        if (this.game.keys["left"] && !this.game.keys["right"]) {
+        if (this.game.keys["left"] && !this.game.keys["right"]) { // go left in the air
           if (this.game.keys["shift"]) {
             this.velocity.x = -RUN_SPEED;
           } else {
             this.velocity.x = -WALK_SPEED;
           }
-        } else if (!this.game.keys["left"] && this.game.keys["right"]) {
+        } else if (!this.game.keys["left"] && this.game.keys["right"]) { // go right in the air
             if (this.game.keys["shift"]) {
               this.velocity.x = RUN_SPEED;
             } else {
@@ -159,11 +172,9 @@ class Knight {
     this.updateBB();
 
     // update direction
-    if (this.game.keys["left"]) this.facing = 1;
     if (this.game.keys["right"]) this.facing = 0;
+    if (this.game.keys["left"]) this.facing = 1;
 
-    // need to add in if we fall off the map, we die
-    if (this.timer > 1) this.timer = 0;
   }
 
     var that = this;
@@ -189,8 +200,8 @@ class Knight {
             that.velocity.y = 0; // bounce up
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
           }
-
-          if (that.state === 4) that.state = 0; // set state to idle
+          // move this line into the conditional blocks if we don't want jump reset on collision
+          if (that.state === 3) that.state = 0; // set state to idle
 
         }
 
@@ -199,15 +210,17 @@ class Knight {
         }
 
         // TODO: handle side collision here
-        if (that.velocity.x >= 0) {
+        if (that.facing === 0) {
           if (
             entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
             !entity.dead &&
             that.lastBB.right <= entity.BB.left
           ) {
             that.x = entity.BB.left - PARAMS.BLOCKWIDTH * 1.7;
-            that.velocity.y = -240; // bounce up
-            that.velocity.x = -240; // bounce to the left
+            that.y -= 240; // bounce up
+            that.x -= 100; // bounce to the left
+            that.state = 5;
+            that.animationLock = true;
           }
 
                     // if (entity instanceof Platform || entity instanceof Floor
@@ -219,15 +232,17 @@ class Knight {
           // }
         }
 
-        if (that.velocity.x <= 0) {
+        if (that.facing === 1) {
           if (
             entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
             !entity.dead &&
             that.lastBB.left >= entity.BB.right
           ) {
             that.x = entity.BB.right;
-            that.velocity.y = -240; // bounce up
-            that.velocity.x = 240; // bounce to the left
+            that.y -= 240; // bounce up
+            that.x += 100; // bounce to the right
+            that.state = 5;
+            that.animationLock = true;
           }
 
           // if (entity instanceof Platform || entity instanceof Floor
@@ -260,13 +275,13 @@ class Knight {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.game.keys["attack"]) {
               entity.loseHeart();
-              console.log("got here");
+              if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.game.keys["attack"]) {
               entity.loseHeart();
-              console.log("got here");
+              if (that.game.options.debugging) console.log("got here");
             }
           }
         }
@@ -301,6 +316,43 @@ class Knight {
   }
 
   draw(ctx) {
+    // print(`this.x=${this.x}, this.y=${this.y}`)
+    // print(`this.state=${this.state}`)
+    // if (this.lives <= 0) {
+    //   this.animationLock = true;
+    // }
+    // if (!this.animationLock) {
+    //   this.animations[this.state][this.facing].drawFrame(
+    //     this.game.clockTick,
+    //     ctx,
+    //     this.x - 110 - this.game.camera.x,
+    //     this.y,
+    //     this.animationScales[this.state]
+    //   );
+    // } else {
+    //     if (!this.startedAnimation) {
+    //       this.animations[this.state][this.facing].drawFrame(
+    //         this.game.clockTick,
+    //         ctx,
+    //         this.x - 110 - this.game.camera.x,
+    //         this.y,
+    //         this.animationScales[this.state]
+    //       );
+    //       this.startedAnimation = true;
+    //     }
+        
+    //     if (this.animations[this.state][this.facing].isDone()) {
+    //       print('animation done')
+    //       this.animationLock = false;
+    //       this.startedAnimation = false;
+    //       if (this.state === 6) {
+    //         print('game over')
+    //         this.gameOver = true;
+    //       }
+    //     }
+    // }
+    
+
 
     if (this.lives <= 0){
       let flag = false;
