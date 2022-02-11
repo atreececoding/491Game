@@ -10,7 +10,7 @@ class Knight {
 
       this.size = 0;
       this.facing = 0; // 0 = right, 1 = left
-      this.state = 4; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
+      this.state = 4; // 0 = idle, 1 = walking, 2 = running, 3 = jumping, 4 = attacking, 5 = hurting, 6 = dying
       this.dead = false;
 
       this.lives = 5;
