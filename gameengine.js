@@ -49,6 +49,7 @@ class GameEngine {
     // EVENT LISTENERS
       
     function leftClick(e) {
+      // e.preventDefault();
       if (that.options.debugging) console.log("LEFT_CLICK");
       that.keys["click"] = true;
     }
@@ -56,6 +57,7 @@ class GameEngine {
     window.addEventListener(
       "mousedown",
       function(e) {
+        e.preventDefault();
           switch (e.button) {
             case 0:
             that.attack = true;
@@ -69,6 +71,7 @@ class GameEngine {
     window.addEventListener(
       "mouseup",
       function(e) {
+        // e.preventDefault();
           switch (e.button) {
             case 0:
             that.attack = false;
@@ -80,6 +83,7 @@ class GameEngine {
     );
 
     function keyDown(e) {
+      // e.preventDefault();
       switch (e.code) {
         case "ArrowLeft":
         case "KeyA":
@@ -113,6 +117,7 @@ class GameEngine {
     }
 
     function keyUp(e) {
+      e.preventDefault();
       switch (e.code) {
         case "ArrowLeft":
         case "KeyA":

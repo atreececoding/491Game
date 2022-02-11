@@ -10,7 +10,7 @@ class Knight {
 
       this.size = 0;
       this.facing = 0; // 0 = right, 1 = left
-      this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
+      this.state = 4; // 0 = idle, 1 = walking, 2 = running, 3 = skidding, 4 = jumping/falling, 5 = ducking
       this.dead = false;
 
       this.lives = 5;
@@ -24,12 +24,12 @@ class Knight {
         y: 0,
       };
 
-      this.fallAcc = 560;
-
       this.updateBB();
 
       this.animations = [];
       this.loadAnimations();
+      
+      this.timer = 0;
       };
 
     loadAnimations() {
@@ -74,169 +74,95 @@ class Knight {
 
   update() {
     const TICK = this.game.clockTick;
-    // physics constants grabbed from chris's super marriott brothers
-    const MIN_WALK = 4.453125;
-    const MAX_WALK = 250;
-    const MAX_RUN = 300;
-    const ACC_WALK = 200;
-    const ACC_RUN = 600;
-    const DEC_REL = 800;
-    const DEC_SKID = 500;
-    const MIN_SKID = 33.75;
 
-    const STOP_FALL = 1575;
-    const WALK_FALL = 1800;
-    const RUN_FALL = 2025;
-    const STOP_FALL_A = 450;
-    const WALK_FALL_A = 421.875;
-    const RUN_FALL_A = 562.5;
+    // PHYSICS CONSTANTS
+    const WALK_SPEED = 200;
+    const RUN_SPEED = 400;
+    const JUMP_SPEED = -500;
+    const FALL_SPEED = 500;
 
-    const MAX_FALL = 500;
+    this.timer += 2;
+    // if (!this.game.options.debugging) this.timer = 0;
+    if (this.timer > 1) {
+      print(`X-VELOCITY:${this.velocity.x}, Y-VELOCITY:${this.velocity.y}`);
+    } 
 
     if (this.dead) {
-      this.velocity.y += RUN_FALL * TICK;
-      this.y += this.velocity.y * TICK * PARAMS.SCALE;
+      this.y += FALL_SPEED;
     } else {
-      // update velocity
-
-      if (this.state < 4) {
-        // not jumping
+        // update velocity
         // ground physics
-        if (abs(this.velocity.x) < MIN_WALK) {
-          // slower than a walk // starting, stopping or turning around
-          this.velocity.x = 0;
-          this.state = 0;
-          if (this.game.keys["left"]) {
-            this.velocity.x -= MIN_WALK;
-          }
-
-          if (this.game.keys["right"]) {
-            this.velocity.x += MIN_WALK;
-          }
-        } else if (abs(this.velocity.x) >= MIN_WALK) {
-          // faster than a walk // accelerating or decelerating
-          if (this.facing === 0) {
-            if (this.game.keys["right"] && !this.game.keys["left"]) {
-              if (this.game.keys["shift"]) {
-                this.velocity.x += ACC_RUN * TICK;
-              } else {
-                this.velocity.x += ACC_WALK * TICK;
-              }
-            } else if (this.game.keys["left"] && !this.game.keys["right"]) {
-              this.velocity.x -= DEC_SKID * TICK;
-              this.state = 3;
-              if (this.velocity.x < 0) {
-                this.velocity.x = 0;
-              }
+        if (this.state < 4) {
+          if (this.game.keys["left"] && !this.game.keys["right"]) {
+            if (this.game.keys["shift"]) {
+              this.velocity.x = -RUN_SPEED;
             } else {
-              this.velocity.x -= DEC_REL * TICK;
-              if (this.velocity.x < 0) {
-                this.velocity.x = 0;
-              }
+              this.velocity.x = -WALK_SPEED;
             }
-          } else if (this.facing === 1) {
-            if (this.game.keys["left"] && !this.game.keys["right"]) {
+          } else if (!this.game.keys["left"] && this.game.keys["right"]) {
               if (this.game.keys["shift"]) {
-                this.velocity.x -= ACC_RUN * TICK;
+                this.velocity.x = RUN_SPEED;
               } else {
-                this.velocity.x -= ACC_WALK * TICK;
+                this.velocity.x = WALK_SPEED;
               }
-            } else if (this.game.keys["right"] && !this.game.keys["left"]) {
-              this.velocity.x += DEC_SKID * TICK;
-              this.state = 3;
+          } else {
+            this.velocity.x = 0;
+          }
 
-              if (this.velocity.x > 0) {
-                this.velocity.x = 0;
-              }
-            } else {
-              this.velocity.x += DEC_REL * TICK;
+          this.velocity.y = FALL_SPEED;
 
-              if (this.velocity.x > 0) {
-                this.velocity.x = 0;
-              }
+          if (this.game.keys["up"]) {
+            if (this.energy > 0) {
+              // jump
+              this.velocity.y = JUMP_SPEED;
+              this.state = 4;
+              if (this.energy > 0) this.loseEnergy();
             }
           }
         }
-
-        this.velocity.y += this.fallAcc * TICK;
-
-        if (this.game.keys["up"]) {
-          if (this.energy > 0) {
-            // jump
-            if (abs(this.velocity.x) < 16) {
-              this.velocity.y = -1000;
-              this.fallAcc = STOP_FALL;
-            } else if (abs(this.velocity.x) < 40) {
-              this.velocity.y = -1000;
-              this.fallAcc = WALK_FALL;
-            } else {
-              this.velocity.y = -1000;
-              this.fallAcc = RUN_FALL;
-            }
-            this.state = 4;
-            if (this.energy > 0) this.loseEnergy();
-          }
-        }
-      } else {
+       else {
         // air physics
-
         // vertical physics
-        if (this.velocity.y < 0 && this.game.keys["up"]) {
-          // holding A while jumping jumps higher
-          if (this.fallAcc === STOP_FALL)
-            this.velocity.y -= (STOP_FALL - STOP_FALL_A) * TICK;
-          if (this.fallAcc === WALK_FALL)
-            this.velocity.y -= (WALK_FALL - WALK_FALL_A) * TICK;
-          if (this.fallAcc === RUN_FALL)
-            this.velocity.y -= (RUN_FALL - RUN_FALL_A) * TICK;
+        if (this.game.keys["up"] && this.game.keys["shift"]) {
         }
-        this.velocity.y += this.fallAcc * TICK;
+        this.velocity.y += FALL_SPEED * TICK;
+      
 
         // horizontal physics
-        if (this.game.keys["right"] && !this.game.keys["left"]) {
-          if (abs(this.velocity.x) > MAX_WALK) {
-            this.velocity.x += ACC_RUN * TICK;
+        if (this.game.keys["left"] && !this.game.keys["right"]) {
+          if (this.game.keys["shift"]) {
+            this.velocity.x = -RUN_SPEED;
           } else {
-            this.velocity.x += ACC_WALK * TICK;
+            this.velocity.x = -WALK_SPEED;
           }
-        } else if (this.game.keys["left"] && !this.game.keys["right"]) {
-          if (abs(this.velocity.x) > MAX_WALK) {
-            this.velocity.x -= ACC_RUN * TICK;
-          } else {
-            this.velocity.x -= ACC_WALK * TICK;
-          }
+        } else if (!this.game.keys["left"] && this.game.keys["right"]) {
+            if (this.game.keys["shift"]) {
+              this.velocity.x = RUN_SPEED;
+            } else {
+              this.velocity.x = WALK_SPEED;
+            }
         } else {
-          // do nothing
+            this.velocity.x = 0;
         }
-      }
-
-      // max speed calculation
-      if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-      if (this.velocity.y <= -MAX_FALL) this.velocity.y = -MAX_FALL;
-
-      if (this.velocity.x >= MAX_RUN) this.velocity.x = MAX_RUN;
-      if (this.velocity.x <= -MAX_RUN) this.velocity.x = -MAX_RUN;
-      if (this.velocity.x >= MAX_WALK && !this.game.keys["shift"])
-        this.velocity.x = MAX_WALK;
-      if (this.velocity.x <= -MAX_WALK && !this.game.keys["shift"])
-        this.velocity.x = -MAX_WALK;
-
-      // update position
-      this.x += this.velocity.x * TICK * PARAMS.SCALE;
-      this.y += this.velocity.y * TICK * PARAMS.SCALE;
-
-      // NOTE: temporary code to make him stay on the screen
-      // if (this.x > 768) this.x = 0;
-      // if (this.x < 0) this.x = 768;
-      //if (this.y > 422) this.velocity.y = 0; this.y = 422; this.state = 0;
-      this.updateBB();
-
-      // update direction
-      if (this.velocity.x < 0) this.facing = 1;
-      if (this.velocity.x > 0) this.facing = 0;
-
-      // need to add in if we fall off the map, we die
     }
+
+    // max speed calculation
+    if (this.velocity.y >= FALL_SPEED) this.velocity.y = FALL_SPEED;
+    // if (this.velocity.y <= JUMP_SPEED) this.velocity.y = JUMP_SPEED;
+
+    // update position
+    this.x += this.velocity.x * TICK;
+    this.y += this.velocity.y * TICK;
+
+    this.updateBB();
+
+    // update direction
+    if (this.game.keys["left"]) this.facing = 1;
+    if (this.game.keys["right"]) this.facing = 0;
+
+    // need to add in if we fall off the map, we die
+    if (this.timer > 1) this.timer = 0;
+  }
 
     var that = this;
     this.game.entities.forEach(function (entity) {
@@ -250,9 +176,9 @@ class Knight {
             // was above last tick
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
             that.velocity.y = 0;
+            if (that.state === 4) that.state = 0; // set state to idle
           }
 
-          if (that.state === 4) that.state = 0; // set state to idle
 
           if (
             entity instanceof Goblin &&
@@ -261,7 +187,10 @@ class Knight {
           ) {
             that.velocity.y = 0; // bounce up
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
+            if (that.state === 4) that.state = 0; // set state to idle
           }
+
+
         }
 
         if (that.velocity.y < 0) {
