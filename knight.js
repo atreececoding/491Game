@@ -85,7 +85,7 @@ class Knight {
     const TICK = this.game.clockTick;
 
     // PHYSICS CONSTANTS
-    const WALK_SPEED = 200;
+    const WALK_SPEED = 500;
     const RUN_SPEED = 300;
     const JUMP_SPEED = -1000;
     const FALL_SPEED = 500;
@@ -178,17 +178,26 @@ class Knight {
         if (that.velocity.y > 0) {
           // falling
           if (
-            (entity instanceof Floor || entity instanceof Platform) && // landing // TODO: may add more entities in here later
+            (entity instanceof Floor || entity instanceof Platform || entity instanceof Crate ) && // landing // TODO: may add more entities in here later // need to fix crate side collision
             that.lastBB.bottom <= entity.BB.top
           ) {
             // was above last tick
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
             that.velocity.y = 0;
           }
-
+          if ((entity instanceof Crate)) {
+            if (that.lastBB.right <= entity.BB.left) {
+            that.x = entity.BB.right - PARAMS.BLOCKWIDTH
+            that.velocity.x = 0;
+            }
+            else if (that.lastBB.left >= entity.BB.right) {
+              that.x = entity.BB.left + PARAMS.BLOCKWIDTH
+              that.velocity.x = 0;
+            };
+          }
 
           if (
-            entity instanceof Goblin &&
+            entity instanceof Goblin && Rat &&
             that.lastBB.bottom <= entity.BB.top && // was above last tick
             !entity.dead
           ) {
@@ -207,7 +216,7 @@ class Knight {
         // TODO: handle side collision here
         if (that.facing === 0) {
           if (
-            entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
+            entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
             !entity.dead &&
             that.lastBB.right <= entity.BB.left
           ) {
@@ -229,7 +238,7 @@ class Knight {
 
         if (that.facing === 1) {
           if (
-            entity instanceof Goblin && // collision with enemies or obstacles, TODO: may have to add more in later
+            entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
             !entity.dead &&
             that.lastBB.left >= entity.BB.right
           ) {
