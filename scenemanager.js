@@ -57,6 +57,7 @@ class SceneManager {
         this.game.addEntity(new Goblin(this.game, goblin.x, goblin.y, goblin.size));
       }
     }
+
     if (level.floors) {
       for (var i = 0; i < level.floors.length; i++) {
         let floor = level.floors[i];
@@ -73,6 +74,18 @@ class SceneManager {
       for (var i = 0; i < level.platforms.length; i++) {
         let platform = level.platforms[i];
         this.game.addEntity(new Platform(this.game, platform.x, platform.y, platform.w, platform.h));
+      }
+    }
+    if (level.crates) {
+      for (var i = 0; i < level.crates.length; i++) {
+        let crate = level.crates[i];
+        this.game.addEntity(new Crate(this.game, crate.x, crate.y, crate.w, crate.h));
+      }
+    }
+    if (level.rats) {
+      for (var i = 0; i < level.rats.length; i++) {
+        let rat = level.rats[i];
+        this.game.addEntity(new Rat(this.game, rat.x, rat.y, rat.size));
       }
     }
     if (level.bats) {
