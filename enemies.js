@@ -311,43 +311,77 @@ class Dragon {
       true
     );
 
-    //death
-    // facing right = 0;
+    // //death
+    // // facing right = 0;
+    // this.animations[1][0] = new Animator(
+    //   this.spritesheet,
+    //   279,
+    //   771,
+    //   180,
+    //   90,
+    //   5,
+    //   0.2,
+    //   false,
+    //   false
+    // );
+
+    // //death
+    // // facing left = 1;
+    // this.animations[1][1] = new Animator(
+    //   this.spritesheet,
+    //   279,
+    //   771,
+    //   180,
+    //   90,
+    //   5,
+    //   0.2,
+    //   true,
+    //   false
+    // );
     this.animations[1][0] = new Animator(
       this.spritesheet,
-      279,
-      771,
-      180,
-      90,
-      5,
-      0.2,
+      6,
+      602,
+      134,
+      106,
+      4,
+      0.15,
+      false,
+      false
+    );
+    
+    this.animations[1][1] = new Animator(
+      this.spritesheet,
+      1285,
+      602,
+      -134,
+      106,
+      4,
+      0.15,
       false,
       false
     );
 
-    //death
-    // facing left = 1;
-    this.animations[1][1] = new Animator(
-      this.spritesheet,
-      279,
-      771,
-      180,
-      90,
-      5,
-      0.2,
-      true,
-      false
-    );
+
+    
   }
 
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
       this.x - this.game.camera.x,
-      this.y,
-      PARAMS.BLOCKWIDTH * 1.3,
-      PARAMS.BLOCKWIDTH
+      this.y + 70,
+      PARAMS.BLOCKWIDTH * 4,
+      PARAMS.BLOCKWIDTH * 4.8
     );
+
+    this.lastFireBox = this.fireBB;
+    this.fireBB = new BoundingBox(
+      this.x - 150 - this.game.camera.x,
+      this.y + 20,
+      PARAMS.BLOCKWIDTH * 5.5,
+      PARAMS.BLOCKWIDTH * 5.2
+    )
   }
 
   die() {}
@@ -364,12 +398,13 @@ class Dragon {
     //   this.velocity.x = -75;
     //   this.facing = 1;
     // }
-    // this.velocity.y += this.fallAcc * this.game.clockTick;
-    // this.x += this.game.clockTick * this.velocity.x;
-    // this.y += this.game.clockTick * this.velocity.y;
-    // this.updateBB();
 
-    // var that = this;
+    this.velocity.y += 1;
+    //this.x += this.game.clockTick * this.velocity.x;
+    this.y += this.game.clockTick * this.velocity.y;
+    this.updateBB();
+
+    var that = this;
     // this.game.entities.forEach(function (entity) {
     //   if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
     //     if (entity instanceof Knight) {
@@ -399,18 +434,32 @@ class Dragon {
     //       that.timeSinceLastAttack += that.game.clockTick;
     //     }
 
-    //     if (
-    //       (entity instanceof Floor || entity instanceof Platform) &&
-    //       that.lastBB.bottom <= entity.BB.top
-    //     ) {
-    //       that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 0.93;
-    //       that.velocity.y = 0;
-
-    //     } 
+        
 
     //   }
     // });
-    // that.updateBB();
+    this.game.entities.forEach(function (entity) {
+      if(entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+        console.log("collided");
+        if (
+          (entity instanceof Floor || entity instanceof Platform) &&
+          that.lastBB.bottom <= entity.BB.top
+        ) {
+          that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 3.967;
+          that.velocity.y = 0;
+          console.log("collided with floor");
+
+        } 
+      }
+      if (entity.fireBB && that.fireBB.collide(entity.BB) && entity !== that) {
+        console.log("entity collided");
+        if (entity instanceof Knight) {
+          that.state = 1;
+          console.log("got to animation");
+        }
+      }
+    });
+    that.updateBB();
   }
 
   loseHeart() {
@@ -449,6 +498,7 @@ class Dragon {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeRect(this.fireBB.x, this.fireBB.y, this.fireBB.width, this.fireBB.height);
     }
   }
 }

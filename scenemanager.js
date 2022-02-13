@@ -82,12 +82,6 @@ class SceneManager {
         this.game.addEntity(new Crate(this.game, crate.x, crate.y, crate.w, crate.h));
       }
     }
-    if(level.goldpiles) {
-      for (var i = 0; i < level.goldpiles.length; i++) {
-        let goldpile = level.goldpiles[i];
-        this.game.addEntity(new GoldPile(this.game, goldpile.x, goldpile.y, goldpile.w, goldpile.h));
-      }
-    }
     if (level.rats) {
       for (var i = 0; i < level.rats.length; i++) {
         let rat = level.rats[i];
@@ -104,6 +98,12 @@ class SceneManager {
       for (var i = 0; i < level.dragons.length; i++) {
         let dragon = level.dragons[i];
         this.game.addEntity(new Dragon(this.game, dragon.x, dragon.y, dragon.size));
+      }
+    }
+    if(level.goldpiles) {
+      for (var i = 0; i < level.goldpiles.length; i++) {
+        let goldpile = level.goldpiles[i];
+        this.game.addEntity(new GoldPile(this.game, goldpile.x, goldpile.y, goldpile.w, goldpile.h));
       }
     }
     if (level.energyjuices) {
