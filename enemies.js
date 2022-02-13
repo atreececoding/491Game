@@ -246,15 +246,18 @@ class Dragon {
     // game engine
     Object.assign(this, { game, x, y, size });
 
-    // default spritesheet for the dragon
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dragon.png");
-
-    // this.state = STATE.IDLE;
-    // this.facing = FACING.LEFT;
       this.size = 0;
-      this.facing = 0;
+      this.facing = 1;
       this.state = 0; // 0 = walking, 1 = attacking
       this.dead = false;
+    // default spritesheet for the dragon
+    if(this.facing === 0)
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Dragon2.png");
+    else
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/DragonRev2.png");
+    // this.state = STATE.IDLE;
+    // this.facing = FACING.LEFT;
+      
 
     // this.dead = false;
 
@@ -286,24 +289,24 @@ class Dragon {
     // facing right = 0
     this.animations[0][0] = new Animator(
       this.spritesheet,
-      279,
-      68,
-      222,
-      92,
-      5,
-      0.2,
+      146,
+      0,
+      80.02,
+      112,
+      13,
+      0.3,
       false,
       true
     );
 
     this.animations[0][1] = new Animator(
       this.spritesheet,
-      279,
-      68,
-      222,
-      92,
-      5,
-      0.2,
+      105,
+      0,
+      80,
+      112,
+      13,
+      0.3,
       true,
       true
     );
