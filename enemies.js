@@ -75,11 +75,37 @@ class Bat {
   
     loseHeart() {
       this.lives--;
+      console.log(this.lives);
+      if(this.lives <= 0) {
+      this.state = 2;
+    }
     }
 
     draw(ctx) {
-      const TICK = this.game.clockTick;
-      this.animations[this.state][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 5);
+      if(this.lives > 0) {
+        this.animations[this.state][this.facing].drawFrame(
+        this.game.clockTick,
+        ctx,
+        this.x - this.game.camera.x,
+        this.y,
+        5
+        );
+      } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+        this.velocity.x = 0;
+        this.animations[this.state][this.facing].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x - this.game.camera.x,
+          this.y,
+          5
+        );
+        if(this.animations[this.state][this.facing].isDone()) {
+          this.dead = true;
+        }
+        if(this.dead === true) {
+          this.removeFromWorld = true;
+        }
+      }
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
@@ -176,11 +202,37 @@ class Rat {
 
   loseHeart() {
     this.lives--;
+    console.log(this.lives);
+    if(this.lives <= 0) {
+      this.state = 2;
+    }
   }
 
   draw(ctx) {
-    const TICK = this.game.clockTick;
-    this.animations[this.state][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 5);
+    if(this.lives > 0) {
+      this.animations[this.state][this.facing].drawFrame(
+      this.game.clockTick,
+      ctx,
+      this.x - this.game.camera.x,
+      this.y,
+      5
+      );
+    } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+      this.velocity.x = 0;
+      this.animations[this.state][this.facing].drawFrame(
+        this.game.clockTick,
+        ctx,
+        this.x - this.game.camera.x,
+        this.y,
+        5
+      );
+      if(this.animations[this.state][this.facing].isDone()) {
+        this.dead = true;
+      }
+      if(this.dead === true) {
+        this.removeFromWorld = true;
+      }
+    }
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
@@ -194,13 +246,20 @@ class Dragon {
     // game engine
     Object.assign(this, { game, x, y, size });
 
+      this.size = 0;
+      this.facing = 1;
+      this.state = 0; // 0 = walking, 1 = attacking
+      this.dead = false;
     // default spritesheet for the dragon
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dragon-attack.png");
+    if(this.facing === 0)
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Dragon2.png");
+    else
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/DragonRev2.png");
+    // this.state = STATE.IDLE;
+    // this.facing = FACING.LEFT;
+      
 
-    this.state = STATE.IDLE;
-    this.facing = FACING.LEFT;
-
-    this.dead = false;
+    // this.dead = false;
 
     this.lives = 20;
 
@@ -219,9 +278,9 @@ class Dragon {
   }
 
   loadAnimations() {
-    for (let i = 0; i < Object.keys(STATE).length; i++) {
+    for (let i = 0; i < 2; i++) {
       this.animations.push([]);
-      for (let j = 0; j < Object.keys(FACING).length; j++) {
+      for (let j = 0; j < 2; j++) {
         this.animations[i].push([]);
       }
     }
@@ -230,63 +289,216 @@ class Dragon {
     // facing right = 0
     this.animations[0][0] = new Animator(
       this.spritesheet,
-      25,
+      146,
       0,
-      222,
-      92,
-      5,
-      0.2,
+      80.02,
+      112,
+      13,
+      0.3,
       false,
       true
     );
+
+    this.animations[0][1] = new Animator(
+      this.spritesheet,
+      105,
+      0,
+      80,
+      112,
+      13,
+      0.3,
+      true,
+      true
+    );
+
+    // //death
+    // // facing right = 0;
+    // this.animations[1][0] = new Animator(
+    //   this.spritesheet,
+    //   279,
+    //   771,
+    //   180,
+    //   90,
+    //   5,
+    //   0.2,
+    //   false,
+    //   false
+    // );
+
+    // //death
+    // // facing left = 1;
+    // this.animations[1][1] = new Animator(
+    //   this.spritesheet,
+    //   279,
+    //   771,
+    //   180,
+    //   90,
+    //   5,
+    //   0.2,
+    //   true,
+    //   false
+    // );
+    this.animations[1][0] = new Animator(
+      this.spritesheet,
+      6,
+      602,
+      134,
+      106,
+      4,
+      0.15,
+      false,
+      false
+    );
+    
+    this.animations[1][1] = new Animator(
+      this.spritesheet,
+      1285,
+      602,
+      -134,
+      106,
+      4,
+      0.15,
+      false,
+      false
+    );
+
+
+    
   }
 
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
       this.x - this.game.camera.x,
-      this.y,
-      PARAMS.BLOCKWIDTH * 1.3,
-      PARAMS.BLOCKWIDTH
+      this.y + 70,
+      PARAMS.BLOCKWIDTH * 4,
+      PARAMS.BLOCKWIDTH * 4.8
     );
+
+    this.lastFireBox = this.fireBB;
+    this.fireBB = new BoundingBox(
+      this.x - 150 - this.game.camera.x,
+      this.y + 20,
+      PARAMS.BLOCKWIDTH * 5.5,
+      PARAMS.BLOCKWIDTH * 5.2
+    )
   }
 
   die() {}
 
   update() {
-    // const TICK = this.game.clockTick;
-    // // physics
-    // if (this.dead) {
-    //     this.die();
-    // } else if (this.state === STATE.IDLE) {
-    // } else if (this.state === STATE.PATROL) {
-    //     // update position
-    //     this.x += this.velocity.x * TICK * PARAMS.SCALE;
-    //     this.y += this.velocity.y * TICK * PARAMS.SCALE;
-    //     this.updateBB();
-    // } else if (this.state === STATE.ATTACK) {
+    // // Patrolling is hardcoded need to fix
+    // if (this.x <= 300 && this.facing === 1) {
+    //   this.x = 300;
+    //   this.velocity.x = 75;
+    //   this.facing = 0;
+    // } 
+    // if (this.x >= 600 && this.facing === 0) {
+    //   this.x = 600;
+    //   this.velocity.x = -75;
+    //   this.facing = 1;
     // }
-    // // update direction
-    // if (this.velocity.x < 0) this.facing = 1;
-    // if (this.velocity.x > 0) this.facing = 0;
-    // // collision handling
-    // var that  = this;
+
+    this.velocity.y += 1;
+    //this.x += this.game.clockTick * this.velocity.x;
+    this.y += this.game.clockTick * this.velocity.y;
+    this.updateBB();
+
+    var that = this;
     // this.game.entities.forEach(function (entity) {
-    //     if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+    //   if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+    //     if (entity instanceof Knight) {
+    //       that.state = 1;
+    //       that.velocity.x = 0;
+    //       if (that.facing === 1) {
+    //         that.x = entity.BB.left + PARAMS.BLOCKWIDTH;
+    //       }
+    //       else {
+    //         that.x = entity.BB.left - PARAMS.BLOCKWIDTH;
+    //       }
+    //       that.lastAttack = that.game.clockTick;
+    //       that.timeSinceLastAttack = 0;
+    //       entity.loseHeart();
+    //     } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+    //         that.velocity.x = 0;
+    //         if (that.facing === 0) {
+    //           that.velocity.x = 75;
+    //           that.lastAttack = undefined;
+    //         } 
+    //         if (that.facing === 1) {
+    //           that.velocity.x = -75;
+    //           that.lastAttack = undefined;
+    //         }
+    //       that.state = 0;
+    //     } else {
+    //       that.timeSinceLastAttack += that.game.clockTick;
     //     }
+
+        
+
+    //   }
     // });
+    this.game.entities.forEach(function (entity) {
+      if(entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+        console.log("collided");
+        if (
+          (entity instanceof Floor || entity instanceof Platform) &&
+          that.lastBB.bottom <= entity.BB.top
+        ) {
+          that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 3.967;
+          that.velocity.y = 0;
+          console.log("collided with floor");
+
+        } 
+      }
+      if (entity.fireBB && that.fireBB.collide(entity.BB) && entity !== that) {
+        console.log("entity collided");
+        if (entity instanceof Knight) {
+          that.state = 1;
+          console.log("got to animation");
+        }
+      }
+    });
+    that.updateBB();
   }
 
   loseHeart() {
     this.lives--;
+    console.log(this.lives);
+    if(this.lives <= 0) {
+      this.state = 1;
+    }
   }
 
   draw(ctx) {
-    const TICK = this.game.clockTick;
-    this.animations[0][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 1);
+    if(this.lives > 0) {
+      this.animations[this.state][this.facing].drawFrame(
+      this.game.clockTick,
+      ctx,
+      this.x - this.game.camera.x,
+      this.y,
+      5
+      );
+    } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+      this.velocity.x = 0;
+      this.animations[this.state][this.facing].drawFrame(
+        this.game.clockTick,
+        ctx,
+        this.x - this.game.camera.x,
+        this.y,
+        5
+      );
+      if(this.animations[this.state][this.facing].isDone()) {
+        this.dead = true;
+      }
+      if(this.dead === true) {
+        this.removeFromWorld = true;
+      }
+    }
     if (this.game.options.debugging) {
-        ctx.strokeStyle = "Red";
-        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeStyle = "Red";
+      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeRect(this.fireBB.x, this.fireBB.y, this.fireBB.width, this.fireBB.height);
     }
   }
 }

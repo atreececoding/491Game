@@ -100,6 +100,12 @@ class SceneManager {
         this.game.addEntity(new Dragon(this.game, dragon.x, dragon.y, dragon.size));
       }
     }
+    if(level.goldpiles) {
+      for (var i = 0; i < level.goldpiles.length; i++) {
+        let goldpile = level.goldpiles[i];
+        this.game.addEntity(new GoldPile(this.game, goldpile.x, goldpile.y, goldpile.w, goldpile.h));
+      }
+    }
     if (level.energyjuices) {
       for (var i = 0; i < level.energyjuices.length; i++) {
         let energy_juice = level.energyjuices[i];

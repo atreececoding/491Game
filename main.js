@@ -9,6 +9,8 @@ ASSET_MANAGER.queueDownload("./sprites/KnightRevSprites.png");
 ASSET_MANAGER.queueDownload("./sprites/background.png");
 ASSET_MANAGER.queueDownload("./sprites/forest.png");
 ASSET_MANAGER.queueDownload("./sprites/goblinSprite.png");
+ASSET_MANAGER.queueDownload("./sprites/Dragon2.png");
+ASSET_MANAGER.queueDownload("./sprites/DragonRev2.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
 ASSET_MANAGER.queueDownload("./sprites/energydrink.png");
@@ -20,6 +22,8 @@ ASSET_MANAGER.queueDownload("./sprites/dragon-attack.png");
 ASSET_MANAGER.queueDownload("./sprites/ratAndBat.png");
 ASSET_MANAGER.queueDownload("./sprites/cloud.png");
 ASSET_MANAGER.queueDownload("./sprites/crates.png");
+ASSET_MANAGER.queueDownload("./sprites/dragon.png");
+ASSET_MANAGER.queueDownload("./sprites/TreasureHoard.png");
 
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");
