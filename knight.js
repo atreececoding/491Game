@@ -275,7 +275,7 @@ class Knight {
         }
       }
       if(entity.BB && that.spearBox.collide(entity.BB) && entity !== that) {
-        if(entity instanceof Goblin && !entity.dead) {
+        if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Bat || entity instanceof Rat) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.game.keys["attack"]) {
               entity.loseHeart();

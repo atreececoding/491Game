@@ -75,11 +75,37 @@ class Bat {
   
     loseHeart() {
       this.lives--;
+      console.log(this.lives);
+      if(this.lives <= 0) {
+      this.state = 2;
+    }
     }
 
     draw(ctx) {
-      const TICK = this.game.clockTick;
-      this.animations[this.state][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 5);
+      if(this.lives > 0) {
+        this.animations[this.state][this.facing].drawFrame(
+        this.game.clockTick,
+        ctx,
+        this.x - this.game.camera.x,
+        this.y,
+        5
+        );
+      } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+        this.velocity.x = 0;
+        this.animations[this.state][this.facing].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x - this.game.camera.x,
+          this.y,
+          5
+        );
+        if(this.animations[this.state][this.facing].isDone()) {
+          this.dead = true;
+        }
+        if(this.dead === true) {
+          this.removeFromWorld = true;
+        }
+      }
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
@@ -176,11 +202,37 @@ class Rat {
 
   loseHeart() {
     this.lives--;
+    console.log(this.lives);
+    if(this.lives <= 0) {
+      this.state = 2;
+    }
   }
 
   draw(ctx) {
-    const TICK = this.game.clockTick;
-    this.animations[this.state][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 5);
+    if(this.lives > 0) {
+      this.animations[this.state][this.facing].drawFrame(
+      this.game.clockTick,
+      ctx,
+      this.x - this.game.camera.x,
+      this.y,
+      5
+      );
+    } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+      this.velocity.x = 0;
+      this.animations[this.state][this.facing].drawFrame(
+        this.game.clockTick,
+        ctx,
+        this.x - this.game.camera.x,
+        this.y,
+        5
+      );
+      if(this.animations[this.state][this.facing].isDone()) {
+        this.dead = true;
+      }
+      if(this.dead === true) {
+        this.removeFromWorld = true;
+      }
+    }
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
@@ -195,7 +247,7 @@ class Dragon {
     Object.assign(this, { game, x, y, size });
 
     // default spritesheet for the dragon
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dragon-attack.png");
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dragon.png");
 
     this.state = STATE.IDLE;
     this.facing = FACING.LEFT;
@@ -239,6 +291,46 @@ class Dragon {
       false,
       true
     );
+
+    this.animations[0][1] = new Animator(
+      this.spritesheet,
+      25,
+      0,
+      222,
+      92,
+      5,
+      0.2,
+      true,
+      true
+    );
+
+    //death
+    // facing right = 0;
+    this.animations[1][0] = new Animator(
+      this.spritesheet,
+      279,
+      771,
+      180,
+      90,
+      5,
+      0.2,
+      false,
+      false
+    );
+
+    //death
+    // facing left = 1;
+    this.animations[1][1] = new Animator(
+      this.spritesheet,
+      279,
+      771,
+      180,
+      90,
+      5,
+      0.2,
+      true,
+      false
+    );
   }
 
   updateBB() {
@@ -279,14 +371,40 @@ class Dragon {
 
   loseHeart() {
     this.lives--;
+    console.log(this.lives);
+    if(this.lives <= 0) {
+      this.state = 1;
+    }
   }
 
   draw(ctx) {
-    const TICK = this.game.clockTick;
-    this.animations[0][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 1);
+    if(this.lives > 0) {
+      this.animations[this.state][this.facing].drawFrame(
+      this.game.clockTick,
+      ctx,
+      this.x - this.game.camera.x,
+      this.y,
+      1
+      );
+    } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+      this.velocity.x = 0;
+      this.animations[this.state][this.facing].drawFrame(
+        this.game.clockTick,
+        ctx,
+        this.x - this.game.camera.x,
+        this.y,
+        1
+      );
+      if(this.animations[this.state][this.facing].isDone()) {
+        this.dead = true;
+      }
+      if(this.dead === true) {
+        this.removeFromWorld = true;
+      }
+    }
     if (this.game.options.debugging) {
-        ctx.strokeStyle = "Red";
-        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeStyle = "Red";
+      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     }
   }
 }
