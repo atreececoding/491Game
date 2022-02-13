@@ -249,10 +249,14 @@ class Dragon {
     // default spritesheet for the dragon
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dragon.png");
 
-    this.state = STATE.IDLE;
-    this.facing = FACING.LEFT;
+    // this.state = STATE.IDLE;
+    // this.facing = FACING.LEFT;
+      this.size = 0;
+      this.facing = 0;
+      this.state = 0; // 0 = walking, 1 = attacking
+      this.dead = false;
 
-    this.dead = false;
+    // this.dead = false;
 
     this.lives = 20;
 
@@ -271,9 +275,9 @@ class Dragon {
   }
 
   loadAnimations() {
-    for (let i = 0; i < Object.keys(STATE).length; i++) {
+    for (let i = 0; i < 2; i++) {
       this.animations.push([]);
-      for (let j = 0; j < Object.keys(FACING).length; j++) {
+      for (let j = 0; j < 2; j++) {
         this.animations[i].push([]);
       }
     }
@@ -282,8 +286,8 @@ class Dragon {
     // facing right = 0
     this.animations[0][0] = new Animator(
       this.spritesheet,
-      25,
-      0,
+      279,
+      68,
       222,
       92,
       5,
@@ -294,8 +298,8 @@ class Dragon {
 
     this.animations[0][1] = new Animator(
       this.spritesheet,
-      25,
-      0,
+      279,
+      68,
       222,
       92,
       5,
@@ -346,27 +350,64 @@ class Dragon {
   die() {}
 
   update() {
-    // const TICK = this.game.clockTick;
-    // // physics
-    // if (this.dead) {
-    //     this.die();
-    // } else if (this.state === STATE.IDLE) {
-    // } else if (this.state === STATE.PATROL) {
-    //     // update position
-    //     this.x += this.velocity.x * TICK * PARAMS.SCALE;
-    //     this.y += this.velocity.y * TICK * PARAMS.SCALE;
-    //     this.updateBB();
-    // } else if (this.state === STATE.ATTACK) {
+    // // Patrolling is hardcoded need to fix
+    // if (this.x <= 300 && this.facing === 1) {
+    //   this.x = 300;
+    //   this.velocity.x = 75;
+    //   this.facing = 0;
+    // } 
+    // if (this.x >= 600 && this.facing === 0) {
+    //   this.x = 600;
+    //   this.velocity.x = -75;
+    //   this.facing = 1;
     // }
-    // // update direction
-    // if (this.velocity.x < 0) this.facing = 1;
-    // if (this.velocity.x > 0) this.facing = 0;
-    // // collision handling
-    // var that  = this;
+    // this.velocity.y += this.fallAcc * this.game.clockTick;
+    // this.x += this.game.clockTick * this.velocity.x;
+    // this.y += this.game.clockTick * this.velocity.y;
+    // this.updateBB();
+
+    // var that = this;
     // this.game.entities.forEach(function (entity) {
-    //     if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+    //   if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+    //     if (entity instanceof Knight) {
+    //       that.state = 1;
+    //       that.velocity.x = 0;
+    //       if (that.facing === 1) {
+    //         that.x = entity.BB.left + PARAMS.BLOCKWIDTH;
+    //       }
+    //       else {
+    //         that.x = entity.BB.left - PARAMS.BLOCKWIDTH;
+    //       }
+    //       that.lastAttack = that.game.clockTick;
+    //       that.timeSinceLastAttack = 0;
+    //       entity.loseHeart();
+    //     } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+    //         that.velocity.x = 0;
+    //         if (that.facing === 0) {
+    //           that.velocity.x = 75;
+    //           that.lastAttack = undefined;
+    //         } 
+    //         if (that.facing === 1) {
+    //           that.velocity.x = -75;
+    //           that.lastAttack = undefined;
+    //         }
+    //       that.state = 0;
+    //     } else {
+    //       that.timeSinceLastAttack += that.game.clockTick;
     //     }
+
+    //     if (
+    //       (entity instanceof Floor || entity instanceof Platform) &&
+    //       that.lastBB.bottom <= entity.BB.top
+    //     ) {
+    //       that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 0.93;
+    //       that.velocity.y = 0;
+
+    //     } 
+
+    //   }
     // });
+    // that.updateBB();
   }
 
   loseHeart() {
@@ -384,7 +425,7 @@ class Dragon {
       ctx,
       this.x - this.game.camera.x,
       this.y,
-      1
+      5
       );
     } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
       this.velocity.x = 0;
@@ -393,7 +434,7 @@ class Dragon {
         ctx,
         this.x - this.game.camera.x,
         this.y,
-        1
+        5
       );
       if(this.animations[this.state][this.facing].isDone()) {
         this.dead = true;

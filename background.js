@@ -173,6 +173,6 @@ class GoldPile {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
-    ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128 , 128);
+    ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 800 , 400);
   }
 }
