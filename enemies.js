@@ -170,7 +170,7 @@ class Rat {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
       this.x + 35 - this.game.camera.x,
-      this.y - 10,
+      this.y,
       PARAMS.BLOCKWIDTH * 0.9,
       PARAMS.BLOCKHEIGHT * 0.55
     );

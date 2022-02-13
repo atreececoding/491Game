@@ -50,7 +50,7 @@ class Platform {
 
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
 
-    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, PARAMS.PLATHEIGHT);
+    this.BB = new BoundingBox(this.x - this.game.camera.x + 15, this.y + 13, this.w, PARAMS.PLATHEIGHT);
     this.leftBB = new BoundingBox(
       this.x - this.game.camera.x,
       this.y,
