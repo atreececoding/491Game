@@ -186,11 +186,11 @@ class Knight {
             that.velocity.y = 0;
           }
           if ((entity instanceof Crate)) {
-            if (that.lastBB.right <= entity.BB.left) {
+            if (that.lastBB.right <= entity.BB.left && !(that.lastBB.bottom <= entity.BB.top)) {
             that.x = entity.BB.right - PARAMS.BLOCKWIDTH
             that.velocity.x = 0;
             }
-            else if (that.lastBB.left >= entity.BB.right) {
+            else if (that.lastBB.left >= entity.BB.right && !(that.lastBB.bottom <= entity.BB.top)) {
               that.x = entity.BB.left + PARAMS.BLOCKWIDTH
               that.velocity.x = 0;
             };
@@ -227,7 +227,7 @@ class Knight {
             that.animationLock = true;
           }
 
-          if (entity instanceof Crate && (that.BB.right > entity.BB.left)) {
+          if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top)) {
             that.x = entity.BB.left - 128;
             that.velocity.x = 0;
             that.updateBB();
@@ -256,11 +256,17 @@ class Knight {
           //     that.updateBB();
           // }
 
-          if (entity instanceof Crate && (that.BB.left < entity.BB.right)) {
-            that.x = entity.BB.left + 160;
+          if (entity instanceof Crate && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top)) {
+            that.x = entity.BB.right + 160;
             that.velocity.x = 0;
             that.updateBB();
         }
+          if (entity instanceof Crate && (that.BB.left >= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top)) {
+            that.x = entity.BB.right - 20;
+            that.velocity.x = 0;
+            that.updateBB();
+        }
+        
         }
         if (that.velocity.x < 0 || that.velocity.x > 0) {
           if (entity instanceof EnergyJuice && !entity.dead) {
