@@ -227,13 +227,12 @@ class Knight {
             that.animationLock = true;
           }
 
-                    // if (entity instanceof Platform || entity instanceof Floor
-          //     && (that.BB.right < entity.BB.left)
-          //     && (that.BB.bottom < entity.BB.top)) {
-          //     that.x = entity.BB.left - PARAMS.BLOCKWIDTH;
-          //     that.velocity.x = 0;
-          //     that.updateBB();
-          // }
+          if (entity instanceof Crate && (that.BB.right > entity.BB.left)) {
+            that.x = entity.BB.left - 128;
+            that.velocity.x = 0;
+            that.updateBB();
+        }
+
         }
 
         if (that.facing === 1) {
@@ -256,6 +255,12 @@ class Knight {
           //     that.velocity.x = 0;
           //     that.updateBB();
           // }
+
+          if (entity instanceof Crate && (that.BB.left < entity.BB.right)) {
+            that.x = entity.BB.left + 160;
+            that.velocity.x = 0;
+            that.updateBB();
+        }
         }
         if (that.velocity.x < 0 || that.velocity.x > 0) {
           if (entity instanceof EnergyJuice && !entity.dead) {
