@@ -185,12 +185,16 @@ class Knight {
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
             that.velocity.y = 0;
           }
+          if(entity instanceof Crate && that.lastBB.top === entity.BB.bottom) {
+            that.y = entity.BB.bottom + PARAMS.BLOCKHEIGHT;
+            that.velocity.y = FALL_SPEED;
+          }
           if ((entity instanceof Crate)) {
-            if (that.lastBB.right <= entity.BB.left) {
+            if (that.lastBB.right <= entity.BB.left && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.right - PARAMS.BLOCKWIDTH
             that.velocity.x = 0;
             }
-            else if (that.lastBB.left >= entity.BB.right) {
+            else if (that.lastBB.left >= entity.BB.right && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
               that.x = entity.BB.left + PARAMS.BLOCKWIDTH
               that.velocity.x = 0;
             };
@@ -211,6 +215,10 @@ class Knight {
 
         if (that.velocity.y < 0) {
           // TODO: handle enemy collision from bottom
+          if(entity instanceof Crate && that.lastBB.top >= entity.BB.bottom) {
+            that.y = entity.BB.bottom + 10;
+            that.velocity.y = FALL_SPEED;
+          }
         }
 
         // TODO: handle side collision here
@@ -227,13 +235,12 @@ class Knight {
             that.animationLock = true;
           }
 
-                    // if (entity instanceof Platform || entity instanceof Floor
-          //     && (that.BB.right < entity.BB.left)
-          //     && (that.BB.bottom < entity.BB.top)) {
-          //     that.x = entity.BB.left - PARAMS.BLOCKWIDTH;
-          //     that.velocity.x = 0;
-          //     that.updateBB();
-          // }
+          if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+            that.x = entity.BB.left - 128;
+            that.velocity.x = 0;
+            that.updateBB();
+        }
+
         }
 
         if (that.facing === 1) {
@@ -256,6 +263,18 @@ class Knight {
           //     that.velocity.x = 0;
           //     that.updateBB();
           // }
+
+          if (entity instanceof Crate && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+            that.x = entity.BB.right + 160;
+            that.velocity.x = 0;
+            that.updateBB();
+        }
+          if (entity instanceof Crate && (that.BB.left >= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+            that.x = entity.BB.right - 20;
+            that.velocity.x = 0;
+            that.updateBB();
+        }
+        
         }
         if (that.velocity.x < 0 || that.velocity.x > 0) {
           if (entity instanceof EnergyJuice && !entity.dead) {
@@ -275,7 +294,7 @@ class Knight {
         }
       }
       if(entity.BB && that.spearBox.collide(entity.BB) && entity !== that) {
-        if(entity instanceof Goblin && !entity.dead) {
+        if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Bat || entity instanceof Rat) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.game.keys["attack"]) {
               entity.loseHeart();
@@ -378,7 +397,7 @@ class Knight {
       }
     }
     else {
-      if (this.facing === 0 && this.velocity.x === 0 && !this.game.keys["up"] && !this.game.keys["attack"])
+      if (this.facing === 0 && !this.game.keys["right"] && !this.game.keys["left"] && !this.game.keys["up"] && !this.game.keys["attack"])
           this.animations[0][0].drawFrame(
             this.game.clockTick,
             ctx,
@@ -386,7 +405,7 @@ class Knight {
             this.y,
             1.45
           );
-        else if (this.facing === 1 && this.velocity.x === 0 && !this.game.keys["up"] && !this.game.keys["attack"])
+        else if (this.facing === 1 && !this.game.keys["right"] && !this.game.keys["left"] && !this.game.keys["up"] && !this.game.keys["attack"])
           this.animations[0][1].drawFrame(
             this.game.clockTick,
             ctx,
