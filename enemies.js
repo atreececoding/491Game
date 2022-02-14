@@ -382,7 +382,7 @@ class Dragon {
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
-      this.x - this.game.camera.x,
+      this.x,
       this.y + 70,
       PARAMS.BLOCKWIDTH * 4,
       PARAMS.BLOCKWIDTH * 4.8
@@ -390,7 +390,7 @@ class Dragon {
 
     this.lastFireBox = this.fireBB;
     this.fireBB = new BoundingBox(
-      this.x - 150 - this.game.camera.x,
+      this.x - 150,
       this.y + 20,
       PARAMS.BLOCKWIDTH * 5.5,
       PARAMS.BLOCKWIDTH * 5.2
@@ -453,7 +453,6 @@ class Dragon {
     // });
     this.game.entities.forEach(function (entity) {
       if(entity.BB && that.BB.collide(entity.BB) && entity !== that) {
-        // console.log("collided");
         if (
           (entity instanceof Floor || entity instanceof Platform) &&
           that.lastBB.bottom <= entity.BB.top
@@ -466,13 +465,18 @@ class Dragon {
       }
       if (entity.BB && that.fireBB.collide(entity.BB) && entity !== that) {
         if (entity instanceof Knight) {
+          console.log("fire now");
           that.state = 1;
           that.lastAttack = that.game.clockTick;
             that.timeSinceLastAttack = 0;
             //entity.loseHeart();
-        } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+        } 
+        if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+            console.log("been 2 seconds");
             that.state = 0;
+            that.lastAttack = undefined;
         } else {
+          console.log("counting");
           that.timeSinceLastAttack += that.game.clockTick;
         }
         // if(that.animations[that.state][that.facing].isDone()) {
@@ -518,8 +522,8 @@ class Dragon {
     }
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
-      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-      ctx.strokeRect(this.fireBB.x, this.fireBB.y, this.fireBB.width, this.fireBB.height);
+      ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeRect(this.fireBB.x - this.game.camera.x, this.fireBB.y, this.fireBB.width, this.fireBB.height);
     }
   }
 }

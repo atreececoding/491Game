@@ -10,7 +10,7 @@ class Knight {
       this.facing = 0; // 0 = right, 1 = left
       this.state = 3; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
 
-      this.lives = 1;
+      this.lives = 5;
       this.energy = 3;
 
       this.x = 0;
@@ -58,7 +58,7 @@ class Knight {
         let NO_REVERSE = false;
         let LOOP = true;
         let NO_LOOP = false;
-
+        //TODO: CHANGE ATTACK TO NOT LOOP
         //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die   
         //facing right = 0
         this.animations[0][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_0, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);        
@@ -242,7 +242,7 @@ class Knight {
         if (that.velocity.y < 0) {
           // TODO: handle enemy collision from bottom
           if(entity instanceof Crate && that.lastBB.top >= entity.BB.bottom) {
-            that.y = entity.BB.bottom + 10;
+            that.y = entity.BB.bottom;
             that.velocity.y = FALL_SPEED;
           }
         }
