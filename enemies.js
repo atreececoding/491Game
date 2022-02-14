@@ -24,17 +24,38 @@ class Bat {
           this.animations.push([i]);
         }
       }
+
+      // CONSTANTS
+      let X_OFFSET = 0;
+      let X_OFFSET_2 = 27;
+      let WIDTH = 32;
+      let HEIGHT = 15;
+      let FRAME_COUNT = 10;
+      let ANIMATION_SPEED_1 = 0.1;
+      let ANIMATION_SPEED_2 = 0.05;
+      let Y_OFFSET_0 = 172;
+      let Y_OFFSET_1 = 148;
+      let Y_OFFSET_2 = 258;
+      let Y_OFFSET_3 = 373;
+      let Y_OFFSET_4 = 500;
+      let Y_OFFSET_5 = 620;
+      let Y_OFFSET_6 = 721;
+      let REVERSE = true;
+      let NO_REVERSE = false;
+      let LOOP = true;
+      let NO_LOOP = false;
+
       //hovering right (directions are flipped because of sprite sheet)
       this.animations[0][0] = new Animator(
         this.spritesheet,
-        0,
-        172,
-        32,
-        12,
-        10,
-        0.1,
-        false,
-        true
+        X_OFFSET,
+        Y_OFFSET_0,
+        WIDTH,
+        HEIGHT,
+        FRAME_COUNT,
+        ANIMATION_SPEED_1,
+        NO_REVERSE,
+        LOOP
       );
       
     }
@@ -42,10 +63,10 @@ class Bat {
     updateBB() {
       this.lastBB = this.BB;
       this.BB = new BoundingBox(
-        this.x + 35 - this.game.camera.x,
+        this.x + 35,
         this.y - 10,
-        PARAMS.BLOCKWIDTH * 0.9,
-        PARAMS.BLOCKHEIGHT * 0.55
+        PARAMS.BLOCKWIDTH * 0.8,
+        PARAMS.BLOCKHEIGHT * 0.3
       );
     }
   
@@ -82,34 +103,26 @@ class Bat {
     }
 
     draw(ctx) {
-      if(this.lives > 0) {
-        this.animations[this.state][this.facing].drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x - this.game.camera.x,
-        this.y,
-        5
-        );
-      } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
-        this.velocity.x = 0;
-        this.animations[this.state][this.facing].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - this.game.camera.x,
-          this.y,
-          5
-        );
-        if(this.animations[this.state][this.facing].isDone()) {
-          this.dead = true;
+
+      this.animations[this.state][this.facing].drawFrame(
+      this.game.clockTick,
+      ctx,
+      this.x - this.game.camera.x,
+      this.y,
+      5
+      );
+      
+        // if(this.animations[this.state][this.facing].isDone()) {
+        //   this.dead = true;
+        // }
+        // if(this.dead === true) {
+        //   this.removeFromWorld = true;
+        // }
+      
+        if (this.game.options.debugging) {
+          ctx.strokeStyle = "Red";
+          ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
         }
-        if(this.dead === true) {
-          this.removeFromWorld = true;
-        }
-      }
-      if (this.game.options.debugging) {
-        ctx.strokeStyle = "Red";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-      }
     }
   }
 
@@ -169,10 +182,10 @@ class Rat {
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
-      this.x + 35 - this.game.camera.x,
+      this.x + 35,
       this.y,
-      PARAMS.BLOCKWIDTH * 0.9,
-      PARAMS.BLOCKHEIGHT * 0.55
+      PARAMS.BLOCKWIDTH * 0.8,
+      PARAMS.BLOCKHEIGHT * 0.3
     );
   }
 
@@ -235,7 +248,7 @@ class Rat {
     }
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
-      ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
   }
 }
@@ -440,7 +453,7 @@ class Dragon {
     // });
     this.game.entities.forEach(function (entity) {
       if(entity.BB && that.BB.collide(entity.BB) && entity !== that) {
-        //console.log("collided");
+        // console.log("collided");
         if (
           (entity instanceof Floor || entity instanceof Platform) &&
           that.lastBB.bottom <= entity.BB.top

@@ -10,7 +10,7 @@ class Knight {
       this.facing = 0; // 0 = right, 1 = left
       this.state = 3; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
 
-      this.lives = 5;
+      this.lives = 1;
       this.energy = 3;
 
       this.x = 0;
@@ -26,7 +26,7 @@ class Knight {
       this.animations = [];
       this.loadAnimations();
 
-      this.animationScales = [1.45, 1.45, 1.45, 1.45, 1.34125, 1.45, 1.45]
+      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.34125, 1.45, 1.34125];
 
       this.gameOver = false;
       };
@@ -38,25 +38,45 @@ class Knight {
                 this.animations.push([i]);
             }
         }
-        
+
+        // CONSTANTS
+        let X_OFFSET = 15;
+        let X_OFFSET_2 = 27;
+        let WIDTH = 270;
+        let HEIGHT = 105;
+        let FRAME_COUNT = 7;
+        let ANIMATION_SPEED_1 = 0.15;
+        let ANIMATION_SPEED_2 = 0.05;
+        let Y_OFFSET_0 = 28;
+        let Y_OFFSET_1 = 148;
+        let Y_OFFSET_2 = 258;
+        let Y_OFFSET_3 = 373;
+        let Y_OFFSET_4 = 500;
+        let Y_OFFSET_5 = 620;
+        let Y_OFFSET_6 = 721;
+        let REVERSE = true;
+        let NO_REVERSE = false;
+        let LOOP = true;
+        let NO_LOOP = false;
+
         //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die   
         //facing right = 0
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 20, 270, 106, 7, 0.25, false, true);        
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 140, 270, 110, 7, 0.15, false, true);
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 250, 270, 110, 7, 0.15, false, true);
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 365, 270, 110, 7, 0.15, false, true);
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 490, 270, 110, 7, 0.15, false, true);
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 610, 270, 110, 7, 0.15, false, false);
-        this.animations[6][0] = new Animator(this.spritesheet, 0, 730, 270, 110, 7, 0.15, false, false);
+        this.animations[0][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_0, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);        
+        this.animations[1][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
+        this.animations[2][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
+        this.animations[3][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
+        this.animations[4][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
+        this.animations[5][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP);
+        this.animations[6][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP);
 
         //facing left = 1
-        this.animations[0][1] = new Animator(this.rev_spritesheet, 0, 20, 270, 110, 7, 0.15, true, true);
-        this.animations[1][1] = new Animator(this.rev_spritesheet, 0, 140, 265, 110, 7, 0.15, true, true);
-        this.animations[2][1] = new Animator(this.rev_spritesheet, 0, 250, 270, 110, 7, 0.15, true, true);
-        this.animations[3][1] = new Animator(this.rev_spritesheet, 0, 365, 270, 110, 7, 0.15, true, true);
-        this.animations[4][1] = new Animator(this.rev_spritesheet, 0, 490, 270, 110, 7, 0.15, true, true);
-        this.animations[5][1] = new Animator(this.rev_spritesheet, 0, 610, 270, 110, 7, 0.15, true, true);
-        this.animations[6][1] = new Animator(this.rev_spritesheet, 0, 730, 270, 110, 7, 0.15, true, true);
+        this.animations[0][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_0, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
+        this.animations[1][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
+        this.animations[2][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
+        this.animations[3][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
+        this.animations[4][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
+        this.animations[5][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP);
+        this.animations[6][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP);
     }
 
   updateBB() {
@@ -64,34 +84,40 @@ class Knight {
     this.BB = new BoundingBox(
       this.x + 20,
       this.y,
-      PARAMS.BLOCKWIDTH,
-      PARAMS.BLOCKHEIGHT
+      PARAMS.BLOCKWIDTH * .7,
+      PARAMS.BLOCKHEIGHT * .9
     );
     this.lastSpearBB = this.spearBox;
     this.spearBox = new BoundingBox(
       this.x - 70,
-      this.y,
-      PARAMS.BLOCKWIDTH * 2.8,
-      PARAMS.BLOCKHEIGHT
+      this.y + 20,
+      PARAMS.BLOCKWIDTH * 2.5,
+      PARAMS.BLOCKHEIGHT * .5
     );
   }
 
   die() {
     console.log("DEAD");
+    this.gameOver = true;
   }
 
 
   update() {
+    if (this.lives < 1) {
+      this.state = 6;
+    }
+    
     const TICK = this.game.clockTick;
 
     // PHYSICS CONSTANTS
-    const WALK_SPEED = 500;
-    const RUN_SPEED = 300;
+    const WALK_SPEED = 300;
+    const RUN_SPEED = 500;
     const JUMP_SPEED = -1000;
     const FALL_SPEED = 500;
 
     if (this.state === 6) {
-      this.y += FALL_SPEED / 5;
+      this.velocity.x = 0;
+      this.velocity.y = 0;
     } else {
         // update velocity
         // ground physics
@@ -182,20 +208,20 @@ class Knight {
             that.lastBB.bottom <= entity.BB.top
           ) {
             // was above last tick
-            that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
+            that.y = entity.BB.top - that.BB.height;
             that.velocity.y = 0;
           }
           if(entity instanceof Crate && that.lastBB.top === entity.BB.bottom) {
-            that.y = entity.BB.bottom + PARAMS.BLOCKHEIGHT;
+            that.y = entity.BB.bottom + that.BB.height;
             that.velocity.y = FALL_SPEED;
           }
           if ((entity instanceof Crate)) {
             if (that.lastBB.right <= entity.BB.left && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-            that.x = entity.BB.right - PARAMS.BLOCKWIDTH
+            that.x = entity.BB.right - that.BB.width;
             that.velocity.x = 0;
             }
             else if (that.lastBB.left >= entity.BB.right && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-              that.x = entity.BB.left + PARAMS.BLOCKWIDTH
+              that.x = entity.BB.left + that.BB.width;
               that.velocity.x = 0;
             };
           }
@@ -206,7 +232,7 @@ class Knight {
             !entity.dead
           ) {
             that.velocity.y = 0; // bounce up
-            that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
+            that.y = entity.BB.top - that.BB.height;
           }
           // move this line into the conditional blocks if we don't want jump reset on collision
           if (that.state === 3) that.state = 0; // set state to idle
@@ -228,15 +254,15 @@ class Knight {
             !entity.dead &&
             that.lastBB.right <= entity.BB.left
           ) {
-            that.x = entity.BB.left - PARAMS.BLOCKWIDTH * 1.7;
+            that.x = entity.BB.left - that.BB.width;
             that.y -= 240; // bounce up
             that.x -= 100; // bounce to the left
             that.state = 5;
-            that.animationLock = true;
+   
           }
 
           if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-            that.x = entity.BB.left - 128;
+            that.x = entity.BB.left - 128; // MAY NEED TO ADJUST FOR SIDESCROLLING
             that.velocity.x = 0;
             that.updateBB();
         }
@@ -253,7 +279,7 @@ class Knight {
             that.y -= 240; // bounce up
             that.x += 100; // bounce to the right
             that.state = 5;
-            that.animationLock = true;
+
           }
 
           // if (entity instanceof Platform || entity instanceof Floor
@@ -297,13 +323,13 @@ class Knight {
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Bat || entity instanceof Rat) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.game.keys["attack"]) {
-              entity.loseHeart();
+              // entity.loseHeart();
               if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.game.keys["attack"]) {
-              entity.loseHeart();
+              // entity.loseHeart();
               if (that.game.options.debugging) console.log("got here");
             }
           }
@@ -339,145 +365,18 @@ class Knight {
   }
 
   draw(ctx) {
-    // print(`this.x=${this.x}, this.y=${this.y}`)
-    // print(`this.state=${this.state}`)
-    // if (this.lives <= 0) {
-    //   this.animationLock = true;
-    // }
-    // if (!this.animationLock) {
-    //   this.animations[this.state][this.facing].drawFrame(
-    //     this.game.clockTick,
-    //     ctx,
-    //     this.x - 110 - this.game.camera.x,
-    //     this.y,
-    //     this.animationScales[this.state]
-    //   );
-    // } else {
-    //     if (!this.startedAnimation) {
-    //       this.animations[this.state][this.facing].drawFrame(
-    //         this.game.clockTick,
-    //         ctx,
-    //         this.x - 110 - this.game.camera.x,
-    //         this.y,
-    //         this.animationScales[this.state]
-    //       );
-    //       this.startedAnimation = true;
-    //     }
-        
-    //     if (this.animations[this.state][this.facing].isDone()) {
-    //       print('animation done')
-    //       this.animationLock = false;
-    //       this.startedAnimation = false;
-    //       if (this.state === 6) {
-    //         print('game over')
-    //         this.gameOver = true;
-    //       }
-    //     }
-    // }
+
+    this.animations[this.state][this.facing].drawFrame(
+      this.game.clockTick,
+      ctx,
+      this.x - 110 - this.game.camera.x,
+      this.y,
+      this.animationScales[this.state]
+    );
     
-
-
-    if (this.lives <= 0){
-      let flag = false;
-      console.log("DEAD");
-      this.animations[6][0].drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x - 110 - this.game.camera.x,
-        this.y,
-        1.34125
-      );
-      if(this.animations[6][0].isDone()) {
-        flag = true;
-      }
-
-      if(flag) {
-        this.dead = true;
-        this.gameOver = true;
-      }
+    if (this.state === 6 && this.animations[this.state][this.facing].isDone()) {
+      this.die();
     }
-    else {
-      if (this.facing === 0 && !this.game.keys["right"] && !this.game.keys["left"] && !this.game.keys["up"] && !this.game.keys["attack"])
-          this.animations[0][0].drawFrame(
-            this.game.clockTick,
-            ctx,
-            this.x - 110 - this.game.camera.x,
-            this.y,
-            1.45
-          );
-        else if (this.facing === 1 && !this.game.keys["right"] && !this.game.keys["left"] && !this.game.keys["up"] && !this.game.keys["attack"])
-          this.animations[0][1].drawFrame(
-            this.game.clockTick,
-            ctx,
-            this.x - 110 - this.game.camera.x,
-            this.y,
-            1.45
-          );
-      if (this.game.keys["right"] && !this.game.keys["up"] && !this.game.keys["attack"] || this.velocity.x > 0 && !this.game.keys["up"] && !this.game.keys["attack"]) {
-        this.animations[2][0].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - 110 - this.game.camera.x,
-          this.y,
-          1.34125
-        );
-        this.facing = 0;
-      }else if (this.game.keys["left"] && !this.game.keys["up"] && !this.game.keys["attack"]|| this.velocity.x < 0 && !this.game.keys["up"] && !this.game.keys["attack"]) {
-        this.animations[2][1].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - 110 - this.game.camera.x,
-          this.y,
-          1.34125
-        );
-        this.facing = 1;
-      } 
-
-      if(this.game.keys["attack"] && this.facing === 0) {
-        console.log("Inside of if this.attack");
-        this.animations[4][0].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - 110 - this.game.camera.x,
-          this.y,
-          1.34125
-        );
-      }
-      else if(this.game.keys["attack"] && this.facing === 1) {
-        console.log("Inside of if this.attack");
-        this.animations[4][1].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - 110 - this.game.camera.x,
-          this.y,
-          1.34125
-        );
-      }
-
-      if (this.game.keys["up"] && !this.game.keys["attack"]) {
-        if (this.facing === 0 || (this.facing === 0 && this.velocity.x > 0)) {
-          this.animations[3][0].drawFrame(
-            this.game.clockTick,
-            ctx,
-            this.x - 110 - this.game.camera.x,
-            this.y,
-            1.34125
-          );
-          }
-          else if (this.facing === 1 || (this.facing === 0 && this.velocity.x < 0)){
-            this.animations[3][1].drawFrame(
-              this.game.clockTick,
-              ctx,
-              this.x - 110 - this.game.camera.x,
-              this.y,
-              1.34125
-            );
-          }
-      } 
-    }
-
-    
-    
 
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
@@ -485,6 +384,6 @@ class Knight {
       ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);
     }
 
-
   }
+
 }
