@@ -352,14 +352,14 @@ class Dragon {
     
     this.animations[1][1] = new Animator(
       this.spritesheet,
-      1285,
-      602,
-      -134,
-      106,
+      726,
+      598,
+      140,
+      115,
       4,
-      0.15,
-      false,
-      false
+      0.2,
+      true,
+      true
     );
 
 
@@ -440,23 +440,31 @@ class Dragon {
     // });
     this.game.entities.forEach(function (entity) {
       if(entity.BB && that.BB.collide(entity.BB) && entity !== that) {
-        console.log("collided");
+        //console.log("collided");
         if (
           (entity instanceof Floor || entity instanceof Platform) &&
           that.lastBB.bottom <= entity.BB.top
         ) {
           that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 3.967;
           that.velocity.y = 0;
-          console.log("collided with floor");
+          //console.log("collided with floor");
 
         } 
       }
-      if (entity.fireBB && that.fireBB.collide(entity.BB) && entity !== that) {
-        console.log("entity collided");
+      if (entity.BB && that.fireBB.collide(entity.BB) && entity !== that) {
         if (entity instanceof Knight) {
           that.state = 1;
-          console.log("got to animation");
+          that.lastAttack = that.game.clockTick;
+            that.timeSinceLastAttack = 0;
+            //entity.loseHeart();
+        } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+            that.state = 0;
+        } else {
+          that.timeSinceLastAttack += that.game.clockTick;
         }
+        // if(that.animations[that.state][that.facing].isDone()) {
+        //   that.state = 0;
+        // } 
       }
     });
     that.updateBB();
