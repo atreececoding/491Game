@@ -29,6 +29,7 @@ class Knight {
       this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.34125, 1.45, 1.34125];
 
       this.gameOver = false;
+      this.winCondition = false;
       };
 
     loadAnimations() {
@@ -99,6 +100,11 @@ class Knight {
   die() {
     console.log("DEAD");
     this.gameOver = true;
+  }
+
+  win() {
+    console.log("won the game!");
+    this.winCondition = true;
   }
 
 
@@ -288,10 +294,16 @@ class Knight {
           }
         }
         if (that.velocity.x < 0 || that.velocity.x > 0 || that.velocity.x > 0 || that.velocity.y > 0) {
-          if (entity instanceof Apple && !entity.dead) {
+          if (entity instanceof redApple && !entity.dead) {
             entity.removeFromWorld = true;
-            if (that.game.options.debugging) print("Hit apple");
-            that.gainAppleEnergy();
+            if (that.game.options.debugging) print("Hit red apple");
+            that.gainRedAppleEnergy();
+            if (that.game.options.debugging) print(that.energy);
+          }
+          if (entity instanceof goldApple && !entity.dead) {
+            entity.removeFromWorld = true;
+            if (that.game.options.debugging) print("Hit gold apple");
+            that.gainGoldAppleEnergy();
             if (that.game.options.debugging) print(that.energy);
           }
         }
@@ -330,8 +342,19 @@ class Knight {
     }
   }
 
-  gainAppleEnergy() {
+  gainGoldAppleEnergy() {
     this.energy += 200;
+    if(this.lives < 5) {
+      this.lives = 5;
+    }
+    this.win();
+
+  }
+
+  gainRedAppleEnergy() {
+    if (this.energy < 5) {
+      this.energy += 5;
+    }
     if(this.lives < 5) {
       this.lives = 5;
     }

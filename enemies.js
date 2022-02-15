@@ -259,6 +259,7 @@ class Dragon {
     // game engine
     Object.assign(this, { game, x, y, size });
 
+      this.originX = this.x;
       this.size = 0;
       this.facing = 1;
       this.state = 0; // 0 = walking, 1 = attacking
@@ -535,6 +536,8 @@ class Goblin {
       this.velocity = { x: 0, y: 0 };
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblinSprite.png");
   
+      this.patLeft = this.x - 300;
+      this.patRight = this.x;
       this.size = 0;
       this.facing = 0;
       this.state = 0; // 0 = walking, 1 = attacking
@@ -643,7 +646,7 @@ class Goblin {
     updateBB() {
       this.lastBB = this.BB;
       this.BB = new BoundingBox(
-        this.x - this.game.camera.x,
+        this.x,
         this.y,
         PARAMS.BLOCKWIDTH * 1.2,
         PARAMS.BLOCKHEIGHT * 0.93
@@ -653,14 +656,15 @@ class Goblin {
     die() {}
   
     update() {
+      
       // Patrolling is hardcoded need to fix
-      if (this.x <= 300 && this.facing === 1) {
-        this.x = 300;
+      if (this.x <= this.patLeft && this.facing === 1) {
+        this.x = this.patLeft;
         this.velocity.x = 75;
         this.facing = 0;
       } 
-      if (this.x >= 600 && this.facing === 0) {
-        this.x = 600;
+      if (this.x >= this.patRight && this.facing === 0) {
+        this.x = this.patRight;
         this.velocity.x = -75;
         this.facing = 1;
       }
@@ -675,12 +679,12 @@ class Goblin {
           if (entity instanceof Knight) {
             that.state = 1;
             that.velocity.x = 0;
-            if (that.facing === 1) {
-              that.x = entity.BB.left + entity.BB.width;
-            }
-            else {
-              that.x = entity.BB.left - entity.BB.width;
-            }
+            // if (that.facing === 1) {
+            //   that.x = entity.BB.left + entity.BB.width;
+            // }
+            // else {
+            //   that.x = entity.BB.left - entity.BB.width;
+            // }
             that.lastAttack = that.game.clockTick;
             that.timeSinceLastAttack = 0;
             // entity.loseHeart();

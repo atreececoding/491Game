@@ -19,8 +19,9 @@ class SceneManager {
     });
   }
 
-  loadLevel(level, x, y, transition, title) {
+  loadLevel(level, x, y, transition, title, winscreen) {
     this.title = title;
+    this.winscreen = winscreen;
     this.level = level;
     this.clearEntities();
     this.x = 0;
@@ -30,7 +31,7 @@ class SceneManager {
     //     this.game.addEntity(new TransitionScreen(this.game, level, x, y, title));
     // } else {
     
-    if (!this.title) {
+    if (!this.title && !this.winscreen) {
       if (level.music) {
         ASSET_MANAGER.playAsset(level.music);
       }
@@ -112,10 +113,16 @@ class SceneManager {
         this.game.addEntity(new EnergyJuice(this.game, energy_juice.x, energy_juice.y, energy_juice.size));
       }
     }
-    if (level.apples) {
-      for (var i = 0; i < level.apples.length; i++) {
-        let apple = level.apples[i];
-        this.game.addEntity(new Apple(this.game, apple.x, apple.y, apple.size));
+    if (level.redapples) {
+      for (var i = 0; i < level.redapples.length; i++) {
+        let redapple = level.redapples[i];
+        this.game.addEntity(new redApple(this.game, redapple.x, redapple.y, redapple.size));
+      }
+    }
+    if (level.goldapples) {
+      for (var i = 0; i < level.goldapples.length; i++) {
+        let goldapple = level.goldapples[i];
+        this.game.addEntity(new goldApple(this.game, goldapple.x, goldapple.y, goldapple.size));
       }
     }
     if (level.backgrounds) {
@@ -150,6 +157,15 @@ class SceneManager {
         800
       );
     }
+    if (this.winscreen) {
+      ctx.drawImage(
+        ASSET_MANAGER.getAsset("./sprites/winscreen.png"),
+        0,
+        0,
+        1200,
+        800
+      );
+    }
   }
   update() {
     let midpoint = 768/2 - PARAMS.BLOCKWIDTH/2;
@@ -162,14 +178,22 @@ class SceneManager {
     this.updateOptions();
     if (this.title && this.game.keys["click"]) {
       this.title = false;
-      this.loadLevel(this.level, 1, 1, true, false);
+      this.loadLevel(this.level, 1, 1, true, false, false);
     }
     else if (this.knight.gameOver) {
       this.knight.gameOver = false;
       this.clearEntities();
       this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver)
-      this.loadLevel(this.level, 1, 1, true, false);
+      this.loadLevel(this.level, 1, 1, true, false, false);
       this.lives = 5;
+    }
+    else if (this.knight.winCondition) {
+      this.clearEntities();
+      this.winscreen = true;
+      //this.knight.winCondition = false;
+      // this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver)
+      // this.loadLevel(this.level, 1, 1, true, false, this.winscreen);
+      // this.lives = 5;
     }
   }
 }

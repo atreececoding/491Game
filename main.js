@@ -4,6 +4,7 @@ const ASSET_MANAGER = new AssetManager();
 
 // Images
 ASSET_MANAGER.queueDownload("./sprites/title.png");
+ASSET_MANAGER.queueDownload("./sprites/winscreen.png");
 ASSET_MANAGER.queueDownload("./sprites/KnightSprites.png");
 ASSET_MANAGER.queueDownload("./sprites/KnightRevSprites.png");
 ASSET_MANAGER.queueDownload("./sprites/background.png");
@@ -15,6 +16,7 @@ ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
 ASSET_MANAGER.queueDownload("./sprites/energydrink.png");
 ASSET_MANAGER.queueDownload("./sprites/goldApple.png");
+ASSET_MANAGER.queueDownload("./sprites/redApple.png");
 ASSET_MANAGER.queueDownload("./sprites/health_bar.png");
 ASSET_MANAGER.queueDownload("./sprites/hunger_bar.png");
 ASSET_MANAGER.queueDownload("./sprites/goldenergy.png")
