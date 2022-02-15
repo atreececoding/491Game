@@ -676,14 +676,14 @@ class Goblin {
             that.state = 1;
             that.velocity.x = 0;
             if (that.facing === 1) {
-              that.x = entity.BB.left + PARAMS.BLOCKWIDTH;
+              that.x = entity.BB.left + entity.BB.width;
             }
             else {
-              that.x = entity.BB.left - PARAMS.BLOCKWIDTH;
+              that.x = entity.BB.left - entity.BB.width;
             }
             that.lastAttack = that.game.clockTick;
             that.timeSinceLastAttack = 0;
-            entity.loseHeart();
+            // entity.loseHeart();
           } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
               that.velocity.x = 0;
               if (that.facing === 0) {

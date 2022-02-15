@@ -16,19 +16,19 @@ class Floor {
     Object.assign(this, { game, x, y, w });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
 
-    this.BB = new BoundingBox(this.x, this.y, 6000, PARAMS.BLOCKWIDTH * 2);
-    this.leftBB = new BoundingBox(
-      this.x,
-      this.y,
-      PARAMS.BLOCKWIDTH,
-      PARAMS.BLOCKWIDTH * 2
-    );
-    this.rightBB = new BoundingBox(
-      this.x + this.w - PARAMS.BLOCKWIDTH,
-      this.y,
-      PARAMS.BLOCKWIDTH,
-      PARAMS.BLOCKWIDTH * 2
-    );
+    this.BB = new BoundingBox(0, this.y, 6000, PARAMS.BLOCKWIDTH * 2);
+    // this.leftBB = new BoundingBox(
+    //   this.x,
+    //   this.y,
+    //   PARAMS.BLOCKWIDTH,
+    //   PARAMS.BLOCKWIDTH * 2
+    // );
+    // this.rightBB = new BoundingBox(
+    //   this.x + this.w - PARAMS.BLOCKWIDTH,
+    //   this.y,
+    //   PARAMS.BLOCKWIDTH,
+    //   PARAMS.BLOCKWIDTH * 2
+    // );
   }
 
   update() {}

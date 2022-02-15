@@ -40,8 +40,8 @@ class Knight {
         }
 
         // CONSTANTS
-        let X_OFFSET = 15;
-        let X_OFFSET_2 = 27;
+        let X_OFFSET = 25;
+        let X_OFFSET_2 = 35;
         let WIDTH = 270;
         let HEIGHT = 105;
         let FRAME_COUNT = 7;
@@ -82,7 +82,7 @@ class Knight {
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(
-      this.x + 20,
+      this.x,
       this.y,
       PARAMS.BLOCKWIDTH * .7,
       PARAMS.BLOCKHEIGHT * .9
@@ -211,20 +211,7 @@ class Knight {
             that.y = entity.BB.top - that.BB.height;
             that.velocity.y = 0;
           }
-          if(entity instanceof Crate && that.lastBB.top === entity.BB.bottom) {
-            that.y = entity.BB.bottom + that.BB.height;
-            that.velocity.y = FALL_SPEED;
-          }
-          if ((entity instanceof Crate)) {
-            if (that.lastBB.right <= entity.BB.left && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-            that.x = entity.BB.right - that.BB.width;
-            that.velocity.x = 0;
-            }
-            else if (that.lastBB.left >= entity.BB.right && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-              that.x = entity.BB.left + that.BB.width;
-              that.velocity.x = 0;
-            };
-          }
+          
 
           if (
             entity instanceof Goblin && Rat &&
@@ -239,14 +226,7 @@ class Knight {
 
         }
 
-        if (that.velocity.y < 0) {
-          // TODO: handle enemy collision from bottom
-          if(entity instanceof Crate && that.lastBB.top >= entity.BB.bottom) {
-            that.y = entity.BB.bottom;
-            that.velocity.y = FALL_SPEED;
-          }
-        }
-
+   
         // TODO: handle side collision here
         if (that.facing === 0) {
           if (
@@ -262,13 +242,13 @@ class Knight {
           }
 
           if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-            that.x = entity.BB.left - 128; // MAY NEED TO ADJUST FOR SIDESCROLLING
+            that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
             that.velocity.x = 0;
             that.updateBB();
         }
 
         }
-
+        //facing left
         if (that.facing === 1) {
           if (
             entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
@@ -282,26 +262,23 @@ class Knight {
 
           }
 
-          // if (entity instanceof Platform || entity instanceof Floor
-          //     && (that.BB.left > entity.BB.right)
-          //     && (that.BB.bottom < entity.BB.top)) {
-          //     that.x = entity.BB.left + PARAMS.BLOCKWIDTH;
-          //     that.velocity.x = 0;
-          //     that.updateBB();
-          // }
-
+         
           if (entity instanceof Crate && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-            that.x = entity.BB.right + 160;
+            that.x = entity.BB.right;
             that.velocity.x = 0;
+            that.x += 1; // bounce to the right
             that.updateBB();
-        }
-          if (entity instanceof Crate && (that.BB.left >= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-            that.x = entity.BB.right - 20;
-            that.velocity.x = 0;
-            that.updateBB();
-        }
+          }
         
         }
+        if (that.velocity.y < 0) {
+          // TODO: handle enemy collision from bottom
+          if(entity instanceof Crate && that.lastBB.top >= entity.BB.bottom) {
+            that.y = entity.BB.bottom;
+            that.velocity.y = FALL_SPEED;
+          }
+        }
+
         if (that.velocity.x < 0 || that.velocity.x > 0) {
           if (entity instanceof EnergyJuice && !entity.dead) {
             entity.removeFromWorld = true;
