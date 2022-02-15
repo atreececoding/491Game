@@ -646,7 +646,7 @@ class Goblin {
     updateBB() {
       this.lastBB = this.BB;
       this.BB = new BoundingBox(
-        this.x,
+        this.x - this.game.camera.x,
         this.y,
         PARAMS.BLOCKWIDTH * 1.2,
         PARAMS.BLOCKHEIGHT * 0.93
