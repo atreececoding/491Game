@@ -5,6 +5,11 @@ class Bat {
       this.velocity = { x: 0, y: -10 };
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ratAndBat.png");
   
+
+      this.downPat = this.y;
+      this.upPat = this.y - 500;
+      this.patRight = this.x + 200;
+      this.patLeft = this.x;
       this.size = 0;
       this.facing = 0;
       this.state = 0;
@@ -74,24 +79,31 @@ class Bat {
   
     update() {
       // this is hardcoded need to fix
-      // let scale = 1 + Math.random();
-      // if (this.x <= 350 && this.facing === 1) {
-      //   this.velocity.x = 100 * scale;
-      //   this.facing = 0;
-      // } 
-      // if (this.x >= 550 && this.facing === 0) {
-      //   this.velocity.x = -100 * scale;
-      //   this.facing = 1;
-      // }
-      // if (this.y <= 30) {
-      //   this.velocity.y = 50 * scale;
-      // } 
-      // if (this.y >= 60) {
-      //   this.velocity.y = -50 * scale;
-      // }
-      // this.x += this.game.clockTick * this.velocity.x;
-      // this.y += this.game.clockTick * this.velocity.y;
-      // this.updateBB();
+      let scale = 1 + Math.random();
+      if (this.x <= this.patLeft /*&& this.facing === 1*/) {
+        console.log("got left");
+        this.x = this.patLeft;
+        this.velocity.x = 100 * scale;
+        //this.facing = 0;
+      } 
+      if (this.x >= this.patRight /*&& this.facing === 0*/) {
+        console.log("got right");
+        this.x = this.patRight;
+        this.velocity.x = -100 * scale;
+        //this.facing = 1;
+      }
+      if (this.y <= this.upPat) {
+        //this.y = this.patUp;
+        this.velocity.y = 100 * scale;
+        console.log(this.velocity.y);
+      } 
+      if (this.y >= this.downPat) {
+        //this.y = this.patDown;
+        this.velocity.y = -100 * scale;
+      }
+      this.x += this.game.clockTick * this.velocity.x;
+      this.y += this.game.clockTick * this.velocity.y;
+      this.updateBB();
     }
   
     loseHeart() {
@@ -141,10 +153,11 @@ const STATE = {
 
 class Rat {
   constructor(game, x, y, size) {
-    Object.assign(this, { game, x, y, size });
+    Object.assign(this, { game, x, y, size});
 
-    this.velocity = { x: 0, y: 0 };
+    this.velocity = { x: -50, y: 0 };
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ratAndBat.png");
+    this.spritesheetRev = ASSET_MANAGER.getAsset("./sprites/ratAndBatRev.png");
 
     this.size = 0;
     this.facing = 0;
@@ -169,7 +182,7 @@ class Rat {
     this.animations[0][0] = new Animator(
       this.spritesheet,
       0,
-      16,
+      22,
       32,
       18,
       10,
@@ -177,6 +190,42 @@ class Rat {
       false,
       true
     );
+    
+    this.animations[0][1] = new Animator(
+      this.spritesheet,
+      0,
+      22,
+      32,
+      18,
+      10,
+      0.1,
+      true,
+      true
+    );
+
+    this.animations[1][0] = new Animator(
+      this.spritesheet,
+      0,
+      86,
+      31,
+      18,
+      10,
+      0.1,
+      true,
+      true
+    );
+
+    this.animations[1][1] = new Animator(
+      this.spritesheetRev,
+      0,
+      86,
+      31,
+      18,
+      10,
+      0.1,
+      false,
+      true
+    )
   }
 
   updateBB() {
@@ -186,6 +235,14 @@ class Rat {
       this.y,
       PARAMS.BLOCKWIDTH * 0.8,
       PARAMS.BLOCKHEIGHT * 0.3
+    );
+
+    this.lastRunBB = this.runBB;
+    this.runBB = new BoundingBox(
+      this.x - 150,
+      this.y,
+      PARAMS.BLOCKWIDTH * 5,
+      PARAMS.BLOCKHEIGHT
     );
   }
 
@@ -208,8 +265,49 @@ class Rat {
     // if (this.y >= 60) {
     //   this.velocity.y = -50 * scale;
     // }
-    this.x += this.game.clockTick * this.velocity.x;
-    this.y += this.game.clockTick * this.velocity.y;
+    // if(this.x > this.Knight.x) {
+    //   this.velocity.x = -70
+    // }
+    // if(this.x < ) {
+    //   this.velocity.x = 70
+    // }
+
+
+        this.velocity.y += 100;
+        this.y += this.game.clockTick * this.velocity.y;
+    var that = this;
+    this.game.entities.forEach(function (entity) {
+      if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+        
+        if (
+          (entity instanceof Floor || entity instanceof Platform) &&
+          that.lastBB.bottom <= entity.BB.top
+        ) {
+          that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 0.3;
+          that.velocity.y = 0;
+        }
+      }
+
+      if (entity.BB && that.runBB.collide(entity.BB) && entity !== that) {
+        if (entity instanceof Knight && !(that.BB.collide(entity.BB))) {
+          if(entity.BB.x > that.x) {
+            that.facing = 1;
+            that.state = 1;
+            that.velocity.x = 100;
+            
+          }
+          else if(entity.BB.x < that.x) {
+            that.facing = 0;
+            that.state = 1;
+            that.velocity.x = -100;
+          }
+          that.x += that.game.clockTick * that.velocity.x;
+        }
+      }
+    });
+
+    
+    
     this.updateBB();
   }
 
@@ -249,6 +347,7 @@ class Rat {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeRect(this.runBB.x - this.game.camera.x, this.runBB.y, this.runBB.width, this.runBB.height);
     }
   }
 }

@@ -312,13 +312,13 @@ class Knight {
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Bat || entity instanceof Rat) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.game.keys["attack"]) {
-              // entity.loseHeart();
+              entity.loseHeart();
               if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.game.keys["attack"]) {
-              // entity.loseHeart();
+              entity.loseHeart();
               if (that.game.options.debugging) console.log("got here");
             }
           }
