@@ -20,7 +20,7 @@ ASSET_MANAGER.queueDownload("./sprites/redApple.png");
 ASSET_MANAGER.queueDownload("./sprites/health_bar.png");
 ASSET_MANAGER.queueDownload("./sprites/hunger_bar.png");
 ASSET_MANAGER.queueDownload("./sprites/goldenergy.png")
-ASSET_MANAGER.queueDownload("./sprites/dragon-attack.png");
+ASSET_MANAGER.queueDownload("./sprites/dragon-attack.png"); 
 ASSET_MANAGER.queueDownload("./sprites/ratAndBat.png");
 ASSET_MANAGER.queueDownload("./sprites/ratAndBatRev.png");
 ASSET_MANAGER.queueDownload("./sprites/cloud.png");

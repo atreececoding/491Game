@@ -11,7 +11,7 @@ class Knight {
       this.state = 3; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
 
       this.lives = 5;
-      this.energy = 3;
+      this.energy = 15;
 
       this.x = 0;
       this.y = 0;
@@ -26,7 +26,7 @@ class Knight {
       this.animations = [];
       this.loadAnimations();
 
-      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.34125, 1.45, 1.34125];
+      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.34125, 1.34125, 1.34125];
 
       this.gameOver = false;
       this.winCondition = false;
@@ -67,7 +67,7 @@ class Knight {
         this.animations[2][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
         this.animations[3][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
         this.animations[4][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
-        this.animations[5][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP);
+        this.animations[5][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
         this.animations[6][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP);
 
         //facing left = 1
@@ -76,7 +76,7 @@ class Knight {
         this.animations[2][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
         this.animations[3][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
         this.animations[4][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
-        this.animations[5][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP);
+        this.animations[5][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
         this.animations[6][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP);
     }
 
@@ -201,12 +201,11 @@ class Knight {
     // update direction
     if (this.game.keys["right"]) this.facing = 0;
     if (this.game.keys["left"]) this.facing = 1;
-
   }
 
     var that = this;
     this.game.entities.forEach(function (entity) {
-      if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+      if (entity.BB && that.BB.collide(entity.BB) /*&& entity !== that*/ ) { // why do we have this here (entity !== that)
         if (that.velocity.y > 0) {
           // falling
           if (
@@ -214,36 +213,43 @@ class Knight {
             that.lastBB.bottom <= entity.BB.top
           ) {
             // was above last tick
+            
             that.y = entity.BB.top - that.BB.height;
-            that.velocity.y = 0;
+            that.velocity.y -= -240;
           }
-          
-
           if (
-            entity instanceof Goblin && Rat &&
+            (entity instanceof Goblin || entity instanceof Rat) &&
             that.lastBB.bottom <= entity.BB.top && // was above last tick
             !entity.dead
           ) {
-            that.velocity.y = 0; // bounce up
             that.y = entity.BB.top - that.BB.height;
+            // bounce up
+            console.log("collided top");
+            
+            
           }
           // move this line into the conditional blocks if we don't want jump reset on collision
           if (that.state === 3) that.state = 0; // set state to idle
 
-        }
+          }
 
    
         // TODO: handle side collision here
-        if (that.facing === 0) {
+        if (that.facing === 0) { // If knight is facing right
           if (
-            entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
+            (entity instanceof Goblin || entity instanceof Rat) &&// collision with enemies or obstacles, TODO: may have to add more in later
             !entity.dead &&
             that.lastBB.right <= entity.BB.left
           ) {
+            console.log("collided left");
+            that.state = 5; // hurt state with custom physics
             that.x = entity.BB.left - that.BB.width;
-            that.y -= 240; // bounce up
-            that.x -= 100; // bounce to the left
-            that.state = 5;
+            
+            that.velocity.y -= 240; // bounce up
+            that.velocity.x -= 100; // bounce to the left
+            that.state = 0;
+            console.log(that.velocity.x, that.velocity.y);
+            //that.state = 5;
    
           }
 
@@ -251,21 +257,22 @@ class Knight {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
             that.velocity.x = 0;
             that.updateBB();
+          } 
         }
-
-        }
+        
         //facing left
         if (that.facing === 1) {
           if (
-            entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
+            (entity instanceof Goblin || entity instanceof Rat) &&// collision with enemies or obstacles, TODO: may have to add more in later
             !entity.dead &&
             that.lastBB.left >= entity.BB.right
           ) {
+            console.log("collided right");
+            //that.state = 5;
             that.x = entity.BB.right;
-            that.y -= 240; // bounce up
-            that.x += 100; // bounce to the right
-            that.state = 5;
-
+            //that.velocity.y -= 240; // bounce up
+            // bounce to the right
+            
           }
 
          
@@ -323,8 +330,7 @@ class Knight {
             }
           }
         }
-      }
-      
+      }  
     });
     that.updateBB();
   }
@@ -381,7 +387,7 @@ class Knight {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-      ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);
+      // ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);
     }
 
   }

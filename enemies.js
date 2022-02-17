@@ -81,13 +81,13 @@ class Bat {
       // this is hardcoded need to fix
       let scale = 1 + Math.random();
       if (this.x <= this.patLeft /*&& this.facing === 1*/) {
-        console.log("got left");
+        //console.log("got left");
         this.x = this.patLeft;
         this.velocity.x = 100 * scale;
         //this.facing = 0;
       } 
       if (this.x >= this.patRight /*&& this.facing === 0*/) {
-        console.log("got right");
+        //console.log("got right");
         this.x = this.patRight;
         this.velocity.x = -100 * scale;
         //this.facing = 1;
@@ -104,7 +104,7 @@ class Bat {
       this.x += this.game.clockTick * this.velocity.x;
       this.y += this.game.clockTick * this.velocity.y;
       this.updateBB();
-    }
+     }
   
     loseHeart() {
       this.lives--;
@@ -745,7 +745,7 @@ class Goblin {
     updateBB() {
       this.lastBB = this.BB;
       this.BB = new BoundingBox(
-        this.x - this.game.camera.x,
+        this.x,
         this.y,
         PARAMS.BLOCKWIDTH * 1.2,
         PARAMS.BLOCKHEIGHT * 0.93
@@ -776,17 +776,19 @@ class Goblin {
       this.game.entities.forEach(function (entity) {
         if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
           if (entity instanceof Knight) {
+            //console.log("bumped into knight");
             that.state = 1;
             that.velocity.x = 0;
-            // if (that.facing === 1) {
-            //   that.x = entity.BB.left + entity.BB.width;
-            // }
-            // else {
-            //   that.x = entity.BB.left - entity.BB.width;
-            // }
+            if (that.facing === 1) {
+              that.x = entity.BB.left + entity.BB.width;
+            }
+            else {
+              that.x = entity.BB.left - that.BB.width;
+            }
             that.lastAttack = that.game.clockTick;
             that.timeSinceLastAttack = 0;
             // entity.loseHeart();
+
           } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
               that.velocity.x = 0;
               if (that.facing === 0) {
@@ -850,7 +852,7 @@ class Goblin {
       }
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
       }
     }
   }
