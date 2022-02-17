@@ -776,15 +776,19 @@ class Goblin {
       this.game.entities.forEach(function (entity) {
         if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
           if (entity instanceof Knight) {
-            //console.log("bumped into knight");
+            console.log("bumped into knight");
             that.state = 1;
             that.velocity.x = 0;
-            if (that.facing === 1) {
+            that.facing = entity.facing+1;
+            
+            if (that.facing === 1) { //facing left
               that.x = entity.BB.left + entity.BB.width;
             }
             else {
               that.x = entity.BB.left - that.BB.width;
             }
+            
+            
             that.lastAttack = that.game.clockTick;
             that.timeSinceLastAttack = 0;
             // entity.loseHeart();

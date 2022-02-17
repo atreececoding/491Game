@@ -50,9 +50,9 @@ class Platform {
 
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
 
-    this.BB = new BoundingBox(this.x - this.game.camera.x + 15, this.y + 13, this.w, PARAMS.PLATHEIGHT);
+    this.BB = new BoundingBox(this.x  + 15, this.y + 13, this.w, PARAMS.PLATHEIGHT);
     this.leftBB = new BoundingBox(
-      this.x - this.game.camera.x,
+      this.x ,
       this.y,
       PARAMS.PLATWIDTH,
       PARAMS.PLATWIDTH
@@ -139,7 +139,7 @@ class Crate {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/crates.png");
 
-    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+    this.BB = new BoundingBox(this.x, this.y, this.w, this.h);
   
   }
     update() {
@@ -161,7 +161,7 @@ class GoldPile {
     Object.assign(this, {game, x, y, w, h});
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/TreasureHoard.png");
 
-    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+    this.BB = new BoundingBox(this.x , this.y, this.w, this.h);
   }
 
   update() {

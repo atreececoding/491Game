@@ -8,7 +8,7 @@ class Knight {
 
       this.size = 0;
       this.facing = 0; // 0 = right, 1 = left
-      this.state = 3; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
+      this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
 
       this.lives = 5;
       this.energy = 15;
@@ -120,13 +120,19 @@ class Knight {
     const RUN_SPEED = 500;
     const JUMP_SPEED = -1000;
     const FALL_SPEED = 500;
+    const Y_JUMPBACK = -240;
+    const X_JUMPBACK = -100;
 
     if (this.state === 6) {
       this.velocity.x = 0;
       this.velocity.y = 0;
-    } else {
+    } 
+    
+    
+      else {
         // update velocity
         // ground physics
+        
         if (this.state !== 3) {
           
           if (this.game.keys["left"] && !this.game.keys["right"]) { // move left
@@ -145,11 +151,20 @@ class Knight {
                 this.velocity.x = WALK_SPEED;
                 this.state = 1;
               }
-          } else {
+          
+          } 
+          else if (this.state == 5) {
+            if(this.facing == 0) {
+              this.velocity.x = -100;
+            }
+            else {
+              this.velocity.x = 100;
+            }
+          }
+          else {
             this.velocity.x = 0;
             this.state = 0;
           }
-          
           // fall if you step off platform
           this.velocity.y = FALL_SPEED;
 
@@ -166,7 +181,9 @@ class Knight {
             }
           }
         }
-       else {
+        
+        
+        else {
         // air physics
         // vertical physics
         this.velocity.y += FALL_SPEED * TICK * PARAMS.SCALE;
@@ -185,8 +202,9 @@ class Knight {
               this.velocity.x = WALK_SPEED;
             }
         } else {
-            this.velocity.x = 0;
+            //this.velocity.x = 0;
         }
+        
     }
 
     // max speed calculation
@@ -215,7 +233,7 @@ class Knight {
             // was above last tick
             
             that.y = entity.BB.top - that.BB.height;
-            that.velocity.y -= -240;
+            
           }
           if (
             (entity instanceof Goblin || entity instanceof Rat) &&
@@ -223,6 +241,7 @@ class Knight {
             !entity.dead
           ) {
             that.y = entity.BB.top - that.BB.height;
+            //that.velocity.y -= 240;
             // bounce up
             console.log("collided top");
             
@@ -242,16 +261,19 @@ class Knight {
             that.lastBB.right <= entity.BB.left
           ) {
             console.log("collided left");
-            that.state = 5; // hurt state with custom physics
-            that.x = entity.BB.left - that.BB.width;
             
-            that.velocity.y -= 240; // bounce up
-            that.velocity.x -= 100; // bounce to the left
-            that.state = 0;
-            console.log(that.velocity.x, that.velocity.y);
+            that.x = entity.BB.left - that.BB.width;
+            that.state = 5; // hurt state with custom physics
+            
+            console.log(that.velocity.y);
+            // that.velocity.y -= (that.y - 240); // bounce up
+            // that.velocity.x -= 100; // bounce to the left
+            //that.state = 0;
             //that.state = 5;
    
           }
+          
+          
 
           if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
@@ -259,6 +281,7 @@ class Knight {
             that.updateBB();
           } 
         }
+        
         
         //facing left
         if (that.facing === 1) {
@@ -268,7 +291,7 @@ class Knight {
             that.lastBB.left >= entity.BB.right
           ) {
             console.log("collided right");
-            //that.state = 5;
+            that.state = 5;
             that.x = entity.BB.right;
             //that.velocity.y -= 240; // bounce up
             // bounce to the right
@@ -387,7 +410,7 @@ class Knight {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-      // ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);
+      ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);
     }
 
   }
