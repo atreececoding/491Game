@@ -39,6 +39,8 @@ class Knight {
                 this.animations.push([i]);
             }
         }
+        this.lastJump = 0;
+        this.timeSinceLastJump = 2;
 
         // CONSTANTS
         let X_OFFSET = 25;
@@ -120,6 +122,7 @@ class Knight {
     const RUN_SPEED = 500;
     const JUMP_SPEED = -1000;
     const FALL_SPEED = 500;
+    const JUMP_COOLDOWN = 0.75;
 
     if (this.state === 6) {
       this.velocity.x = 0;
@@ -157,16 +160,26 @@ class Knight {
             this.state = 4;
           }
 
-          if (this.game.keys["up"]) {
+          if (this.game.keys["up"] && abs(this.lastJump - this.timeSinceLastJump) > JUMP_COOLDOWN) {
             if (this.energy > 0) {
               // jump
               this.velocity.y = JUMP_SPEED;
               this.state = 3;
               this.loseEnergy();
+              // start cooldown
+              this.lastJump = TICK;
+              this.timeSinceLastJump = 0;
             }
+          }
+          else {
+            // lower jump cooldown
+            this.timeSinceLastJump += TICK;
           }
         }
        else {
+        // lower jump cooldown
+        this.timeSinceLastJump += TICK;
+
         // air physics
         // vertical physics
         this.velocity.y += FALL_SPEED * TICK * PARAMS.SCALE;

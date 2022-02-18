@@ -745,7 +745,7 @@ class Goblin {
     updateBB() {
       this.lastBB = this.BB;
       this.BB = new BoundingBox(
-        this.x - this.game.camera.x,
+        this.x,
         this.y,
         PARAMS.BLOCKWIDTH * 1.2,
         PARAMS.BLOCKHEIGHT * 0.93
@@ -850,7 +850,7 @@ class Goblin {
       }
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
       }
     }
   }
