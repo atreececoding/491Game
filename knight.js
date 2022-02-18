@@ -68,7 +68,7 @@ class Knight {
         this.animations[1][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
         this.animations[2][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
         this.animations[3][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
-        this.animations[4][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
+        this.animations[4][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, NO_LOOP);
         this.animations[5][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP);
         this.animations[6][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP);
 
@@ -77,7 +77,7 @@ class Knight {
         this.animations[1][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
         this.animations[2][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
         this.animations[3][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
-        this.animations[4][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
+        this.animations[4][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, NO_LOOP);
         this.animations[5][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP);
         this.animations[6][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP);
     }
@@ -127,7 +127,12 @@ class Knight {
     if (this.state === 6) {
       this.velocity.x = 0;
       this.velocity.y = 0;
-    } else {
+    } else if (this.state === 4) {
+        if (this.animations[this.state][this.facing].isDone()) {
+          this.animations[this.state][this.facing].elapsedTime = 0;
+          this.state = 0;
+        }
+      } else {
         // update velocity
         // ground physics
         if (this.state !== 3) {
@@ -324,13 +329,13 @@ class Knight {
       if(entity.BB && that.spearBox.collide(entity.BB) && entity !== that) {
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Bat || entity instanceof Rat) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
-            if(that.game.keys["attack"]) {
+            if(that.state === 4) {
               entity.loseHeart();
               if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
-            if(that.game.keys["attack"]) {
+            if(that.state === 4) {
               entity.loseHeart();
               if (that.game.options.debugging) console.log("got here");
             }
@@ -378,7 +383,7 @@ class Knight {
   }
 
   draw(ctx) {
-
+    
     this.animations[this.state][this.facing].drawFrame(
       this.game.clockTick,
       ctx,
