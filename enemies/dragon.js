@@ -22,9 +22,12 @@
         this.originX = this.x;
         this.size = 0;
         this.facing = 1;
-        this.state = 4; // 0 = walking, 1 = attacking
+        this.state = 5; // 0 = walking, 1 = attacking
         this.dead = false;
       // default spritesheet for the dragon
+      
+      this.spritesheetUpperAttack = ASSET_MANAGER.getAsset("./sprites/DragonUpperAttack.png");
+      
       if(this.facing === 0)
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Dragon2.png");
       
@@ -178,11 +181,11 @@
       );
 
       this.animations[5][0] = new Animator(
-        this.spritesheet,
+        this.spritesheetUpperAttack,
         0,
-        336,
-        179,
-        132,
+        0,
+        400,
+        200,
         7,
         0.15,
         true,
@@ -190,11 +193,11 @@
       );
 
       this.animations[5][1] = new Animator(
-        this.spritesheet,
+        this.spritesheetUpperAttack,
         0,
-        336,
-        179,
-        132,
+        0,
+        400,
+        200,
         7,
         0.15,
         false,
@@ -303,7 +306,7 @@
           }
           else if (entity.BB && that.upperBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
-
+              that.spritesheet = ASSET_MANAGER.getAsset("./sprites/DragonUpperAttack");
               that.state = 5;
               that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
@@ -336,13 +339,24 @@
   
     draw(ctx) {
       if(this.lives > 0) {
-        this.animations[this.state][this.facing].drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x - this.game.camera.x,
-        this.y,
-        5
-        );
+        if(this.state === 5) {
+          this.animations[this.state][this.facing].drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x - this.game.camera.x - 300,
+            this.y - 100,
+            5
+            );
+        }
+        else {
+          this.animations[this.state][this.facing].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x - this.game.camera.x,
+          this.y,
+          5
+          );
+        }
       } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1) && !this.dead) {
         this.velocity.x = 0;
         this.animations[this.state][this.facing].drawFrame(
