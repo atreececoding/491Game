@@ -638,7 +638,7 @@ class Goblin {
       this.patLeft = this.x - 300;
       this.patRight = this.x;
       this.size = 0;
-      this.facing = 0;
+      this.facing = 0; // 0 = right, 1 = left
       this.state = 0; // 0 = walking, 1 = attacking
       this.dead = false;
       this.lives = 3;
@@ -750,6 +750,13 @@ class Goblin {
         PARAMS.BLOCKWIDTH * 1.2,
         PARAMS.BLOCKHEIGHT * 0.93
       );
+      this.lastRunBB = this.runBB;
+      this.runBB = new BoundingBox(
+      this.x -175,
+      this.y,
+      PARAMS.BLOCKWIDTH * 5,
+      PARAMS.BLOCKHEIGHT
+    );
     }
   
     die() {}
@@ -758,11 +765,14 @@ class Goblin {
       
       // Patrolling is hardcoded need to fix
       if (this.x <= this.patLeft && this.facing === 1) {
+        console.log(this.facing);
         this.x = this.patLeft;
         this.velocity.x = 75;
         this.facing = 0;
+
       } 
       if (this.x >= this.patRight && this.facing === 0) {
+        console.log(this.facing);
         this.x = this.patRight;
         this.velocity.x = -75;
         this.facing = 1;
@@ -774,12 +784,20 @@ class Goblin {
   
       var that = this;
       this.game.entities.forEach(function (entity) {
-        if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+        if (entity.BB && (that.BB.collide(entity.BB) || entity.BB.collide(that.BB)) && entity !== that) {
+          
           if (entity instanceof Knight) {
             console.log("bumped into knight");
+            // if (entity.facing != that.facing) {
+            //   that.facing = 0;
+            // }
+            // else {
+            //   that.facing = 1;
+            // }
+            
             that.state = 1;
+            
             that.velocity.x = 0;
-            that.facing = entity.facing+1;
             
             if (that.facing === 1) { //facing left
               that.x = entity.BB.left + entity.BB.width;
@@ -787,11 +805,9 @@ class Goblin {
             else {
               that.x = entity.BB.left - that.BB.width;
             }
-            
-            
             that.lastAttack = that.game.clockTick;
             that.timeSinceLastAttack = 0;
-            // entity.loseHeart();
+            //entity.loseHeart();
 
           } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
               that.velocity.x = 0;
@@ -818,6 +834,22 @@ class Goblin {
           } 
   
         }
+        if (entity.BB && that.runBB.collide(entity.BB) && entity !== that) {
+          if (entity instanceof Knight && !(that.BB.collide(entity.BB))) {
+            if(entity.BB.x > that.x) {
+              that.facing = 0;
+              //that.state = 1;
+              that.velocity.x = 75;
+              
+            }
+            else if(entity.BB.x < that.x) {
+              that.facing = 1;
+              //that.state = 1;
+              that.velocity.x = -75;
+            }
+            that.x += that.game.clockTick * that.velocity.x;
+          }
+        }
       });
       that.updateBB();
     }
@@ -828,6 +860,42 @@ class Goblin {
         this.state = 2;
       }
     }
+    // attackHelper(entity) {
+    //   if (entity.facing != this.facing) {
+    //       this.facing = 1;
+    //   }
+    //   else {
+    //       this.facing = 0;
+    //   }
+    //   this.state = 1;
+            
+    //   this.velocity.x = 0;
+      
+    //   if (this.facing === 1) { //facing left
+    //     this.x = entity.BB.left - entity.BB.width;
+    //   }
+    //   else {
+    //     this.x = entity.BB.left + this.BB.width;
+    //   }
+    //   this.lastAttack = this.game.clockTick;
+    //   this.timeSinceLastAttack = 0;
+    //   // entity.loseHeart();
+
+    //   if (this.lastAttack && abs(this.lastAttack - this.timeSinceLastAttack) > 2) {
+    //     this.velocity.x = 0;
+    //     if (this.facing === 0) {
+    //       this.velocity.x = 75;
+    //       this.lastAttack = undefined;
+    //     } 
+    //     if (this.facing === 1) {
+    //       this.velocity.x = -75;
+    //       this.lastAttack = undefined;
+    //     }
+    //   this.state = 0;
+    // } else {
+    //   this.timeSinceLastAttack += this.game.clockTick;
+    // }
+    // }
   
     draw(ctx) {
       if(this.lives > 0) {
@@ -857,6 +925,7 @@ class Goblin {
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+        ctx.strokeRect(this.runBB.x - this.game.camera.x, this.runBB.y, this.runBB.width, this.runBB.height);
       }
     }
   }

@@ -120,8 +120,7 @@ class Knight {
     const RUN_SPEED = 500;
     const JUMP_SPEED = -1000;
     const FALL_SPEED = 500;
-    const Y_JUMPBACK = -240;
-    const X_JUMPBACK = -100;
+    
 
     if (this.state === 6) {
       this.velocity.x = 0;
@@ -154,11 +153,12 @@ class Knight {
           
           } 
           else if (this.state == 5) {
+            // need to set a timer
             if(this.facing == 0) {
-              this.velocity.x = -100;
+              this.velocity.x = -150;
             }
             else {
-              this.velocity.x = 100;
+              this.velocity.x = 150;
             }
           }
           else {
@@ -181,7 +181,6 @@ class Knight {
             }
           }
         }
-        
         
         else {
         // air physics
@@ -241,9 +240,9 @@ class Knight {
             !entity.dead
           ) {
             that.y = entity.BB.top - that.BB.height;
-            //that.velocity.y -= 240;
+            
             // bounce up
-            console.log("collided top");
+            //console.log("collided top");
             
             
           }
@@ -252,8 +251,8 @@ class Knight {
 
           }
 
-   
         // TODO: handle side collision here
+        // Have Knight handle all the collisions
         if (that.facing === 0) { // If knight is facing right
           if (
             (entity instanceof Goblin || entity instanceof Rat) &&// collision with enemies or obstacles, TODO: may have to add more in later
@@ -262,12 +261,14 @@ class Knight {
           ) {
             console.log("collided left");
             
-            that.x = entity.BB.left - that.BB.width;
+            that.x = entity.BB.left - that.BB.width; 
             that.state = 5; // hurt state with custom physics
-            
-            console.log(that.velocity.y);
+            //entity.attackHelper(that);
             // that.velocity.y -= (that.y - 240); // bounce up
             // that.velocity.x -= 100; // bounce to the left
+            if (that.animations[that.state][that.facing].isDone()) {
+              that.state = 0;
+            }
             //that.state = 0;
             //that.state = 5;
    
