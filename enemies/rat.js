@@ -9,7 +9,7 @@ class Rat {
   
       this.size = 0;
       this.facing = 0;
-      this.state = 0;
+      this.state = 0; // 0 = idle, 1 = walking, 2 = dying
       this.dead = false;
       this.lives = 1;
   
@@ -26,95 +26,68 @@ class Rat {
           this.animations.push([i]);
         }
       }
+    // CONSTANTS
+    let X_OFFSET = 7;
+    let WIDTH = 32;
+    let HEIGHT = 18;
+    let HEIGHT2 = 22;
+    let FRAME_COUNT = 10;
+    let ANIMATION_SPEED_1 = 0.1;
+    let Y_OFFSET_0 = 22;
+    let Y_OFFSET_1 = 86;
+    let Y_OFFSET_2 = 148;
+    let REVERSE = true;
+    let NO_REVERSE = false;
+    let LOOP = true;
+    let NO_LOOP = false;
+
       // hovering right (directions are flipped because of sprite sheet)
       this.animations[0][0] = new Animator(
         this.spritesheet,
-        0,
-        22,
-        32,
-        18,
-        10,
-        0.1,
-        false,
-        true
+        X_OFFSET, Y_OFFSET_0, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP
       );
       
       this.animations[0][1] = new Animator(
         this.spritesheet,
-        0,
-        22,
-        32,
-        18,
-        10,
-        0.1,
-        true,
-        true
+        X_OFFSET, Y_OFFSET_0, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP
       );
   
       this.animations[1][0] = new Animator(
         this.spritesheet,
-        0,
-        86,
-        32,
-        18,
-        10,
-        0.1,
-        true,
-        true
+        X_OFFSET, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP
       );
   
       this.animations[1][1] = new Animator(
         this.spritesheetRev,
-        0,
-        86,
-        32,
-        18,
-        10,
-        0.1,
-        false,
-        true
+        X_OFFSET, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP
       );
   
       this.animations[2][0] = new Animator(
         this.spritesheet,
-        0,
-        147,
-        32,
-        13,
-        10,
-        0.1,
-        false,
-        false
+        X_OFFSET, Y_OFFSET_2, WIDTH, HEIGHT2, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP
       );
   
       this.animations[2][1] = new Animator(
         this.spritesheetRev,
-        0,
-        147,
-        32,
-        13,
-        10,
-        0.1,
-        true,
-        false
+        X_OFFSET, Y_OFFSET_2, WIDTH, HEIGHT2, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP
       );
     }
   
     updateBB() {
       this.lastBB = this.BB;
       this.BB = new BoundingBox(
-        this.x + 35,
+        this.x,
         this.y,
-        PARAMS.BLOCKWIDTH * 0.8,
+        PARAMS.BLOCKWIDTH * 0.6,
         PARAMS.BLOCKHEIGHT * 0.3
       );
   
       this.lastRunBB = this.runBB;
       this.runBB = new BoundingBox(
-        this.x - 150,
-        this.y,
+        this.x - 200,
+        this.y - PARAMS.BLOCKHEIGHT,
         PARAMS.BLOCKWIDTH * 5,
-        PARAMS.BLOCKHEIGHT
+        PARAMS.BLOCKHEIGHT * 2
       );
     }
   
@@ -196,6 +169,7 @@ class Rat {
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+        ctx.strokeStyle = "White";
         ctx.strokeRect(this.runBB.x - this.game.camera.x, this.runBB.y, this.runBB.width, this.runBB.height);
       }
     }

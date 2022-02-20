@@ -32,19 +32,11 @@ class Bat {
 
     // CONSTANTS
     let X_OFFSET = 0;
-    let X_OFFSET_2 = 27;
     let WIDTH = 32;
     let HEIGHT = 15;
     let FRAME_COUNT = 10;
     let ANIMATION_SPEED_1 = 0.1;
-    let ANIMATION_SPEED_2 = 0.05;
     let Y_OFFSET_0 = 172;
-    let Y_OFFSET_1 = 148;
-    let Y_OFFSET_2 = 258;
-    let Y_OFFSET_3 = 373;
-    let Y_OFFSET_4 = 500;
-    let Y_OFFSET_5 = 620;
-    let Y_OFFSET_6 = 721;
     let REVERSE = true;
     let NO_REVERSE = false;
     let LOOP = true;
