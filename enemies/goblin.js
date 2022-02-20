@@ -135,6 +135,16 @@ class Goblin {
           /////////////////////////////////////////////////////
           that.lastAttack = that.game.clockTick;
           that.timeSinceLastAttack = 0;
+          if (that.hurtTimer === undefined) {
+            that.hurtTimer = 0;
+          } else {
+            that.hurtTimer += that.game.clockTick;
+          }
+          if (that.hurtTimer > 1) {
+            entity.loseHeart();
+            that.hurtTimer = undefined;
+          }
+          entity.state = 5;
         
         } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
             that.velocity.x = 0;

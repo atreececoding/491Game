@@ -26,7 +26,7 @@ class Knight {
       this.animations = [];
       this.loadAnimations();
 
-      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.34125, 1.34125, 1.34125];
+      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.264125, 1.264125, 1.264125];
 
       this.gameOver = false;
       this.winCondition = false;
@@ -46,17 +46,19 @@ class Knight {
         let X_OFFSET = 25;
         let X_OFFSET_2 = 35;
         let X_OFFSET_3 = 23;
+        let X_OFFSET_4 = 15;
         let WIDTH = 270;
         let HEIGHT = 105;
+        let HEIGHT2 = 110;
         let FRAME_COUNT = 7;
         let ANIMATION_SPEED_1 = 0.15;
         let ANIMATION_SPEED_2 = 0.05;
-        let Y_OFFSET_0 = 28;
+        let Y_OFFSET_0 = 24;
         let Y_OFFSET_1 = 148;
         let Y_OFFSET_2 = 258;
         let Y_OFFSET_3 = 373;
-        let Y_OFFSET_4 = 500;
-        let Y_OFFSET_5 = 620;
+        let Y_OFFSET_4 = 490;
+        let Y_OFFSET_5 = 610;
         let Y_OFFSET_6 = 721;
         let REVERSE = true;
         let NO_REVERSE = false;
@@ -69,7 +71,7 @@ class Knight {
         this.animations[1][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
         this.animations[2][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
         this.animations[3][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
-        this.animations[4][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, NO_LOOP);
+        this.animations[4][0] = new Animator(this.spritesheet, X_OFFSET_4, Y_OFFSET_4, WIDTH, HEIGHT2, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, NO_LOOP);
         this.animations[5][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, NO_LOOP);
         this.animations[6][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP);
 
@@ -78,7 +80,7 @@ class Knight {
         this.animations[1][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
         this.animations[2][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
         this.animations[3][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
-        this.animations[4][1] = new Animator(this.rev_spritesheet, X_OFFSET_3, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, NO_LOOP);
+        this.animations[4][1] = new Animator(this.rev_spritesheet, X_OFFSET_3, Y_OFFSET_4, WIDTH, HEIGHT2, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, NO_LOOP);
         this.animations[5][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, NO_LOOP);
         this.animations[6][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP);
     }
@@ -148,11 +150,6 @@ class Knight {
             this.animations[this.state][this.facing].reset();
             this.state = 0;
             this.loseHeart();
-
-
-      
-            if((this.lastBB !== undefined)) console.log('IN HURT PHYSICS: lastBB left: ' + this.lastBB.left + ' lastBB right: ' + this.lastBB.right);
-            console.log('IN HURT PHYSICS: thisBB left: ' + this.BB.left + ' thisBB right: ' + this.BB.right);
          
           }
         } else {
@@ -282,13 +279,6 @@ class Knight {
             that.lastBB.right <= entity.BB.left
           ) {
             that.x = entity.BB.left - that.BB.width;
-            that.state = 5;
-
-
-            if((that.lastBB !== undefined)) console.log('RIGHT IN COLLISION: lastBB ' + that.lastBB.right);
-            console.log('RIGHT IN COLLISION: thisBB ' + that.BB.right);
-            console.log("goblin's lastBB: " + entity.lastBB.left);
-            console.log("goblin's currBB: "  + entity.BB.left);
       
           }
 
@@ -307,11 +297,7 @@ class Knight {
             that.lastBB.left >= entity.BB.right
           ) {
             that.x = entity.BB.right;
-            that.state = 5;
-            // if((that.lastBB !== undefined)) console.log('IN COLLISION: lastBB ' + that.lastBB.left);
-            // console.log('IN COLLISION: thisBB ' + that.BB.left);
-            // console.log("goblin's lastBB: " + entity.lastBB.left);
-            // console.log("goblin's currBB: "  + entity.BB.left);
+
           }
 
          

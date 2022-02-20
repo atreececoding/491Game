@@ -135,7 +135,7 @@ class Rat {
   
     loseHeart() {
       this.lives--;
-      console.log(this.lives);
+    //   console.log(this.lives);
       if(this.lives <= 0) {
         this.state = 2;
       }
