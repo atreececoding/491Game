@@ -26,7 +26,7 @@ class Knight {
       this.animations = [];
       this.loadAnimations();
 
-      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.34125, 1.45, 1.34125];
+      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.34125, 1.34125, 1.34125];
 
       this.gameOver = false;
       this.winCondition = false;
@@ -84,12 +84,22 @@ class Knight {
 
   updateBB() {
     this.lastBB = this.BB;
+    // if (this.BBtimer === undefined) {
+    //   this.BBtimer = 0;
+    // } else {
+    //   this.BBtimer += this.game.clockTick;
+    // }
+    // if((this.lastBB !== undefined) && this.BBtimer > 1) console.log('lastBB ' + this.lastBB.x + ", " + this.lastBB.y);
     this.BB = new BoundingBox(
       this.x,
       this.y,
       PARAMS.BLOCKWIDTH * .7,
       PARAMS.BLOCKHEIGHT * .9
     );
+    // if((this.lastBB !== undefined) && this.BBtimer > 1) console.log('thisBB ' + this.BB.x + ", " + this.BB.y);
+    // if (this.BBtimer > 1) {
+    //   this.BBtimer = undefined;
+    // }
     this.lastSpearBB = this.spearBox;
     this.spearBox = new BoundingBox(
       this.x - 70,
@@ -129,10 +139,22 @@ class Knight {
       this.velocity.y = 0;
     } else if (this.state === 4) {
         if (this.animations[this.state][this.facing].isDone()) {
-          this.animations[this.state][this.facing].elapsedTime = 0;
+          this.animations[this.state][this.facing].reset();
           this.state = 0;
         }
-      } else {
+      } else if (this.state === 5) {
+          if (this.animations[this.state][this.facing].isDone()) {
+            this.animations[this.state][this.facing].reset();
+            this.state = 0;
+            this.loseHeart();
+
+
+      
+            if((this.lastBB !== undefined)) console.log('IN HURT PHYSICS: lastBB left: ' + this.lastBB.left + ' lastBB right: ' + this.lastBB.right);
+            console.log('IN HURT PHYSICS: thisBB left: ' + this.BB.left + ' thisBB right: ' + this.BB.right);
+         
+          }
+        } else {
         // update velocity
         // ground physics
         if (this.state !== 3) {
@@ -259,10 +281,14 @@ class Knight {
             that.lastBB.right <= entity.BB.left
           ) {
             that.x = entity.BB.left - that.BB.width;
-            that.y -= 240; // bounce up
-            that.x -= 100; // bounce to the left
             that.state = 5;
-   
+
+
+            if((that.lastBB !== undefined)) console.log('RIGHT IN COLLISION: lastBB ' + that.lastBB.right);
+            console.log('RIGHT IN COLLISION: thisBB ' + that.BB.right);
+            console.log("goblin's lastBB: " + entity.lastBB.left);
+            console.log("goblin's currBB: "  + entity.BB.left);
+      
           }
 
           if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
@@ -270,7 +296,7 @@ class Knight {
             that.velocity.x = 0;
             that.updateBB();
         }
-
+          
         }
         //facing left
         if (that.facing === 1) {
@@ -280,10 +306,11 @@ class Knight {
             that.lastBB.left >= entity.BB.right
           ) {
             that.x = entity.BB.right;
-            that.y -= 240; // bounce up
-            that.x += 100; // bounce to the right
             that.state = 5;
-
+            // if((that.lastBB !== undefined)) console.log('IN COLLISION: lastBB ' + that.lastBB.left);
+            // console.log('IN COLLISION: thisBB ' + that.BB.left);
+            // console.log("goblin's lastBB: " + entity.lastBB.left);
+            // console.log("goblin's currBB: "  + entity.BB.left);
           }
 
          
@@ -331,13 +358,13 @@ class Knight {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.state === 4) {
               entity.loseHeart();
-              if (that.game.options.debugging) console.log("got here");
+              // if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.state === 4) {
               entity.loseHeart();
-              if (that.game.options.debugging) console.log("got here");
+              // if (that.game.options.debugging) console.log("got here");
             }
           }
         }

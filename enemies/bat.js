@@ -5,10 +5,16 @@ class Bat {
     this.velocity = { x: 0, y: -10 };
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ratAndBat.png");
 
+
+    this.downPat = this.y;
+    this.upPat = this.y - 500;
+    this.patRight = this.x + 200;
+    this.patLeft = this.x;
     this.size = 0;
     this.facing = 0;
     this.state = 0;
     this.dead = false;
+    this.lives = 1;
 
     this.updateBB();
 
@@ -23,18 +29,40 @@ class Bat {
         this.animations.push([i]);
       }
     }
-    // hovering right (directions are flipped because of sprite sheet)
+
+    // CONSTANTS
+    let X_OFFSET = 0;
+    let X_OFFSET_2 = 27;
+    let WIDTH = 32;
+    let HEIGHT = 15;
+    let FRAME_COUNT = 10;
+    let ANIMATION_SPEED_1 = 0.1;
+    let ANIMATION_SPEED_2 = 0.05;
+    let Y_OFFSET_0 = 172;
+    let Y_OFFSET_1 = 148;
+    let Y_OFFSET_2 = 258;
+    let Y_OFFSET_3 = 373;
+    let Y_OFFSET_4 = 500;
+    let Y_OFFSET_5 = 620;
+    let Y_OFFSET_6 = 721;
+    let REVERSE = true;
+    let NO_REVERSE = false;
+    let LOOP = true;
+    let NO_LOOP = false;
+
+    //hovering right (directions are flipped because of sprite sheet)
     this.animations[0][0] = new Animator(
       this.spritesheet,
-      0,
-      172,
-      32,
-      12,
-      10,
-      0.1,
-      false,
-      true
+      X_OFFSET,
+      Y_OFFSET_0,
+      WIDTH,
+      HEIGHT,
+      FRAME_COUNT,
+      ANIMATION_SPEED_1,
+      NO_REVERSE,
+      LOOP
     );
+    
   }
 
   updateBB() {
@@ -42,38 +70,70 @@ class Bat {
     this.BB = new BoundingBox(
       this.x + 35,
       this.y - 10,
-      PARAMS.BLOCKWIDTH * 0.9,
-      PARAMS.BLOCKHEIGHT * 0.55
+      PARAMS.BLOCKWIDTH * 0.8,
+      PARAMS.BLOCKHEIGHT * 0.3
     );
   }
 
   die() {}
 
   update() {
+    // this is hardcoded need to fix
     let scale = 1 + Math.random();
-    if (this.x <= 350 && this.facing === 1) {
+    if (this.x <= this.patLeft /*&& this.facing === 1*/) {
+      // console.log("got left");
+      this.x = this.patLeft;
       this.velocity.x = 100 * scale;
-      this.facing = 0;
+      //this.facing = 0;
     } 
-    if (this.x >= 550 && this.facing === 0) {
+    if (this.x >= this.patRight /*&& this.facing === 0*/) {
+      // console.log("got right");
+      this.x = this.patRight;
       this.velocity.x = -100 * scale;
-      this.facing = 1;
+      //this.facing = 1;
     }
-    if (this.y <= 30) {
-      this.velocity.y = 50 * scale;
+    if (this.y <= this.upPat) {
+      //this.y = this.patUp;
+      this.velocity.y = 100 * scale;
+      // console.log(this.velocity.y);
     } 
-    if (this.y >= 60) {
-      this.velocity.y = -50 * scale;
+    if (this.y >= this.downPat) {
+      //this.y = this.patDown;
+      this.velocity.y = -100 * scale;
     }
     this.x += this.game.clockTick * this.velocity.x;
     this.y += this.game.clockTick * this.velocity.y;
     this.updateBB();
   }
 
+  loseHeart() {
+    this.lives--;
+    console.log(this.lives);
+    if(this.lives <= 0) {
+    this.state = 2;
+  }
+  }
+
   draw(ctx) {
-    const TICK = this.game.clockTick;
-    this.animations[this.state][0].drawFrame(TICK, ctx, this.x - this.game.camera.x, this.y, 5);
-    // ctx.strokeStyle = "Red";
-    // ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+
+    this.animations[this.state][this.facing].drawFrame(
+    this.game.clockTick,
+    ctx,
+    this.x - this.game.camera.x,
+    this.y,
+    5
+    );
+    
+      // if(this.animations[this.state][this.facing].isDone()) {
+      //   this.dead = true;
+      // }
+      // if(this.dead === true) {
+      //   this.removeFromWorld = true;
+      // }
+    
+      if (this.game.options.debugging) {
+        ctx.strokeStyle = "Red";
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      }
   }
 }
