@@ -14,6 +14,7 @@ ASSET_MANAGER.queueDownload("./sprites/Dragon2.png");
 ASSET_MANAGER.queueDownload("./sprites/DragonRev2.png");
 ASSET_MANAGER.queueDownload("./sprites/dragon2_grid.png");
 ASSET_MANAGER.queueDownload("./sprites/DragonDead.png");
+ASSET_MANAGER.queueDownload("./sprites/DragonMidAttack.png");
 ASSET_MANAGER.queueDownload("./sprites/DragonUpperAttack.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
