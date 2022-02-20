@@ -13,7 +13,7 @@ class Knight {
       this.lives = 5;
       this.energy = 3;
 
-      this.x = 10;
+      this.x = 5100;
       this.y = 0;
       this.speed = 100;
       this.velocity = {

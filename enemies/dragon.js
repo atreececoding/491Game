@@ -22,7 +22,7 @@
         this.originX = this.x;
         this.size = 0;
         this.facing = 1;
-        this.state = 0; // 0 = walking, 1 = attacking
+        this.state = 4; // 0 = walking, 1 = attacking
         this.dead = false;
       // default spritesheet for the dragon
       if(this.facing === 0)
@@ -31,7 +31,7 @@
       else
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/DragonRev2.png");
   
-      this.lives = 20;
+      this.lives = 1000;
   
       // velocity
       this.velocity = {
@@ -48,14 +48,14 @@
     }
   
     loadAnimations() {
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 7; i++) {
         this.animations.push([]);
         for (let j = 0; j < 2; j++) {
           this.animations[i].push([]);
         }
       }
   
-      // idle
+      // 0 = idle, 1 = lower attack, 2 = dying, 3 = dead, 4 = mid, 5 = upper
       // facing right = 0
       this.animations[0][0] = new Animator(
         this.spritesheet,
@@ -152,6 +152,54 @@
         false,
         true
       );
+
+      this.animations[4][0] = new Animator(
+        this.spritesheet,
+        0,
+        469,
+        179,
+        116,
+        6,
+        0.2,
+        true,
+        true
+      );
+
+      this.animations[4][1] = new Animator(
+        this.spritesheet,
+        0,
+        469,
+        215,
+        116,
+        6,
+        0.2,
+        false,
+        true
+      );
+
+      this.animations[5][0] = new Animator(
+        this.spritesheet,
+        0,
+        336,
+        179,
+        132,
+        7,
+        0.15,
+        true,
+        true
+      );
+
+      this.animations[5][1] = new Animator(
+        this.spritesheet,
+        0,
+        336,
+        179,
+        132,
+        7,
+        0.15,
+        false,
+        true
+      );
   
       
     }
@@ -165,13 +213,31 @@
         PARAMS.BLOCKWIDTH * 4.8
       );
   
-      this.lastFireBox = this.fireBB;
-      this.fireBB = new BoundingBox(
+      this.lastUpperBB = this.upperBB;
+      this.upperBB = new BoundingBox(
         this.x,
         this.y + 20,
+        PARAMS.BLOCKWIDTH * 2,
+        PARAMS.BLOCKWIDTH * 2
+      );
+
+      this.lastLowerBB = this.lowerBB; 
+      this.lowerBB = new BoundingBox(
+        this.x,
+        this.y + 350,
         PARAMS.BLOCKWIDTH * 5.5,
         PARAMS.BLOCKWIDTH * 5.2
-      )
+      );
+
+      this.lastMidBB = this.midBB;
+      this.midBB = new BoundingBox(
+        this.x,
+        this.y + 150,
+        PARAMS.BLOCKWIDTH * 2,
+        PARAMS.BLOCKWIDTH * 2
+      );
+
+
     }
   
     die() {}
@@ -199,10 +265,46 @@
           } 
         }
         if(that.state !== 3 && that.state !== 2) {
-          if (entity.BB && that.fireBB.collide(entity.BB) && entity !== that) {
+          if (entity.BB && that.lowerBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
 
               that.state = 1;
+              that.lastAttack = that.game.clockTick;
+                that.timeSinceLastAttack = 0;
+
+            } 
+            if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+    
+                that.state = 0;
+                that.lastAttack = undefined;
+            } else {
+   
+              that.timeSinceLastAttack += that.game.clockTick;
+            }
+
+          }
+          else if (entity.BB && that.midBB.collide(entity.BB) && entity !== that) {
+            if (entity instanceof Knight) {
+
+              that.state = 4;
+              that.lastAttack = that.game.clockTick;
+                that.timeSinceLastAttack = 0;
+
+            } 
+            if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+    
+                that.state = 0;
+                that.lastAttack = undefined;
+            } else {
+   
+              that.timeSinceLastAttack += that.game.clockTick;
+            }
+
+          }
+          else if (entity.BB && that.upperBB.collide(entity.BB) && entity !== that) {
+            if (entity instanceof Knight) {
+
+              that.state = 5;
               that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
 
@@ -269,7 +371,11 @@
       if (this.game.options.debugging) {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-        ctx.strokeRect(this.fireBB.x - this.game.camera.x, this.fireBB.y, this.fireBB.width, this.fireBB.height);
+        ctx.strokeRect(this.upperBB.x - this.game.camera.x, this.upperBB.y, this.upperBB.width, this.upperBB.height);
+        ctx.strokeStyle = "Blue";
+        ctx.strokeRect(this.lowerBB.x - this.game.camera.x, this.lowerBB.y, this.lowerBB.width, this.lowerBB.height);
+        ctx.strokeStyle = "Green";
+        ctx.strokeRect(this.midBB.x - this.game.camera.x, this.midBB.y, this.midBB.width, this.midBB.height);
       }
     }
   }
