@@ -194,6 +194,11 @@ class Knight {
               // start cooldown
               this.lastJump = TICK;
               this.timeSinceLastJump = 0;
+            } else {
+              this.velocity.y = .8 * JUMP_SPEED;
+              this.state = 3;
+              this.lastJump = TICK;
+              this.timeSinceLastJump = 0;
             }
           }
           else {
