@@ -128,8 +128,8 @@ class Goblin {
 
     var that = this;
     this.game.entities.forEach(function (entity) {
-      if (entity.BB && that.BB.collide(entity.BB) && entity !== that && that.state != 2 ) {
-        if (entity instanceof Knight) {
+      if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+        if (entity instanceof Knight && that.state != 2) {
           that.state = 1;
           that.velocity.x = 0;
           // TO STOP THE KNIGHT FROM GOING THROUGH THE GOBLIN

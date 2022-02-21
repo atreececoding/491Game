@@ -13,7 +13,7 @@ class Knight {
       this.lives = 5;
       this.energy = 3;
 
-      this.x = 100;
+      this.x = 5000;
       this.y = 0;
       this.speed = 100;
       this.velocity = {
@@ -265,6 +265,10 @@ class Knight {
 
     var that = this;
     this.game.entities.forEach(function (entity) {
+      if (entity.wallBB && entity.wallBB.collide(that.BB) && entity !== that) {
+        that.velocity.x = 0;
+        that.x = entity.wallBB.left - that.BB.width;
+      }
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (that.velocity.y > 0) {
           // falling

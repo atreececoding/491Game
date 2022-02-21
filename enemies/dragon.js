@@ -11,6 +11,8 @@
     PATROL: 1,
     ATTACK: 2,
   };
+  const FIRE_PREP = 2;
+  
   
   
   // // dragon final boss class
@@ -22,7 +24,7 @@
         this.originX = this.x;
         this.size = 0;
         this.facing = 1;
-        this.state = 4; // 0 = idle, 1 = low attack, dying, dead, mid attack, high attack
+        this.state = 0; // 0 = idle, 1 = low attack, dying, dead, mid attack, high attack
         this.dead = false;
 
       // spritesheets for the dragon
@@ -38,8 +40,12 @@
         x: VELOCITY_X,
         y: VELOCITY_Y,
       };
-  
+      this.lastFire = 0;
+      this.timeSinceLastFire = 2;
+      
+      this.GRAVITY = 1;
       // initialize bounding box
+      
       this.updateBB();
   
       // 2d array of animations based on [state][facing]
@@ -215,7 +221,7 @@
   
       this.lastUpperBB = this.upperBB;
       this.upperBB = new BoundingBox(
-        this.x,
+        this.x-150,
         this.y + 20,
         PARAMS.BLOCKWIDTH * 2,
         PARAMS.BLOCKWIDTH * 2
@@ -223,7 +229,7 @@
 
       this.lastLowerBB = this.lowerBB; 
       this.lowerBB = new BoundingBox(
-        this.x,
+        this.x-50,
         this.y + 350,
         PARAMS.BLOCKWIDTH * 5.5,
         PARAMS.BLOCKWIDTH * 5.2
@@ -231,10 +237,16 @@
 
       this.lastMidBB = this.midBB;
       this.midBB = new BoundingBox(
-        this.x,
+        this.x-150,
         this.y + 150,
         PARAMS.BLOCKWIDTH * 2,
         PARAMS.BLOCKWIDTH * 2
+      );
+      this.wallBB = new BoundingBox (
+        this.x + this.BB.width,
+        this.y - this.BB.height,
+        PARAMS.BLOCKWIDTH * 2,
+        PARAMS.BLOCKWIDTH * 12
       );
 
 
@@ -245,15 +257,19 @@
     update() {
 
   
-      this.velocity.y += 1;
+      this.velocity.y += this.GRAVITY;
       //this.x += this.game.clockTick * this.velocity.x;
       this.y += this.game.clockTick * this.velocity.y;
-      this.updateBB();
+      if (!this.dead) {
+        this.updateBB();
+      }
+      
   
       var that = this;
-
+      const TICK = that.game.clockTick;
       this.game.entities.forEach(function (entity) {
-        if(entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+       
+        if(entity.BB && that.BB && that.BB.collide(entity.BB) && entity !== that) {
           if (
             (entity instanceof Floor || entity instanceof Platform) &&
             that.lastBB.bottom <= entity.BB.top
@@ -261,66 +277,114 @@
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 3.967;
             that.velocity.y = 0;
             //console.log("collided with floor");
-  
           } 
         }
         if(that.state !== 3 && that.state !== 2) {
           if (entity.BB && that.lowerBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
-
-              that.state = 1;
-              that.lastAttack = that.game.clockTick;
+             
+              if (that.timer === undefined) {
+                that.timer = 0;
+              }
+              else {
+                that.timer += TICK;
+                console.log(that.timer);
+              }
+              if (that.timer > FIRE_PREP) {
+                console.log("Lower fire");
+                that.state = 1;
+                that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
-
-            } 
+                entity.loseHeart();
+                entity.loseHeart();
+                
+                
+                that.timer = 0;
+                
+              }
+            }
+           
+            
             if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
-    
+                
                 that.state = 0;
                 that.lastAttack = undefined;
+                that.timer = 0;
             } else {
-   
+              
               that.timeSinceLastAttack += that.game.clockTick;
             }
 
           }
+          
           else if (entity.BB && that.midBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
-
-              that.state = 4;
-              that.lastAttack = that.game.clockTick;
+              if (that.timer === undefined) {
+                that.timer = 0;
+              }
+              else {
+                that.timer += TICK;
+              }
+              if (that.timer > FIRE_PREP) {
+                that.state = 4;
+                that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
-
+                entity.loseHeart();
+                entity.loseHeart();
+                
+                that.timer = 0;
+              }
             } 
             if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
-    
+                
                 that.state = 0;
                 that.lastAttack = undefined;
+                that.timer = 0;
             } else {
-   
+              
               that.timeSinceLastAttack += that.game.clockTick;
             }
 
           }
+          
           else if (entity.BB && that.upperBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
-              that.state = 5;
-              that.lastAttack = that.game.clockTick;
+              if (that.timer === undefined) {
+                that.timer = 0;
+              }
+              else {
+                that.timer += TICK;
+              }
+              if (that.timer > FIRE_PREP) {
+                that.state = 5;
+                that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
+                entity.loseHeart();
+                entity.loseHeart();
+                
+                that.timer = 0;
+              }
             } 
             if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
-    
+                
                 that.state = 0;
                 that.lastAttack = undefined;
+                that.timer = 0;
             } else {
-   
+              
               that.timeSinceLastAttack += that.game.clockTick;
             }
 
           }
+          else if (entity instanceof Knight && !that.lowerBB.collide(entity.BB) && !that.midBB.collide(entity.BB) && !that.upperBB.collide(entity.BB)  && entity != that) {
+            that.timer = 0;
+          }
         }
+        
       });
-      
-      that.updateBB();
+      if (!that.dead) {
+        that.updateBB();
+      }
     }
   
     loseHeart() {
@@ -330,6 +394,18 @@
         this.state = 2;
         
       }
+    }
+    clearBoundingBoxes() {
+      this.lastBB = undefined;
+      this.BB = undefined;
+      this.lastLowerBB = undefined;
+      this.lowerBB = undefined;
+      this.lastMidBB = undefined;
+      this.midBB = undefined;
+      this.lastUpperBB = undefined;
+      this.upperBB = undefined;
+      
+      this.wallBB = undefined;
     }
   
     draw(ctx) {
@@ -372,6 +448,9 @@
         );
         if(this.animations[this.state][this.facing].isDone()) {
           this.dead = true;
+          console.log("died");
+          this.clearBoundingBoxes();
+          this.GRAVITY = 0;
         }
         
       }
@@ -385,7 +464,7 @@
           5
         );
       }
-      if (this.game.options.debugging) {
+      if (this.game.options.debugging && this.BB && this.upperBB && this.midBB && this.lowerBB && this.wallBB) {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
         ctx.strokeRect(this.upperBB.x - this.game.camera.x, this.upperBB.y, this.upperBB.width, this.upperBB.height);
@@ -393,6 +472,8 @@
         ctx.strokeRect(this.lowerBB.x - this.game.camera.x, this.lowerBB.y, this.lowerBB.width, this.lowerBB.height);
         ctx.strokeStyle = "Green";
         ctx.strokeRect(this.midBB.x - this.game.camera.x, this.midBB.y, this.midBB.width, this.midBB.height);
+        ctx.strokeStyle = "Black";
+        ctx.strokeRect(this.wallBB.x - this.game.camera.x, this.wallBB.y, this.wallBB.width, this.wallBB.height);
       }
     }
   }
