@@ -13,7 +13,7 @@ class Knight {
       this.lives = 5;
       this.energy = 3;
 
-      this.x = 5100;
+      this.x = 100;
       this.y = 0;
       this.speed = 100;
       this.velocity = {
@@ -145,18 +145,34 @@ class Knight {
           this.animations[this.state][this.facing].reset();
           this.state = 0;
         }
-      } else if (this.state === 5) {
-          if (this.animations[this.state][this.facing].isDone()) {
-            this.animations[this.state][this.facing].reset();
-            this.state = 0;
-            this.loseHeart();
-         
-          }
+    } else if (this.state === 5) {
+        if(this.facing == 0) {
+          console.log("working");
+          this.velocity.x = -250;
+          this.velocity.y = -150;
+          this.x += this.velocity.x * TICK;
+          this.y += this.velocity.y * TICK;
+
+          this.updateBB();
+        }
+        else {
+          console.log("working");
+          this.velocity.x = 250;
+          this.velocity.y = -150;
+          this.x += this.velocity.x * TICK;
+          this.y += this.velocity.y * TICK;
+
+        this.updateBB();
+        }
+        if (this.animations[this.state][this.facing].isDone()) {
+          this.animations[this.state][this.facing].reset();
+          this.state = 0;
+          this.loseHeart();         
+        }
         } else {
         // update velocity
         // ground physics
         if (this.state !== 3) {
-          
           if (this.game.keys["left"] && !this.game.keys["right"]) { // move left
             if (this.game.keys["shift"]) {
               this.velocity.x = -RUN_SPEED;
@@ -278,32 +294,36 @@ class Knight {
    
         // TODO: handle side collision here
         if (that.facing === 0) {
-          if (
-            entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
-            !entity.dead &&
-            that.lastBB.right <= entity.BB.left
-          ) {
-            that.x = entity.BB.left - that.BB.width;
+          // if (
+          //   entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
+          //   !entity.dead &&
+          //   that.lastBB.right <= entity.BB.left
+          // ) {
+          //   console.log("collided left");
+          //   //that.x = entity.BB.left - that.BB.width;
+          //   //that.state = 5;
       
-          }
+          // }
 
           if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
             that.velocity.x = 0;
             that.updateBB();
         }
-          
+
         }
         //facing left
         if (that.facing === 1) {
-          if (
-            entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
-            !entity.dead &&
-            that.lastBB.left >= entity.BB.right
-          ) {
-            that.x = entity.BB.right;
+          // if (
+          //   entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
+          //   !entity.dead &&
+          //   that.lastBB.left >= entity.BB.right
+          // ) {
+          //   console.log("collided right");
+          //   that.x = entity.BB.right;
+          //   //that.state = 5;
 
-          }
+          // }
 
          
           if (entity instanceof Crate && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {

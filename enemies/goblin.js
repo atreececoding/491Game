@@ -12,7 +12,7 @@ class Goblin {
     this.facing = 0;
     this.state = 0; // 0 = walking, 1 = attacking, 2 = dying
     this.dead = false;
-    this.lives = 3;
+    this.lives = 300;
 
     this.speed = 100;
 
@@ -97,6 +97,13 @@ class Goblin {
       PARAMS.BLOCKWIDTH * .9,
       PARAMS.BLOCKHEIGHT * 0.93
     );
+    this.lastRunBB = this.runBB;
+      this.runBB = new BoundingBox(
+        this.x - 175,
+        this.y,
+        PARAMS.BLOCKWIDTH * 5,
+        PARAMS.BLOCKHEIGHT
+      );
   }
 
   die() {}
@@ -121,13 +128,13 @@ class Goblin {
 
     var that = this;
     this.game.entities.forEach(function (entity) {
-      if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+      if (entity.BB && that.BB.collide(entity.BB) && entity !== that && that.state != 2 ) {
         if (entity instanceof Knight) {
           that.state = 1;
           that.velocity.x = 0;
           // TO STOP THE KNIGHT FROM GOING THROUGH THE GOBLIN
           if (that.facing === 1) {
-            that.x = entity.BB.right;
+            that.x = entity.BB.right ;
           }
           else {
             that.x = entity.BB.left - that.BB.width;
@@ -169,7 +176,22 @@ class Goblin {
           that.velocity.y = 0;
 
         } 
-
+      }
+      else if (entity.BB && that.runBB.collide(entity.BB) && entity !== that) {
+        if (entity instanceof Knight && !(that.BB.collide(entity.BB))) {
+          if(entity.BB.x > that.x) {
+            that.facing = 0;
+            //that.state = 1;
+            that.velocity.x = 100;
+            
+          }
+          else if(entity.BB.x < that.x) {
+            that.facing = 1;
+            //that.state = 1;
+            that.velocity.x = -100;
+          }
+          //that.x += that.game.clockTick * that.velocity.x;
+        }
       }
     });
     that.updateBB();
@@ -210,6 +232,8 @@ class Goblin {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeStyle = "White";
+        ctx.strokeRect(this.runBB.x - this.game.camera.x, this.runBB.y, this.runBB.width, this.runBB.height);
     }
   }
 }
