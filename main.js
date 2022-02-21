@@ -31,6 +31,7 @@ ASSET_MANAGER.queueDownload("./sprites/cloud.png");
 ASSET_MANAGER.queueDownload("./sprites/crates.png");
 ASSET_MANAGER.queueDownload("./sprites/dragon.png");
 ASSET_MANAGER.queueDownload("./sprites/TreasureHoard.png");
+ASSET_MANAGER.queueDownload("./sprites/Level1Background.png");
 
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");

@@ -1,16 +1,15 @@
 class Background {
   constructor(game, x = 0, y = 0) {
     Object.assign(this, { game, x, y });
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/forest.png");
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Level1Background.png");
   }
   update() {}
 
   draw(ctx) {
     // Hardcoded
-    ctx.drawImage(this.spritesheet, 0, 0, 1200, 800);
+    ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 6000, 800);
   }
 }
-
 class Floor {
   constructor(game, x = 0, y = 0, w) {
     Object.assign(this, { game, x, y, w });
