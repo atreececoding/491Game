@@ -7,7 +7,7 @@ class Background {
 
   draw(ctx) {
     // Hardcoded
-    ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 6000, 800);
+    ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
   }
 }
 class Floor {
