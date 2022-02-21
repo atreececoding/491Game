@@ -53,7 +53,7 @@ class Knight {
         let FRAME_COUNT = 7;
         let ANIMATION_SPEED_1 = 0.15;
         let ANIMATION_SPEED_2 = 0.05;
-        let Y_OFFSET_0 = 24;
+        let Y_OFFSET_0 = 8;
         let Y_OFFSET_1 = 148;
         let Y_OFFSET_2 = 258;
         let Y_OFFSET_3 = 373;
