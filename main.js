@@ -10,6 +10,8 @@ ASSET_MANAGER.queueDownload("./sprites/KnightRevSprites.png");
 ASSET_MANAGER.queueDownload("./sprites/background.png");
 ASSET_MANAGER.queueDownload("./sprites/forest.png");
 ASSET_MANAGER.queueDownload("./sprites/goblinSprite.png");
+ASSET_MANAGER.queueDownload("./sprites/skeletons.png");
+ASSET_MANAGER.queueDownload("./sprites/skeletonsRev.png");
 ASSET_MANAGER.queueDownload("./sprites/Dragon2.png");
 ASSET_MANAGER.queueDownload("./sprites/DragonRev2.png");
 ASSET_MANAGER.queueDownload("./sprites/dragon2_grid.png");

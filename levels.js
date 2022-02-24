@@ -24,6 +24,7 @@ var levelOne = {
         { x: 3870, y: 532, size: 1 }, /*{ x: 420, y: 300, size: 1 }, { x: 405, y: 300, size: 1 }, { x: 415, y: 300, size: 1 }, { x: 418, y: 300, size: 1 },
     { x: 410, y: 300, size: 1 },{ x: 422, y: 300, size: 1 },{ x: 428, y: 300, size: 1 },{ x: 390, y: 300, size: 1 },{ x: 380, y: 300, size: 1 }*/],
     goblins: [{ x: 600, y: 300, size: 1 }, { x: 2020, y: 500, size: 1 }, { x: 2916, y: 100, size: 1 }, { x: 3416, y: 100, size: 1 }],
+    skeletons: [{x: 800, y: 300, size: 1}],
     //dragons: [{x: 5200, y: 0, size: 5}],
     //dragons: [{x: 5200, y: 0, size: 1}],
     //dragons: [{ x: 1000, y: 200, size: 1 }],

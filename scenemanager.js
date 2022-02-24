@@ -58,6 +58,12 @@ class SceneManager {
         this.game.addEntity(new Goblin(this.game, goblin.x, goblin.y, goblin.size));
       }
     }
+    if (level.skeletons) {
+      for(var i = 0; i < level.skeletons.length; i++) {
+        let skeleton = level.skeletons[i];
+        this.game.addEntity(new Skeleton(this.game, skeleton.x, skeleton.y, skeleton.size))
+      }
+    }
     if (level.rats) {
       for (var i = 0; i < level.rats.length; i++) {
         let rat = level.rats[i];
