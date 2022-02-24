@@ -50,6 +50,29 @@ class Animator {
     );
   }
 
+  drawCastleGateFrame(tick, ctx, x = 0, y = 0, widthScale = 1, heightScale = 1) {
+    this.elapsedTime += tick;
+
+    if (this.elapsedTime > this.totalTime && this.loop)
+      this.elapsedTime -= this.totalTime;
+
+    var frame = this.currentFrame();
+
+    if (this.reverse) frame = this.frameCount - frame - 1;
+
+    ctx.drawImage(
+      this.spritesheet,
+      this.xStart + this.width * frame,
+      this.yStart,
+      this.width,
+      this.height,
+      x,
+      y,
+      this.width * widthScale,
+      this.height * heightScale
+    );
+  }
+
   currentFrame() {
     return Math.floor(this.elapsedTime / this.frameDuration);
   }

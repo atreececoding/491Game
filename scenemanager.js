@@ -124,6 +124,18 @@ class SceneManager {
         this.game.addEntity(new goldApple(this.game, goldapple.x, goldapple.y, goldapple.size));
       }
     }
+    if (level.castlegates) {
+      for(var i = 0; i < level.castlegates.length; i++) {
+        let castlegate = level.castlegates[i];
+        this.game.addEntity(new CastleGates(this.game, castlegate.x, castlegate.y, castlegate.w, castlegate.h));
+      }
+    }
+    if (level.castles) {
+      for (var i = 0; i < level.castles.length; i++) {
+        let castle = level.castles[i];
+        this.game.addEntity(new Castle(this.game, castle.x, castle.y, castle.size));
+      }
+    }
     if (level.backgrounds) {
       for (var i = 0; i < level.backgrounds.length; i++) {
         let background = level.backgrounds[i];
