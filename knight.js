@@ -273,9 +273,14 @@ class Knight {
         if (that.velocity.y > 0) {
           // falling
           if (
-            (entity instanceof Floor || entity instanceof Platform || entity instanceof Crate ) && // landing // TODO: may add more entities in here later // need to fix crate side collision
+            (entity instanceof Floor) && // landing // TODO: may add more entities in here later // need to fix crate side collision
             that.lastBB.bottom <= entity.BB.top
           ) {
+            // was above last tick
+            that.y = entity.BB.top - that.BB.height;
+            that.velocity.y = 0;
+          }
+          if((entity instanceof Platform || entity instanceof Crate) && !that.game.keys["down"] && that.lastBB.bottom <= entity.BB.top) {
             // was above last tick
             that.y = entity.BB.top - that.BB.height;
             that.velocity.y = 0;
