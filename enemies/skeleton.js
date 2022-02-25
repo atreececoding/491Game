@@ -12,7 +12,7 @@ class Skeleton {
         this.facing = 0;
         this.state = 0; // 0 = walking, 1 = attacking, 2 = dying
         this.dead = false;
-        this.lives = 250;
+        this.lives = 5;
     
         this.speed = 100;
     
@@ -34,13 +34,13 @@ class Skeleton {
     
          // CONSTANTS
          let X_OFFSET = 0;
-         let X_OFFSET2 = 0;
+         let X_OFFSET2 = 5;
          let WIDTH = 65;
-         let WIDTH2 = 65;
+         let WIDTH2 = 123;
          let HEIGHT = 94;
          let HEIGHT2 = 95;
          let FRAME_COUNT = 5;
-         let FRAME_COUNT2 = 9;
+         let FRAME_COUNT2 = 7;
          let ANIMATION_SPEED_1 = 0.15;
          let Y_OFFSET_0 = 38;
          let Y_OFFSET_1 = 38;
@@ -99,7 +99,7 @@ class Skeleton {
         //facing left = 1
         this.animations[2][1] = new Animator(
           this.spritesheetRev,
-          188, Y_OFFSET_4, WIDTH2, HEIGHT2, FRAME_COUNT2, ANIMATION_SPEED_1, REVERSE, NO_LOOP
+          0, Y_OFFSET_4, WIDTH2 - 5, HEIGHT2, FRAME_COUNT2, ANIMATION_SPEED_1, REVERSE, NO_LOOP
         ); 
       }
     
@@ -214,7 +214,7 @@ class Skeleton {
         this.lives--;
         // console.log(this.lives);
         if(this.lives <= 0) {
-          this.state = 3;
+          this.state = 2;
         }
       }
     
