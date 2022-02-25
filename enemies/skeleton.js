@@ -52,18 +52,6 @@ class Skeleton {
          let LOOP = true;
          let NO_LOOP = false;
     
-        // //Idle
-        // //facing right = 0
-        // this.animations[0][0] = new Animator(
-        //   this.spritesheet,
-        //   X_OFFSET, Y_OFFSET_0, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP
-        // );
-        // //facing left = 1
-        // this.animations[0][1] = new Animator(
-        //   this.spritesheetRev,
-        //   485, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP
-        // );
-    
         //Walking
         //facing right = 0
         this.animations[0][0] = new Animator(
@@ -80,13 +68,13 @@ class Skeleton {
         //facing right = 0
         this.animations[1][0] = new Animator(
           this.spritesheet,
-          0, 269, 143, 131, 6, 0.2, NO_REVERSE, LOOP
+          0, 270, 143, 130, 6, 0.2, NO_REVERSE, LOOP
         );    
           //facing left = 1
   
         this.animations[1][1] = new Animator(
           this.spritesheetRev,
-          0, 269, 143.5, 131, 6, 0.2, REVERSE, LOOP
+          0, 270, 143.5, 130, 6, 0.2, REVERSE, LOOP
         );
 
         //death
@@ -108,8 +96,8 @@ class Skeleton {
         this.BB = new BoundingBox(
           this.x,
           this.y,
-          PARAMS.BLOCKWIDTH * .9,
-          PARAMS.BLOCKHEIGHT * 0.93
+          PARAMS.BLOCKWIDTH,
+          PARAMS.BLOCKHEIGHT * 1.25
         );
         this.lastRunBB = this.runBB;
           this.runBB = new BoundingBox(
@@ -148,7 +136,7 @@ class Skeleton {
               that.velocity.x = 0;
               // TO STOP THE KNIGHT FROM GOING THROUGH THE GOBLIN
               if (that.facing === 1) {
-                that.x = entity.BB.right ;
+                that.x = entity.BB.right;
               }
               else {
                 that.x = entity.BB.left - that.BB.width;
@@ -186,7 +174,7 @@ class Skeleton {
               (entity instanceof Floor || entity instanceof Platform) &&
               that.lastBB.bottom <= entity.BB.top
             ) {
-              that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 0.93;
+              that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 1.25;
               that.velocity.y = 0;
     
             } 
@@ -220,13 +208,24 @@ class Skeleton {
     
       draw(ctx) {
         if(this.lives > 0) {
-          this.animations[this.state][this.facing].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - this.game.camera.x,
-          this.y,
-          2
-          );
+          if(this.state === 1) {
+            this.animations[this.state][this.facing].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - this.game.camera.x,
+              this.y - 87,
+              2
+            );
+          }
+          else {
+            this.animations[this.state][this.facing].drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x - this.game.camera.x,
+            this.y,
+            2
+            );
+          }
         } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
           this.velocity.x = 0;
           this.animations[this.state][this.facing].drawFrame(

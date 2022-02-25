@@ -250,9 +250,9 @@ class CastleGates {
       3.6,
       5.9
     );
-    if (this.game.options.debugging) {
-      ctx.strokeStyle = "Red";
-      ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.w, this.BB.h);
-    }
+    // if (this.game.options.debugging) {
+    //   ctx.strokeStyle = "Red";
+    //   ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.w, this.BB.h);
+    // }
   }
 }
