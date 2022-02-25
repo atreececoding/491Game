@@ -40,8 +40,28 @@ ASSET_MANAGER.queueDownload("./sprites/castlegates.png");
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");
 
+// Sound Effects
+ASSET_MANAGER.queueDownload("./sfx/dragon_attack.wav");
+ASSET_MANAGER.queueDownload("./sfx/dragon_die.wav");
+ASSET_MANAGER.queueDownload("./sfx/dragon_hurt.wav");
+ASSET_MANAGER.queueDownload("./sfx/game_over.wav");
+ASSET_MANAGER.queueDownload("./sfx/goblin_hurt.wav");
+ASSET_MANAGER.queueDownload("./sfx/hit_ground.wav");
+ASSET_MANAGER.queueDownload("./sfx/rat_hurt.wav");
+ASSET_MANAGER.queueDownload("./sfx/spear_hit.mp3");
+
+
 ASSET_MANAGER.downloadAll(() => {
   ASSET_MANAGER.autoRepeat("./music/AstralAcademy.mp3");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/dragon_attack.wav");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/dragon_die.wav");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/dragon_hurt.wav");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/game_over.wav");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/goblin_hurt.wav");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/hit_ground.wav");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/rat_hurt.wav");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/spear_hit.mp3");
+
 
   const canvas = document.getElementById("gamecanvas");
   const ctx = canvas.getContext("2d");

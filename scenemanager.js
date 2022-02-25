@@ -157,6 +157,8 @@ class SceneManager {
 
     ASSET_MANAGER.muteAudio(mute);
     ASSET_MANAGER.adjustVolume(volume);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/hit_ground.wav", volume * .2);
+
   }
 
   updateOptions() {

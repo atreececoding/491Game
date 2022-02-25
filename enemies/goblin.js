@@ -198,6 +198,14 @@ class Goblin {
   }
   loseHeart() {
     this.lives--;
+    var hurtSoundPath = './sfx/goblin_hurt.wav';
+    if (!(ASSET_MANAGER.getAsset(hurtSoundPath).currentTime > 0)) {
+      ASSET_MANAGER.playAsset(hurtSoundPath);
+    }
+    var attackSoundPath = './sfx/spear_hit.mp3';
+    if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
+      ASSET_MANAGER.playAsset(attackSoundPath);
+    }
     // console.log(this.lives);
     if(this.lives <= 0) {
       this.state = 2;

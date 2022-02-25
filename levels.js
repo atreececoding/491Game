@@ -1,7 +1,7 @@
 var levelOne = {
     music: "./music/AstralAcademy.mp3",
     label: "1-1",
-    knights: [ {} ],
+    knights: [ {note: 'this is what spawns in the knight in the first level'} ],
     // hardcoded y for bounding box
     floors: [{ x: 0, y: 735, size: 800 }],
     clouds: [{x:366, y:222, w: 200, h: 90}],
@@ -25,9 +25,7 @@ var levelOne = {
     { x: 410, y: 300, size: 1 },{ x: 422, y: 300, size: 1 },{ x: 428, y: 300, size: 1 },{ x: 390, y: 300, size: 1 },{ x: 380, y: 300, size: 1 }*/],
     goblins: [{ x: 600, y: 300, size: 1 }, { x: 2020, y: 500, size: 1 }, { x: 2916, y: 100, size: 1 }, { x: 3416, y: 100, size: 1 }],
     //skeletons: [{x: 300, y: 300, size: 1}],
-    //dragons: [{x: 5200, y: 0, size: 5}],
-    //dragons: [{x: 5200, y: 0, size: 1}],
-    //dragons: [{ x: 1000, y: 200, size: 1 }],
+    // dragons: [{x: 5200, y: 0, size: 1}],
     //energyjuices: [{ x: 575, y: 150, size: 1 } ],
     redapples: [{x: 1275, y: 340, size: 1 }, {x: 2200, y: 680, size: 1 }, {x: 2900, y: 340, size: 1 }, {x: 4390, y: 560, size: 1 } ],
     //goldapples:[{x: 6075, y: 425, size: 2}],
@@ -45,7 +43,9 @@ var credits = {
     "• Richard Hardwick",
     "• Brandon Lu",
     "• Glenn Pak",
-    "• Andrew Treece"
-    
+    "• Andrew Treece",
+    "       Playtesters",
+    "• Sam Wu",
+    "• Runsen Wu",
     ]
 }

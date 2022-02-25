@@ -97,6 +97,18 @@ class AssetManager {
     return this.cache[path];
   }
 
+  resetAudioOnEnd(path) {
+    let audio = this.cache[path];
+    audio.addEventListener("ended", function () {
+      audio.currentTime = 0;
+    });
+  }
+
+  adjustAssetVolume(path, volume) {
+    let audio = this.cache[path];
+    audio.volume = volume;
+  }
+
   playAsset(path) {
     let audio = this.cache[path];
     audio.currentTime = 0;

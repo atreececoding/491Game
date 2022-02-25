@@ -12,7 +12,7 @@ class Knight {
 
       this.lives = 5;
       this.energy = 3;
-
+      this.attackTimer = 2;
       this.x = 100; //100
       this.y = 0;
       this.speed = 100;
@@ -87,22 +87,14 @@ class Knight {
 
   updateBB() {
     this.lastBB = this.BB;
-    // if (this.BBtimer === undefined) {
-    //   this.BBtimer = 0;
-    // } else {
-    //   this.BBtimer += this.game.clockTick;
-    // }
-    // if((this.lastBB !== undefined) && this.BBtimer > 1) console.log('lastBB ' + this.lastBB.x + ", " + this.lastBB.y);
+
     this.BB = new BoundingBox(
       this.x,
       this.y,
       PARAMS.BLOCKWIDTH * .7,
       PARAMS.BLOCKHEIGHT * .9
     );
-    // if((this.lastBB !== undefined) && this.BBtimer > 1) console.log('thisBB ' + this.BB.x + ", " + this.BB.y);
-    // if (this.BBtimer > 1) {
-    //   this.BBtimer = undefined;
-    // }
+
     this.lastSpearBB = this.spearBox;
     this.spearBox = new BoundingBox(
       this.x - 70,
@@ -115,6 +107,10 @@ class Knight {
   die() {
     console.log("DEAD");
     this.gameOver = true;
+    var gameOverSoundPath = './sfx/game_over.wav';
+    if (!(ASSET_MANAGER.getAsset(gameOverSoundPath).currentTime > 0)) {
+      ASSET_MANAGER.playAsset(gameOverSoundPath);
+    }
   }
 
   win() {
@@ -136,6 +132,8 @@ class Knight {
     const JUMP_SPEED = -1000;
     const FALL_SPEED = 500;
     const JUMP_COOLDOWN = 0.5;
+    const ATTACK_COOLDOWN = 0.1;
+
 
     if (this.state === 6) {
       this.velocity.x = 0;
@@ -145,9 +143,10 @@ class Knight {
           this.animations[this.state][this.facing].reset();
           this.state = 0;
         }
+        
     } else if (this.state === 5) {
         if(this.facing == 0) {
-          console.log("working");
+
           this.velocity.x = -250;
           this.velocity.y = -150;
           this.x += this.velocity.x * TICK;
@@ -197,8 +196,19 @@ class Knight {
           // fall if you step off platform
           this.velocity.y = FALL_SPEED;
 
+          if (this.attackTimer == undefined) {
+            this.attackTimer = 0;
+          } else {
+            this.attackTimer += TICK;
+          }
+
           if (this.game.keys["attack"]) {
-            this.state = 4;
+            
+            if (this.attackTimer > ATTACK_COOLDOWN) {
+              this.state = 4;
+              this.attackTimer = undefined;
+            }
+
           }
 
           if (this.game.keys["up"] && abs(this.lastJump - this.timeSinceLastJump) > JUMP_COOLDOWN) {
@@ -271,6 +281,7 @@ class Knight {
       }
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (that.velocity.y > 0) {
+          
           // falling
           if (
             (entity instanceof Floor || entity instanceof Crate) && // landing // TODO: may add more entities in here later // need to fix crate side collision
@@ -296,8 +307,12 @@ class Knight {
             that.y = entity.BB.top - that.BB.height;
           }
           // move this line into the conditional blocks if we don't want jump reset on collision
+          var hitGroundSoundPath = './sfx/hit_ground.wav';
+          if (!(ASSET_MANAGER.getAsset(hitGroundSoundPath).currentTime > 0) && that.state == 3) {
+            ASSET_MANAGER.playAsset(hitGroundSoundPath);
+          }
           if (that.state === 3) that.state = 0; // set state to idle
-
+          
         }
 
    
@@ -379,12 +394,20 @@ class Knight {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.state === 4) {
               entity.loseHeart();
+              var attackSoundPath = './sfx/spear_hit.mp3';
+              if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
+                ASSET_MANAGER.playAsset(attackSoundPath);
+              }
               // if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.state === 4) {
               entity.loseHeart();
+              var attackSoundPath = './sfx/spear_hit.mp3';
+              if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
+                ASSET_MANAGER.playAsset(attackSoundPath);
+              }
               // if (that.game.options.debugging) console.log("got here");
             }
           }
