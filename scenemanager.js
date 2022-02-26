@@ -64,6 +64,12 @@ class SceneManager {
         this.game.addEntity(new Skeleton(this.game, skeleton.x, skeleton.y, skeleton.size))
       }
     }
+    if (level.gargoyles) {
+      for(var i = 0; i < level.gargoyles.length; i++) {
+        let gargoyle = level.gargoyles[i];
+        this.game.addEntity(new Gargoyle(this.game, gargoyle.x, gargoyle.y, gargoyle.size))
+      }
+    }
     if (level.rats) {
       for (var i = 0; i < level.rats.length; i++) {
         let rat = level.rats[i];

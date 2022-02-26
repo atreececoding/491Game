@@ -25,6 +25,7 @@ var levelOne = {
     { x: 410, y: 300, size: 1 },{ x: 422, y: 300, size: 1 },{ x: 428, y: 300, size: 1 },{ x: 390, y: 300, size: 1 },{ x: 380, y: 300, size: 1 }*/],
     goblins: [{ x: 600, y: 300, size: 1 }, { x: 2020, y: 500, size: 1 }, { x: 2916, y: 100, size: 1 }, { x: 3416, y: 100, size: 1 }],
     //skeletons: [{x: 300, y: 300, size: 1}],
+    // gargoyles: [{ x: 700, y: 610, size: 2 }],
     // dragons: [{x: 5200, y: 0, size: 1}],
     //energyjuices: [{ x: 575, y: 150, size: 1 } ],
     redapples: [{x: 1275, y: 340, size: 1 }, {x: 2200, y: 680, size: 1 }, {x: 2900, y: 340, size: 1 }, {x: 4390, y: 560, size: 1 } ],
