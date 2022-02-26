@@ -58,6 +58,12 @@ class SceneManager {
         this.game.addEntity(new Goblin(this.game, goblin.x, goblin.y, goblin.size));
       }
     }
+    if (level.skeletons) {
+      for(var i = 0; i < level.skeletons.length; i++) {
+        let skeleton = level.skeletons[i];
+        this.game.addEntity(new Skeleton(this.game, skeleton.x, skeleton.y, skeleton.size))
+      }
+    }
     if (level.rats) {
       for (var i = 0; i < level.rats.length; i++) {
         let rat = level.rats[i];
@@ -124,6 +130,18 @@ class SceneManager {
         this.game.addEntity(new goldApple(this.game, goldapple.x, goldapple.y, goldapple.size));
       }
     }
+    if (level.castlegates) {
+      for(var i = 0; i < level.castlegates.length; i++) {
+        let castlegate = level.castlegates[i];
+        this.game.addEntity(new CastleGates(this.game, castlegate.x, castlegate.y, castlegate.w, castlegate.h));
+      }
+    }
+    if (level.castles) {
+      for (var i = 0; i < level.castles.length; i++) {
+        let castle = level.castles[i];
+        this.game.addEntity(new Castle(this.game, castle.x, castle.y, castle.size));
+      }
+    }
     if (level.backgrounds) {
       for (var i = 0; i < level.backgrounds.length; i++) {
         let background = level.backgrounds[i];
@@ -152,7 +170,7 @@ class SceneManager {
         ASSET_MANAGER.getAsset("./sprites/title.png"),
         0,
         0,
-        1000,
+        1200,
         800
       );
     }
@@ -171,7 +189,9 @@ class SceneManager {
 
     //if (this.x < (this.knight.x - midpoint)) this.x = this.knight.x - midpoint;
     //this.x = this.knight.x - midpoint;
-    this.x = this.knight.x + 60 - midpoint;
+    if (this.knight.x - midpoint >= -100) {
+      this.x = this.knight.x + 60 - midpoint;
+    }
 
     this.updateAudio();
     this.updateOptions();

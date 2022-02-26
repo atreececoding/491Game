@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>Hangry Night</title>
+    <title>Hangry Knight</title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
@@ -26,7 +26,11 @@
     <script type="text/javascript" src="./gameengine.js"></script>
     <script type="text/javascript" src="./animator.js"></script>
     <script type="text/javascript" src="./knight.js"></script>
-    <script type="text/javascript" src="./enemies.js"></script>
+    <script type="text/javascript" src="./enemies/bat.js"></script>
+    <script type="text/javascript" src="./enemies/dragon.js"></script>
+    <script type="text/javascript" src="./enemies/goblin.js"></script>
+    <script type="text/javascript" src="./enemies/rat.js"></script>
+    <script type="text/javascript" src="./enemies/skeleton.js"></script>
     <script type="text/javascript" src="./ui.js"></script>
     <script type="text/javascript" src="./items.js"></script>
     <script type="text/javascript" src="./background.js"></script>
@@ -36,7 +40,7 @@
     <script type="text/javascript" src="./main.js"></script>
   </head>
   <body>
-    <div>Hangry Night <br /></div>
+    <div>Hangry Knight <br /></div>
 
     <canvas
       id="gamecanvas"
@@ -61,14 +65,14 @@
       <br />
       Movement: WASD or Arrow Keys
       <br />
-      Attack: Space (not implemented yet)
+      Attack: Left click
       <br />
       Run: Shift
     </h1>
 
     <div>
       <br />
-      <input type="checkbox" id="debug" checked/> Debug
+      <input type="checkbox" id="debug"/> Debug
       <input type="checkbox" id="mute" /> Mute
       <input type="range" id="volume" min="0" max="1" value="0.1" step="0.05" />
       Volume

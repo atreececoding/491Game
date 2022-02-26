@@ -50,7 +50,7 @@ class GameEngine {
       
     function leftClick(e) {
       // e.preventDefault();
-      if (that.options.debugging) console.log("LEFT_CLICK");
+      // if (that.options.debugging) console.log("LEFT_CLICK");
       that.keys["click"] = true;
     }
 
@@ -61,7 +61,7 @@ class GameEngine {
           switch (e.button) {
             case 0:
             that.attack = true;
-            if (that.options.debugging) console.log("Click clicked");
+            // if (that.options.debugging) console.log("Click clicked");
             that.keys["attack"] = true;
             break;
           }
@@ -76,7 +76,7 @@ class GameEngine {
           switch (e.button) {
             case 0:
             that.attack = false;
-            if (that.options.debugging) console.log("Click unclicks");
+            // if (that.options.debugging) console.log("Click unclicks");
             that.keys["attack"] = false;
             break;
           }
@@ -90,30 +90,30 @@ class GameEngine {
         case "ArrowLeft":
         case "KeyA":
           that.keys["left"] = true;
-          if (that.options.debugging) console.log("Left/A pressed");
+          // if (that.options.debugging) console.log("Left/A pressed");
           break;
         case "ArrowRight":
         case "KeyD":
           that.keys["right"] = true;
-          if (that.options.debugging) console.log("Right/D pressed");
+          // if (that.options.debugging) console.log("Right/D pressed");
           break;
         case "ArrowUp":
         case "KeyW":
           that.keys["up"] = true;
-          if (that.options.debugging) console.log("Up/W pressed");
+          // if (that.options.debugging) console.log("Up/W pressed");
           break;
         case "ArrowDown":
         case "KeyS":
           that.keys["down"] = true;
-          if (that.options.debugging) console.log("Down/S pressed");
+          // if (that.options.debugging) console.log("Down/S pressed");
           break;
         case "Space":
           that.keys["space"] = true;
-          if (that.options.debugging) console.log("Space pressed");
+          // if (that.options.debugging) console.log("Space pressed");
           break;
         case "ShiftLeft":
           that.keys["shift"] = true;
-          if (that.options.debugging) console.log("Shift pressed");
+          // if (that.options.debugging) console.log("Shift pressed");
           break;
       }
     }
@@ -124,30 +124,30 @@ class GameEngine {
         case "ArrowLeft":
         case "KeyA":
           that.keys["left"] = false;
-          if (that.options.debugging) console.log("Left/A released");
+          // if (that.options.debugging) console.log("Left/A released");
           break;
         case "ArrowRight":
         case "KeyD":
           that.keys["right"] = false;
-          if (that.options.debugging) console.log("Right/D released");
+          // if (that.options.debugging) console.log("Right/D released");
           break;
         case "ArrowUp":
         case "KeyW":
           that.keys["up"] = false;
-          if (that.options.debugging) console.log("Up/W released");
+          // if (that.options.debugging) console.log("Up/W released");
           break;
         case "ArrowDown":
         case "KeyS":
           that.keys["down"] = false;
-          if (that.options.debugging) console.log("Down/S released");
+          // if (that.options.debugging) console.log("Down/S released");
           break;
         case "Space":
           that.keys["space"] = false;
-          if (that.options.debugging) console.log("Space released");
+          // if (that.options.debugging) console.log("Space released");
           break;
         case "ShiftLeft":
           that.keys["shift"] = false;
-          if (that.options.debugging) console.log("Shift released");
+          // if (that.options.debugging) console.log("Shift released");
           break;
       }
     }

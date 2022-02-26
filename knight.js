@@ -13,7 +13,7 @@ class Knight {
       this.lives = 5;
       this.energy = 15;
 
-      this.x = 0;
+      this.x = 100; //100
       this.y = 0;
       this.speed = 100;
       this.velocity = {
@@ -26,7 +26,7 @@ class Knight {
       this.animations = [];
       this.loadAnimations();
 
-      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.34125, 1.34125, 1.34125];
+      this.animationScales = [1.45, 1.45, 1.34125, 1.34125, 1.264125, 1.264125, 1.264125];
 
       this.gameOver = false;
       this.winCondition = false;
@@ -39,21 +39,26 @@ class Knight {
                 this.animations.push([i]);
             }
         }
+        this.lastJump = 0;
+        this.timeSinceLastJump = 2;
 
         // CONSTANTS
         let X_OFFSET = 25;
         let X_OFFSET_2 = 35;
+        let X_OFFSET_3 = 23;
+        let X_OFFSET_4 = 15;
         let WIDTH = 270;
         let HEIGHT = 105;
+        let HEIGHT2 = 110;
         let FRAME_COUNT = 7;
         let ANIMATION_SPEED_1 = 0.15;
         let ANIMATION_SPEED_2 = 0.05;
-        let Y_OFFSET_0 = 28;
+        let Y_OFFSET_0 = 8;
         let Y_OFFSET_1 = 148;
         let Y_OFFSET_2 = 258;
         let Y_OFFSET_3 = 373;
-        let Y_OFFSET_4 = 500;
-        let Y_OFFSET_5 = 620;
+        let Y_OFFSET_4 = 490;
+        let Y_OFFSET_5 = 610;
         let Y_OFFSET_6 = 721;
         let REVERSE = true;
         let NO_REVERSE = false;
@@ -66,8 +71,8 @@ class Knight {
         this.animations[1][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
         this.animations[2][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, LOOP);
         this.animations[3][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
-        this.animations[4][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
-        this.animations[5][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);
+        this.animations[4][0] = new Animator(this.spritesheet, X_OFFSET_4, Y_OFFSET_4, WIDTH, HEIGHT2, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, NO_LOOP);
+        this.animations[5][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, NO_REVERSE, NO_LOOP);
         this.animations[6][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, NO_LOOP);
 
         //facing left = 1
@@ -75,19 +80,29 @@ class Knight {
         this.animations[1][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_1, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
         this.animations[2][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, LOOP);
         this.animations[3][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
-        this.animations[4][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_4, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
-        this.animations[5][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, LOOP);
+        this.animations[4][1] = new Animator(this.rev_spritesheet, X_OFFSET_3, Y_OFFSET_4, WIDTH, HEIGHT2, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, NO_LOOP);
+        this.animations[5][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_5, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_2, REVERSE, NO_LOOP);
         this.animations[6][1] = new Animator(this.rev_spritesheet, X_OFFSET_2, Y_OFFSET_6, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, REVERSE, NO_LOOP);
     }
 
   updateBB() {
     this.lastBB = this.BB;
+    // if (this.BBtimer === undefined) {
+    //   this.BBtimer = 0;
+    // } else {
+    //   this.BBtimer += this.game.clockTick;
+    // }
+    // if((this.lastBB !== undefined) && this.BBtimer > 1) console.log('lastBB ' + this.lastBB.x + ", " + this.lastBB.y);
     this.BB = new BoundingBox(
       this.x,
       this.y,
       PARAMS.BLOCKWIDTH * .7,
       PARAMS.BLOCKHEIGHT * .9
     );
+    // if((this.lastBB !== undefined) && this.BBtimer > 1) console.log('thisBB ' + this.BB.x + ", " + this.BB.y);
+    // if (this.BBtimer > 1) {
+    //   this.BBtimer = undefined;
+    // }
     this.lastSpearBB = this.spearBox;
     this.spearBox = new BoundingBox(
       this.x - 70,
@@ -120,20 +135,45 @@ class Knight {
     const RUN_SPEED = 500;
     const JUMP_SPEED = -1000;
     const FALL_SPEED = 500;
-    
+    const JUMP_COOLDOWN = 0.5;
 
     if (this.state === 6) {
       this.velocity.x = 0;
       this.velocity.y = 0;
-    } 
-    
-    
-      else {
+    } else if (this.state === 4) {
+        if (this.animations[this.state][this.facing].isDone()) {
+          this.animations[this.state][this.facing].reset();
+          this.state = 0;
+        }
+    } else if (this.state === 5) {
+        if(this.facing == 0) {
+          console.log("working");
+          this.velocity.x = -250;
+          this.velocity.y = -150;
+          this.x += this.velocity.x * TICK;
+          this.y += this.velocity.y * TICK;
+
+          this.updateBB();
+        }
+        else {
+          console.log("working");
+          this.velocity.x = 250;
+          this.velocity.y = -150;
+          this.x += this.velocity.x * TICK;
+          this.y += this.velocity.y * TICK;
+
+        this.updateBB();
+        }
+        if (this.animations[this.state][this.facing].isDone()) {
+          this.animations[this.state][this.facing].reset();
+          this.state = 0;
+          this.loseHeart();         
+        }
+        } else {
         // update velocity
         // ground physics
         
         if (this.state !== 3) {
-          
           if (this.game.keys["left"] && !this.game.keys["right"]) { // move left
             if (this.game.keys["shift"]) {
               this.velocity.x = -RUN_SPEED;
@@ -172,17 +212,31 @@ class Knight {
             this.state = 4;
           }
 
-          if (this.game.keys["up"]) {
+          if (this.game.keys["up"] && abs(this.lastJump - this.timeSinceLastJump) > JUMP_COOLDOWN) {
             if (this.energy > 0) {
               // jump
               this.velocity.y = JUMP_SPEED;
               this.state = 3;
               this.loseEnergy();
+              // start cooldown
+              this.lastJump = TICK;
+              this.timeSinceLastJump = 0;
+            } else {
+              this.velocity.y = .8 * JUMP_SPEED;
+              this.state = 3;
+              this.lastJump = TICK;
+              this.timeSinceLastJump = 0;
             }
           }
+          else {
+            // lower jump cooldown
+            this.timeSinceLastJump += TICK;
+          }
         }
-        
-        else {
+       else {
+        // lower jump cooldown
+        this.timeSinceLastJump += TICK;
+
         // air physics
         // vertical physics
         this.velocity.y += FALL_SPEED * TICK * PARAMS.SCALE;
@@ -222,11 +276,15 @@ class Knight {
 
     var that = this;
     this.game.entities.forEach(function (entity) {
-      if (entity.BB && that.BB.collide(entity.BB) /*&& entity !== that*/ ) { // why do we have this here (entity !== that)
+      if (entity.wallBB && entity.wallBB.collide(that.BB) && entity !== that) {
+        that.velocity.x = 0;
+        that.x = entity.wallBB.left - that.BB.width;
+      }
+      if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (that.velocity.y > 0) {
           // falling
           if (
-            (entity instanceof Floor || entity instanceof Platform || entity instanceof Crate ) && // landing // TODO: may add more entities in here later // need to fix crate side collision
+            (entity instanceof Floor || entity instanceof Crate) && // landing // TODO: may add more entities in here later // need to fix crate side collision
             that.lastBB.bottom <= entity.BB.top
           ) {
             // was above last tick
@@ -234,6 +292,13 @@ class Knight {
             that.y = entity.BB.top - that.BB.height;
             
           }
+          if((entity instanceof Platform) && !that.game.keys["down"] && that.lastBB.bottom <= entity.BB.top) {
+            // was above last tick
+            that.y = entity.BB.top - that.BB.height;
+            that.velocity.y = 0;
+          }
+          
+
           if (
             (entity instanceof Goblin || entity instanceof Rat) &&
             that.lastBB.bottom <= entity.BB.top && // was above last tick
@@ -252,29 +317,17 @@ class Knight {
           }
 
         // TODO: handle side collision here
-        // Have Knight handle all the collisions
-        if (that.facing === 0) { // If knight is facing right
-          if (
-            (entity instanceof Goblin || entity instanceof Rat) &&// collision with enemies or obstacles, TODO: may have to add more in later
-            !entity.dead &&
-            that.lastBB.right <= entity.BB.left
-          ) {
-            console.log("collided left");
-            
-            that.x = entity.BB.left - that.BB.width; 
-            that.state = 5; // hurt state with custom physics
-            //entity.attackHelper(that);
-            // that.velocity.y -= (that.y - 240); // bounce up
-            // that.velocity.x -= 100; // bounce to the left
-            if (that.animations[that.state][that.facing].isDone()) {
-              that.state = 0;
-            }
-            //that.state = 0;
-            //that.state = 5;
-   
-          }
-          
-          
+        if (that.facing === 0) {
+          // if (
+          //   entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
+          //   !entity.dead &&
+          //   that.lastBB.right <= entity.BB.left
+          // ) {
+          //   console.log("collided left");
+          //   //that.x = entity.BB.left - that.BB.width;
+          //   //that.state = 5;
+      
+          // }
 
           if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
@@ -286,18 +339,16 @@ class Knight {
         
         //facing left
         if (that.facing === 1) {
-          if (
-            (entity instanceof Goblin || entity instanceof Rat) &&// collision with enemies or obstacles, TODO: may have to add more in later
-            !entity.dead &&
-            that.lastBB.left >= entity.BB.right
-          ) {
-            console.log("collided right");
-            that.state = 5;
-            that.x = entity.BB.right;
-            //that.velocity.y -= 240; // bounce up
-            // bounce to the right
-            
-          }
+          // if (
+          //   entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
+          //   !entity.dead &&
+          //   that.lastBB.left >= entity.BB.right
+          // ) {
+          //   console.log("collided right");
+          //   that.x = entity.BB.right;
+          //   //that.state = 5;
+
+          // }
 
          
           if (entity instanceof Crate && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
@@ -340,17 +391,17 @@ class Knight {
         }
       }
       if(entity.BB && that.spearBox.collide(entity.BB) && entity !== that) {
-        if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Bat || entity instanceof Rat) && !entity.dead) {
+        if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Rat || entity instanceof Skeleton) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
-            if(that.game.keys["attack"]) {
+            if(that.state === 4) {
               entity.loseHeart();
-              if (that.game.options.debugging) console.log("got here");
+              // if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
-            if(that.game.keys["attack"]) {
+            if(that.state === 4) {
               entity.loseHeart();
-              if (that.game.options.debugging) console.log("got here");
+              // if (that.game.options.debugging) console.log("got here");
             }
           }
         }
@@ -395,7 +446,7 @@ class Knight {
   }
 
   draw(ctx) {
-
+    
     this.animations[this.state][this.facing].drawFrame(
       this.game.clockTick,
       ctx,
