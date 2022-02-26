@@ -168,6 +168,10 @@ class Knight {
           this.state = 0;
           this.loseHeart();         
         }
+        var knightHurtSoundPath = './sfx/knight_hurt.wav';
+        if (!(ASSET_MANAGER.getAsset(knightHurtSoundPath).currentTime > 0)) {
+          ASSET_MANAGER.playAsset(knightHurtSoundPath);
+        }
         } else {
         // update velocity
         // ground physics
@@ -265,6 +269,13 @@ class Knight {
     this.x += this.velocity.x * TICK;
     this.y += this.velocity.y * TICK;
 
+    if (this.velocity.x !== 0 && (this.state === 1 || this.state === 2)) {
+      var walkingSoundPath = './sfx/walking.wav';
+      if (!(ASSET_MANAGER.getAsset(walkingSoundPath).currentTime > 0)) {
+        ASSET_MANAGER.playAsset(walkingSoundPath);
+      }
+    }
+
     this.updateBB();
 
     // update direction
@@ -275,11 +286,14 @@ class Knight {
 
     var that = this;
     this.game.entities.forEach(function (entity) {
+      
+      
       if (entity.wallBB && entity.wallBB.collide(that.BB) && entity !== that) {
         that.velocity.x = 0;
         that.x = entity.wallBB.left - that.BB.width;
       }
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+        
         if (that.velocity.y > 0) {
           
           // falling
@@ -299,7 +313,7 @@ class Knight {
           
 
           if (
-            entity instanceof Goblin && Rat &&
+            (entity instanceof Goblin || entity instanceof Rat) &&
             that.lastBB.bottom <= entity.BB.top && // was above last tick
             !entity.dead
           ) {
@@ -308,8 +322,14 @@ class Knight {
           }
           // move this line into the conditional blocks if we don't want jump reset on collision
           var hitGroundSoundPath = './sfx/hit_ground.wav';
-          if (!(ASSET_MANAGER.getAsset(hitGroundSoundPath).currentTime > 0) && that.state == 3) {
+          if (!(ASSET_MANAGER.getAsset(hitGroundSoundPath).currentTime > 0) && that.state == 3 && (entity instanceof Platform || entity instanceof Floor)) {
             ASSET_MANAGER.playAsset(hitGroundSoundPath);
+          }
+          if (entity instanceof Crate && (that.state === 3)) {
+            var crateHitSoundPath = './sfx/crate_hit.wav';
+            if (!(ASSET_MANAGER.getAsset(crateHitSoundPath).currentTime > 0)) {
+              ASSET_MANAGER.playAsset(crateHitSoundPath);
+            }
           }
           if (that.state === 3) that.state = 0; // set state to idle
           
@@ -333,6 +353,12 @@ class Knight {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
             that.velocity.x = 0;
             that.updateBB();
+            if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
+              var crateHitSoundPath = './sfx/crate_hit.wav';
+              if (!(ASSET_MANAGER.getAsset(crateHitSoundPath).currentTime > 0)) {
+                ASSET_MANAGER.playAsset(crateHitSoundPath);
+              }
+            }
         }
 
         }
@@ -355,6 +381,12 @@ class Knight {
             that.velocity.x = 0;
             that.x += 1; // bounce to the right
             that.updateBB();
+            if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
+              var crateHitSoundPath = './sfx/crate_hit.wav';
+              if (!(ASSET_MANAGER.getAsset(crateHitSoundPath).currentTime > 0)) {
+                ASSET_MANAGER.playAsset(crateHitSoundPath);
+              }
+            }
           }
         
         }
@@ -372,6 +404,10 @@ class Knight {
             if (that.game.options.debugging) print("Hit energy drink");
             that.gainEnergy();
             if (that.game.options.debugging) print(that.energy);
+            var drinkRedBullSoundPath = './sfx/red_bull.wav';
+            if (!(ASSET_MANAGER.getAsset(drinkRedBullSoundPath).currentTime > 0)) {
+              ASSET_MANAGER.playAsset(drinkRedBullSoundPath);
+            }
           }
         }
         if (that.velocity.x < 0 || that.velocity.x > 0 || that.velocity.x > 0 || that.velocity.y > 0) {
@@ -380,12 +416,20 @@ class Knight {
             if (that.game.options.debugging) print("Hit red apple");
             that.gainRedAppleEnergy();
             if (that.game.options.debugging) print(that.energy);
+            var appleEatSoundPath = './sfx/eat_apple.wav';
+            if (!(ASSET_MANAGER.getAsset(appleEatSoundPath).currentTime > 0)) {
+              ASSET_MANAGER.playAsset(appleEatSoundPath);
+            }
           }
           if (entity instanceof goldApple && !entity.dead) {
             entity.removeFromWorld = true;
             if (that.game.options.debugging) print("Hit gold apple");
             that.gainGoldAppleEnergy();
             if (that.game.options.debugging) print(that.energy);
+            var appleEatSoundPath = './sfx/eat_apple.wav';
+            if (!(ASSET_MANAGER.getAsset(appleEatSoundPath).currentTime > 0)) {
+              ASSET_MANAGER.playAsset(appleEatSoundPath);
+            }
           }
         }
       }
@@ -393,7 +437,15 @@ class Knight {
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Rat || entity instanceof Skeleton) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.state === 4) {
-              entity.loseHeart();
+              if (that.goblinHurtTimer === undefined) {
+                that.goblinHurtTimer = 0;
+              } else {
+                that.goblinHurtTimer += that.game.clockTick;
+              }
+              if (that.goblinHurtTimer > ATTACK_COOLDOWN) {
+                entity.loseHeart();
+                that.goblinHurtTimer = undefined;
+              }
               var attackSoundPath = './sfx/spear_hit.mp3';
               if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
                 ASSET_MANAGER.playAsset(attackSoundPath);
@@ -403,13 +455,23 @@ class Knight {
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.state === 4) {
-              entity.loseHeart();
+              if (that.goblinHurtTimer === undefined) {
+                that.goblinHurtTimer = 0;
+              } else {
+                that.goblinHurtTimer += that.game.clockTick;
+              }
+              if (that.goblinHurtTimer > ATTACK_COOLDOWN) {
+                entity.loseHeart();
+                that.goblinHurtTimer = undefined;
+              }
               var attackSoundPath = './sfx/spear_hit.mp3';
               if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
                 ASSET_MANAGER.playAsset(attackSoundPath);
               }
               // if (that.game.options.debugging) console.log("got here");
             }
+          } else {
+            entity.hurt = false;
           }
         }
       }

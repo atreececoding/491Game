@@ -96,6 +96,13 @@ class Bat {
     this.x += this.game.clockTick * this.velocity.x;
     this.y += this.game.clockTick * this.velocity.y;
     this.updateBB();
+
+    if (this.BB.collide(this.game.camera.knight.BB)) {
+      var batSoundPath = './sfx/rat_hurt.wav';
+      if (!(ASSET_MANAGER.getAsset(batSoundPath).currentTime > 0)) {
+        ASSET_MANAGER.playAsset(batSoundPath);
+      }
+    }
   }
 
   loseHeart() {

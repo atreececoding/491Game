@@ -12,8 +12,8 @@ class Goblin {
     this.facing = 0;
     this.state = 0; // 0 = walking, 1 = attacking, 2 = dying
     this.dead = false;
-    this.lives = 250;
-
+    this.lives = 25;
+    this.flicker = true;
     this.speed = 100;
 
     this.fallAcc = 560;
@@ -109,23 +109,39 @@ class Goblin {
   die() {}
 
   update() {
-    
-    // Patrolling is hardcoded need to fix
-    if (this.x <= this.patLeft && this.facing === 1) {
-      this.x = this.patLeft;
-      this.velocity.x = 75;
-      this.facing = 0;
-    } 
-    if (this.x >= this.patRight && this.facing === 0) {
-      this.x = this.patRight;
-      this.velocity.x = -75;
-      this.facing = 1;
+    if (this.hurt) {
+      if (this.hurtTimer === undefined) {
+        this.hurtTimer = 0;
+      } else {
+        this.hurtTimer += this.game.clockTick;
+      }
+      const GOBLIN_KNOCKBACK_TIME = .1;
+      if (this.hurtTimer > GOBLIN_KNOCKBACK_TIME) {
+        this.hurt = false;
+        this.hurtTimer = 0;
+      }
+      this.velocity.x = this.facing === 0 ? -75 : 75;
+      this.velocity.y += this.fallAcc * this.game.clockTick;
+      this.x += this.game.clockTick * this.velocity.x;
+      this.y += this.game.clockTick * this.velocity.y;
+      this.updateBB();
+    } else {
+      // Patrolling is hardcoded need to fix
+      if (this.x <= this.patLeft && this.facing === 1) {
+        this.x = this.patLeft;
+        this.velocity.x = 75;
+        this.facing = 0;
+      } 
+      if (this.x >= this.patRight && this.facing === 0) {
+        this.x = this.patRight;
+        this.velocity.x = -75;
+        this.facing = 1;
+      }
+      this.velocity.y += this.fallAcc * this.game.clockTick;
+      this.x += this.game.clockTick * this.velocity.x;
+      this.y += this.game.clockTick * this.velocity.y;
+      this.updateBB();
     }
-    this.velocity.y += this.fallAcc * this.game.clockTick;
-    this.x += this.game.clockTick * this.velocity.x;
-    this.y += this.game.clockTick * this.velocity.y;
-    this.updateBB();
-
     var that = this;
     this.game.entities.forEach(function (entity) {
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
@@ -142,15 +158,7 @@ class Goblin {
           /////////////////////////////////////////////////////
           that.lastAttack = that.game.clockTick;
           that.timeSinceLastAttack = 0;
-          if (that.hurtTimer === undefined) {
-            that.hurtTimer = 0;
-          } else {
-            that.hurtTimer += that.game.clockTick;
-          }
-          if (that.hurtTimer > 1) {
-            entity.loseHeart();
-            that.hurtTimer = undefined;
-          }
+          
           entity.state = 5;
         
         } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
@@ -198,13 +206,11 @@ class Goblin {
   }
   loseHeart() {
     this.lives--;
+    console.log(this.lives);
+    this.hurt = true;
     var hurtSoundPath = './sfx/goblin_hurt.wav';
     if (!(ASSET_MANAGER.getAsset(hurtSoundPath).currentTime > 0)) {
       ASSET_MANAGER.playAsset(hurtSoundPath);
-    }
-    var attackSoundPath = './sfx/spear_hit.mp3';
-    if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
-      ASSET_MANAGER.playAsset(attackSoundPath);
     }
     // console.log(this.lives);
     if(this.lives <= 0) {
@@ -213,14 +219,26 @@ class Goblin {
   }
 
   draw(ctx) {
+    
     if(this.lives > 0) {
-      this.animations[this.state][this.facing].drawFrame(
-      this.game.clockTick,
-      ctx,
-      this.x - this.game.camera.x,
-      this.y,
-      2.45
-      );
+      if (this.flicker || !this.hurt) {
+        this.animations[this.state][this.facing].drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x - this.game.camera.x,
+          this.y,
+          2.45
+          );
+      }
+      if (this.flickerTimer === undefined) {
+        this.flickerTimer = 0;
+      } else {
+        this.flickerTimer += this.game.clockTick;
+      }
+      if (this.flickerTimer > 0.2) {
+        this.flicker = !this.flicker;
+        this.flickerTimer = undefined;
+      }
     } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
       this.velocity.x = 0;
       this.animations[this.state][this.facing].drawFrame(

@@ -139,6 +139,7 @@ class Rat {
       if (!(ASSET_MANAGER.getAsset(hurtSoundPath).currentTime > 0)) {
         ASSET_MANAGER.playAsset(hurtSoundPath);
       }
+
     //   console.log(this.lives);
       if(this.lives <= 0) {
         this.state = 2;

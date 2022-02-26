@@ -157,7 +157,11 @@ class SceneManager {
 
     ASSET_MANAGER.muteAudio(mute);
     ASSET_MANAGER.adjustVolume(volume);
-    ASSET_MANAGER.adjustAssetVolume("./sfx/hit_ground.wav", volume * .2);
+    ASSET_MANAGER.adjustAssetVolume("./music/AstralAcademy.mp3", volume * .6);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/hit_ground.wav", volume * .4);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/walking.wav", volume * .4);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/crate_hit.wav", volume * .4);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/spear_hit.mp3", volume * .7);
 
   }
 

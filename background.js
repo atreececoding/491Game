@@ -231,7 +231,11 @@ class CastleGates {
     this.game.entities.forEach(function(entity) {
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (entity instanceof Knight) {
-          that.state = 1;
+          if (that.state === 0) that.state = 1;
+          var level1DoorOpenSoundPath = './sfx/level1_door.wav';
+          if (!(ASSET_MANAGER.getAsset(level1DoorOpenSoundPath).currentTime > 0) && that.state === 1) {
+            ASSET_MANAGER.playAsset(level1DoorOpenSoundPath);
+          }
         }
         if(that.animations[that.state][that.facing].isDone())
         that.state = 2;
