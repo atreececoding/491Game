@@ -9,9 +9,10 @@ class SceneManager {
 
     this.gameOver = false;
     this.title = true;
-    this.level = levelOne;
+    this.level = null;
 
     this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver);
+    
   }
   clearEntities() {
     this.game.entities.forEach(function (entity) {
@@ -25,7 +26,7 @@ class SceneManager {
     this.level = level;
     this.clearEntities();
     this.x = 0;
-    this.underground = level.underground;
+    //this.underground = level.underground;
 
     // if(transition) {
     //     this.game.addEntity(new TransitionScreen(this.game, level, x, y, title));
@@ -209,8 +210,11 @@ class SceneManager {
     this.updateOptions();
     if (this.title && this.game.keys["click"]) {
       this.title = false;
-      this.loadLevel(this.level, 1, 1, true, false, false);
+      this.loadLevel(levelOne, 1, 1, true, false, false);
     }
+    // else if(!this.title && !this.knight.gameOver && !this.knight.winCondition && !levelOne) {
+    //   this.loadLevel(this.level, 1, 1, true, false, false);
+    // }
     else if (this.knight.gameOver) {
       this.knight.gameOver = false;
       this.clearEntities();

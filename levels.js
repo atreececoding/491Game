@@ -38,6 +38,17 @@ var levelOne = {
 
 };
 
+var levelTwo = {
+    music: "./music/AstralAcademy.mp3",
+    label: "1-2",
+    knights: [ {note: 'this is what spawns in the knight in the first level'} ],
+    floors: [{x: 0, y:735, size: 800}],
+    skeletons: [{x: 300, y: 300, size: 1}],
+    backgrounds: [{x: 1, y: 1, size: 1}],
+    healthbars: [{ x: 5, y: 5, size: 1 }],
+    hungerbars: [{ x: 5, y: 60, size: 1 }],
+};
+
 var credits = {
     text: [
     "      Made Possible By",
