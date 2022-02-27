@@ -41,7 +41,7 @@ var levelTwo = {
     music: "./music/AstralAcademy.mp3",
     label: "1-2",
     floors: [{x: 0, y:735, size: 800}],
-    skeletons: [{x: 300, y: 300, size: 1}],
+    skeletons: [{x: 600, y: 300, size: 1}],
     backgrounds: [{x: 0, y: 0, size: 1}],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
