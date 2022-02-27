@@ -33,7 +33,7 @@
       this.spritesheetMidAttack = ASSET_MANAGER.getAsset("./sprites/DragonMidAttack.png")
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/DragonRev2.png");
   
-      this.lives = 1000;
+      this.lives = 150;
   
       // velocity
       this.velocity = {

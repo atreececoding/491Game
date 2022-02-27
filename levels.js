@@ -17,7 +17,6 @@ var levelOne = {
     //     {x: 1370, y: 307, w: 130, h: 130}, {x: 1825, y: 390, w: 130, h: 130}, {x: 2270, y: 610, w: 130, h: 130}, {x: 2398, y: 610, w: 130, h: 130}, 
     //     {x: 2526, y: 610, w: 130, h: 130}, {x: 2398, y: 482, w: 130, h: 130}, {x: 3880, y: 610, w: 130, h: 130}, {x: 4348, y: 610, w: 130, h: 130}, 
     //     {x: 4476, y: 610, w: 130, h: 130}, {x: 4476, y: 482, w: 130, h: 130}, {x: 4476, y: 354, w: 130, h: 130}],
-    //goldpiles: [{x: 5700, y: 450, w: 800, h: 400}],
     bats: [{ x: 500, y: 400, size: 1 }, { x: 2750, y: 460, size: 1 }, { x: 3020, y: 300, size: 1 }, { x: 4950, y: 300, size: 1 } ],
     rats: [{ x: 400, y: 300, size: 1 }, { x: 1780, y: 300, size: 1 }, { x: 4240, y: 660, size: 1 }, { x: 4730, y: 660, size: 1 }, 
         { x: 3870, y: 532, size: 1 }, /*{ x: 420, y: 300, size: 1 }, { x: 405, y: 300, size: 1 }, { x: 415, y: 300, size: 1 }, { x: 418, y: 300, size: 1 },
@@ -28,7 +27,6 @@ var levelOne = {
     // dragons: [{x: 5200, y: 0, size: 1}],
     //energyjuices: [{ x: 575, y: 150, size: 1 } ],
     redapples: [{x: 1275, y: 340, size: 1 }, {x: 2200, y: 680, size: 1 }, {x: 2900, y: 340, size: 1 }, {x: 4390, y: 560, size: 1 } ],
-    //goldapples:[{x: 6075, y: 425, size: 2}],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
     castlegates: [{x: 5625, y: 390, w: 400, h:2000}],
@@ -42,9 +40,12 @@ var levelTwo = {
     label: "1-2",
     floors: [{x: 0, y:735, size: 800}],
     skeletons: [{x: 600, y: 300, size: 1}],
-    backgrounds: [{x: 0, y: 0, size: 1}],
+    goldpiles: [{x: 5700, y: 450, w: 800, h: 400}],
+    dragons: [{x: 5200, y: 0, size: 1}],
+    goldapples:[{x: 6075, y: 425, size: 2}],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
+    backgrounds: [{x: 0, y: 0, size: 1}],
 };
 
 var credits = {
