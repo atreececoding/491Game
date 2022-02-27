@@ -8,9 +8,9 @@ class Background {
 
   draw(ctx) {
     // Hardcoded
-    if(levelOne) 
+    if(this.game.camera.level === levelOne) 
     ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
-    else if(levelTwo)
+    else if(this.game.camera.level === levelTwo)
     ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 800);
   }
 }
@@ -42,12 +42,12 @@ class Floor {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     }
-    if(levelOne) {
+    if(this.game.camera.level === levelOne) {
       for (var i = 0; i <= 6000; i += 78) {
         ctx.drawImage(this.spritesheet, i, 735, 78, 77);
       }
     }
-    else if(levelTwo) {
+    else if(this.game.camera.level === levelTwo) {
       for (var i = 0; i <= 6000; i += 78) {
         ctx.drawImage(this.spritesheetTwo, i, 735, 78, 77);
       }
