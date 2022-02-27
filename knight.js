@@ -13,8 +13,7 @@ class Knight {
       this.lives = 5;
       this.energy = 3;
       this.attackTimer = 2;
-      this.x = 100; //100
-      this.y = 0;
+      
       this.speed = 100;
       this.velocity = {
         x: 0,
@@ -524,7 +523,7 @@ class Knight {
       this.y,
       this.animationScales[this.state]
     );
-    
+    console.log('drawing knight ' + (this.x - 110 - this.game.camera.x) + ', ' + this.y);
     if (this.state === 6 && this.animations[this.state][this.facing].isDone()) {
       this.die();
     }

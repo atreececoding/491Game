@@ -1,7 +1,6 @@
 var levelOne = {
     music: "./music/AstralAcademy.mp3",
     label: "1-1",
-    knights: [ {note: 'this is what spawns in the knight in the first level'} ],
     // hardcoded y for bounding box
     floors: [{ x: 0, y: 735, size: 800 }],
     clouds: [{x:366, y:222, w: 200, h: 90}],
@@ -34,17 +33,16 @@ var levelOne = {
     hungerbars: [{ x: 5, y: 60, size: 1 }],
     castlegates: [{x: 5625, y: 390, w: 400, h:2000}],
     castles: [{x: 5200, y: -760, size: 1}],
-    backgrounds: [{ x: 1, y: 1, size: 1}],
+    backgrounds: [{ x: 0, y: 0, size: 1}],
 
 };
 
 var levelTwo = {
     music: "./music/AstralAcademy.mp3",
     label: "1-2",
-    knights: [ {note: 'this is what spawns in the knight in the first level'} ],
     floors: [{x: 0, y:735, size: 800}],
     skeletons: [{x: 300, y: 300, size: 1}],
-    backgrounds: [{x: 1, y: 1, size: 1}],
+    backgrounds: [{x: 0, y: 0, size: 1}],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
 };

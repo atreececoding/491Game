@@ -256,7 +256,7 @@ class CastleGates {
     }
     );
     if(levelOne && that.state === 2 && that.game.keys["up"]) {
-      this.game.camera.loadLevel(levelTwo, 1, 1, false, false, false);
+      this.game.camera.loadLevel(levelTwo, 0, 0, false, false, false);
       console.log("loaded level two");
     }
   }
