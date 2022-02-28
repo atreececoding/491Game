@@ -44,12 +44,12 @@ class Floor {
     }
     if(this.game.camera.level === levelOne) {
       for (var i = 0; i <= 6000; i += 78) {
-        ctx.drawImage(this.spritesheet, i, 735, 78, 77);
+        ctx.drawImage(this.spritesheet, i - this.game.camera.x, 735, 78, 77);
       }
     }
     else if(this.game.camera.level === levelTwo) {
       for (var i = 0; i <= 6000; i += 78) {
-        ctx.drawImage(this.spritesheetTwo, i, 735, 78, 77);
+        ctx.drawImage(this.spritesheetTwo, i - this.game.camera.x, 735, 78, 77);
       }
     }
   }
