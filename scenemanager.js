@@ -224,7 +224,7 @@ class SceneManager {
     this.updateOptions();
     if (this.title && this.game.keys["click"]) {
       this.title = false;
-      this.loadLevel(levelOne, 1, 1, true, false, false);
+      this.loadLevel(levelOne, 0, 0, true, false, false);
     }
     // else if(!this.title && !this.knight.gameOver && !this.knight.winCondition && !levelOne) {
     //   this.loadLevel(this.level, 1, 1, true, false, false);
@@ -233,7 +233,7 @@ class SceneManager {
       this.knight.gameOver = false;
       this.clearEntities();
       this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver)
-      this.loadLevel(this.level, 100, 0, true, false, false);
+      this.loadLevel(this.level, 0, 0, true, false, false);
       this.lives = 5;
     }
     else if (this.knight.winCondition) {
