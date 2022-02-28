@@ -146,24 +146,24 @@ class Knight {
           this.state = 0;
         }
     } else if (this.state === 5) {
-        if(this.facing == 0) {
-          console.log("working");
-          this.velocity.x = -250;
-          this.velocity.y = -150;
-          this.x += this.velocity.x * TICK;
-          this.y += this.velocity.y * TICK;
+        // if(this.facing == 0) {
+        //   console.log("working");
+        //   // this.velocity.x = -250;
+        //   // this.velocity.y = -150;
+        //   // this.x += this.velocity.x * TICK;
+        //   // this.y += this.velocity.y * TICK;
 
-          this.updateBB();
-        }
-        else {
-          console.log("working");
-          this.velocity.x = 250;
-          this.velocity.y = -150;
-          this.x += this.velocity.x * TICK;
-          this.y += this.velocity.y * TICK;
+        //   // this.updateBB();
+        // }
+        // else {
+        //   console.log("working");
+        //   this.velocity.x = 250;
+        //   this.velocity.y = -150;
+        //   this.x += this.velocity.x * TICK;
+        //   this.y += this.velocity.y * TICK;
 
-        this.updateBB();
-        }
+        // this.updateBB();
+       // }
         if (this.animations[this.state][this.facing].isDone()) {
           this.animations[this.state][this.facing].reset();
           this.state = 0;
@@ -327,7 +327,8 @@ class Knight {
           //   //that.x = entity.BB.left - that.BB.width;
           //   //that.state = 5;
       
-          // }
+           //}
+          
 
           if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
@@ -394,12 +395,21 @@ class Knight {
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Rat || entity instanceof Skeleton) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.state === 4) {
+              if (entity instanceof Goblin) {
+                entity.bounce();
+              }
+              console.log(entity.lives);
               entity.loseHeart();
               // if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.state === 4) {
+              //entity.loseHeart();
+              if (entity instanceof Goblin) {
+                entity.bounce();
+              }
+              console.log(entity.lives);
               entity.loseHeart();
               // if (that.game.options.debugging) console.log("got here");
             }
@@ -422,7 +432,22 @@ class Knight {
       this.lives++;;
     }
   }
+  damagedLeft() {
+    this.velocity.x = -1000;
+    this.velocity.y = -150;
+    this.x += this.velocity.x * this.game.clockTick;
+    this.y += this.velocity.y * this.game.clockTick;
 
+    this.updateBB();
+  }
+  damagedRight() {
+    this.velocity.x = 1000;
+    this.velocity.y = -150;
+    this.x += this.velocity.x * this.game.clockTick;
+    this.y += this.velocity.y * this.game.clockTick;
+    
+    this.updateBB();
+  }
   gainGoldAppleEnergy() {
     this.energy += 200;
     if(this.lives < 5) {
