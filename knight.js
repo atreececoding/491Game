@@ -13,6 +13,7 @@ class Knight {
       this.lives = 5;
       this.energy = 3;
       this.attackTimer = 2;
+      this.hurtTimer = .5;
       
       this.speed = 100;
       this.velocity = {
@@ -199,11 +200,18 @@ class Knight {
           // fall if you step off platform
           this.velocity.y = FALL_SPEED;
 
+          if (this.hurtTimer == undefined) {
+            this.hurtTimer = 0;
+          } else {
+            this.hurtTimer += TICK;
+          }
+
           if (this.attackTimer == undefined) {
             this.attackTimer = 0;
           } else {
             this.attackTimer += TICK;
           }
+
 
           if (this.game.keys["attack"]) {
             
@@ -294,6 +302,7 @@ class Knight {
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         
         if (that.velocity.y > 0) {
+
           
           // falling
           if (
@@ -304,6 +313,17 @@ class Knight {
             that.y = entity.BB.top - that.BB.height;
             that.velocity.y = 0;
           }
+
+          if (
+            (entity instanceof MetalSpikesFloor) && // landing // TODO: may add more entities in here later // need to fix crate side collision
+            that.lastBB.bottom <= entity.BB.top
+          ) {
+            // was above last tick
+            that.loseHeart();
+            that.y = entity.BB.top - that.BB.height;
+            that.velocity.y = 0;
+          }
+
           if((entity instanceof Platform) && !that.game.keys["down"] && that.lastBB.bottom <= entity.BB.top) {
             // was above last tick
             that.y = entity.BB.top - that.BB.height;
@@ -348,7 +368,7 @@ class Knight {
       
           // }
 
-          if (entity instanceof Crate && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor) && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
             that.velocity.x = 0;
             that.updateBB();
@@ -375,7 +395,7 @@ class Knight {
           // }
 
          
-          if (entity instanceof Crate && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor) && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.right;
             that.velocity.x = 0;
             that.x += 1; // bounce to the right
@@ -480,7 +500,12 @@ class Knight {
   }
 
   loseHeart() {
-    this.lives--;
+    //If the timer has accrued more time from ticks than value in seconds we lose a heart when called
+    if (this.hurtTimer > .5) {
+      this.hurtTimer = 0;
+      this.lives--;
+    }
+
   }
 
   gainEnergy() {
