@@ -172,11 +172,12 @@ class Crate {
 class SignPost {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h});
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/message.png");
-    
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/signpost.png");
+    this.message = ASSET_MANAGER.getAsset("./sprites/message.png");
+    this.timer = 0;
     this.display = false;
 
-    this.BB = new BoundingBox(this.x - this.game.camera.x, 680, this.w, this.h);
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
   }
 
     update() {
@@ -187,8 +188,11 @@ class SignPost {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
       }
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128, 128);
       if (this.display === true) {
-          ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 400, 250);
+          this.timer += this.game.clockTick;
+          if (this.timer > 1.5) this.display = false;
+          ctx.drawImage(this.message, this.x - this.game.camera.x - 128, 300, 400, 250);
       }
     }
 

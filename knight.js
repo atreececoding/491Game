@@ -293,12 +293,16 @@ class Knight {
 
     var that = this;
     this.game.entities.forEach(function (entity) {
-      
-      
+
       if (entity.wallBB && entity.wallBB.collide(that.BB) && entity !== that) {
         that.velocity.x = 0;
         that.x = entity.wallBB.left - that.BB.width;
       }
+
+      if (entity instanceof SignPost && that.BB.collide(entity.BB) && entity !== that){
+        entity.display = true;
+      }
+
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         
         if (that.velocity.y > 0) {
@@ -314,14 +318,10 @@ class Knight {
             that.velocity.y = 0;
           }
 
-          if (
-            (entity instanceof MetalSpikesFloor) && // landing // TODO: may add more entities in here later // need to fix crate side collision
-            that.lastBB.bottom <= entity.BB.top
-          ) {
+          if ((entity instanceof MetalSpikesFloor) && that.lastBB.bottom <= entity.BB.top) {
             // was above last tick
-            that.loseHeart();
             that.y = entity.BB.top - that.BB.height;
-            that.velocity.y = 0;
+            that.loseHeart();
           }
 
           if((entity instanceof Platform) && !that.game.keys["down"] && that.lastBB.bottom <= entity.BB.top) {
@@ -378,10 +378,6 @@ class Knight {
                 ASSET_MANAGER.playAsset(crateHitSoundPath);
               }
             }
-          }
-
-          if (entity instanceof SignPost){
-            entity.display = true;
           }
 
         }
@@ -505,11 +501,11 @@ class Knight {
 
   loseHeart() {
     //If the timer has accrued more time from ticks than value in seconds we lose a heart when called
+    this.hurtTimer+= this.game.clockTick;
     if (this.hurtTimer > .5) {
       this.hurtTimer = 0;
       this.lives--;
     }
-
   }
 
   gainEnergy() {
