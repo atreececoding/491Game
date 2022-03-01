@@ -120,6 +120,18 @@ class SceneManager {
         this.game.addEntity(new MetalSpikesFloor(this.game, metalspikefloor.x, metalspikefloor.y, metalspikefloor.w, metalspikefloor.h));
       }
     }
+    if (level.metalspikesceiling) {
+      for (var i = 0; i < level.metalspikesceiling.length; i++) {
+        let metalspikeceiling = level.metalspikesceiling[i];
+        this.game.addEntity(new MetalSpikesCeiling(this.game, metalspikeceiling.x, metalspikeceiling.y, metalspikeceiling.w, metalspikeceiling.h));
+      }
+    }
+    if (level.signposts) {
+      for (var i = 0; i < level.signposts.length; i++) {
+        let signpost = level.signposts[i];
+        this.game.addEntity(new SignPost(this.game, signpost.x, signpost.y, signpost.w, signpost.h));
+      }
+    }
     if (level.bats) {
       for (var i = 0; i < level.bats.length; i++) {
         let bat = level.bats[i];
@@ -228,7 +240,15 @@ class SceneManager {
 
     this.updateAudio();
     this.updateOptions();
-    if (this.title && this.game.keys["click"]) {
+    if (this.title && this.game.keys["two"]) {
+      this.title = false;
+      this.game.camera.loadLevel(levelTwo, 0, 0, false, false, false);
+    }
+    else if (this.title && this.game.keys["three"]) {
+      this.title = false;
+      this.loadLevel(levelDebug, 0, 0, false, false, false);
+    }
+    else if (this.title && this.game.keys["click"]) {
       this.title = false;
       this.loadLevel(levelOne, 0, 0, true, false, false);
     }

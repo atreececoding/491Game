@@ -41,6 +41,7 @@ ASSET_MANAGER.queueDownload("./sprites/castlegates.png");
 ASSET_MANAGER.queueDownload("./sprites/gargoyle.png");
 ASSET_MANAGER.queueDownload("./sprites/MetalSpikesFloor.png");
 ASSET_MANAGER.queueDownload("./sprites/MetalSpikesCeiling.png");
+ASSET_MANAGER.queueDownload("./sprites/message.png");
 
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");

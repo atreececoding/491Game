@@ -12,6 +12,8 @@ class Background {
     ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
     else if(this.game.camera.level === levelTwo)
     ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
+    else
+      ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
   }
 }
 class Floor {
@@ -167,6 +169,31 @@ class Crate {
 
 }
 
+class SignPost {
+  constructor(game, x = 0, y = 0,w,h) {
+    Object.assign(this, { game, x, y, w, h});
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/message.png");
+    
+    this.display = false;
+
+    this.BB = new BoundingBox(this.x - this.game.camera.x, 680, this.w, this.h);
+  }
+
+    update() {
+    };
+
+    draw(ctx) {
+      if (this.game.options.debugging) {
+        ctx.strokeStyle = "Red";
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      }
+      if (this.display === true) {
+          ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 400, 250);
+      }
+    }
+
+}
+
 class MetalSpikesFloor {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h });
@@ -186,7 +213,24 @@ class MetalSpikesFloor {
       }
       ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128 , 128);
     }
+}
 
+class MetalSpikesCeiling {
+  constructor(game, x = 0, y = 0,w,h) {
+    Object.assign(this, { game, x, y, w, h });
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesCeiling.png");
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+  }
+    update() {
+    };
+
+    draw(ctx) {
+      if (this.game.options.debugging) {
+        ctx.strokeStyle = "Red";
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      }
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128 , 128);
+    }
 }
 
 class GoldPile {

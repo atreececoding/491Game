@@ -378,7 +378,11 @@ class Knight {
                 ASSET_MANAGER.playAsset(crateHitSoundPath);
               }
             }
-        }
+          }
+
+          if (entity instanceof SignPost){
+            entity.display = true;
+          }
 
         }
         //facing left
