@@ -79,6 +79,18 @@ var levelDebug = {
     backgrounds: [{x: 0, y: 0, size: 1}],
 };
 
+var bossRoom = {
+    label: "Debug",
+    floors: [{x: 0, y:735, size: 800}],
+    signposts: [{x: 400, y:580, w:400, h:250}, {x: 1000, y:580, w:130, h:130}],
+    metalspikesceiling: [{x: 200, y:400, w:130, h:130}, {x: 600, y:400, w:130, h:130}, 
+        {x: 800, y:90, w:130, h:130},{x: 800, y:90, w:130, h:130}],
+ //   metalspikesfloor: [{x: 600, y:590, w:130, h:130}, {x: 800, y:590, w:130, h:130}],
+    healthbars: [{ x: 5, y: 5, size: 1 }],
+    hungerbars: [{ x: 5, y: 60, size: 1 }],
+    backgrounds: [{x: 0, y: 0, size: 1}],
+};
+
 var credits = {
     text: [
     "      Made Possible By",
