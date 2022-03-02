@@ -13,7 +13,7 @@ class Background {
     else if(this.game.camera.level === levelTwo)
     ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 900);
     else
-      ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 900);
+      ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 1000);
   }
 }
 class Floor {
@@ -236,7 +236,7 @@ class SignPost {
           ctx.drawImage(this.message, this.x - this.game.camera.x - 128, 300, 400, 250);
       }
     }
-
+    
 }
 
 class MetalSpikesFloor {
