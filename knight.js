@@ -64,7 +64,7 @@ class Knight {
         let NO_REVERSE = false;
         let LOOP = true;
         let NO_LOOP = false;
-        //TODO: CHANGE ATTACK TO NOT LOOP
+
         //Animation Key = # : 0 = idle, 1 = walk, 2 = run, 3 = jump, 4 = attack, 5 = hurt, 6 = die   
         //facing right = 0
         this.animations[0][0] = new Animator(this.spritesheet, X_OFFSET, Y_OFFSET_0, WIDTH, HEIGHT, FRAME_COUNT, ANIMATION_SPEED_1, NO_REVERSE, LOOP);        
@@ -313,6 +313,9 @@ class Knight {
       if (entity instanceof SignPost && that.BB.collide(entity.BB) && entity !== that){
         entity.display = true;
       }
+      if (entity instanceof Platform && that.BB.collide(entity.BB) && entity !== that){
+        entity.moves = true;
+      }
 
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         
@@ -321,13 +324,11 @@ class Knight {
           
           // falling
           if (
-            (entity instanceof Floor || entity instanceof Crate) && // landing // TODO: may add more entities in here later // need to fix crate side collision
+            (entity instanceof Floor || entity instanceof Crate) && // landing
             that.lastBB.bottom <= entity.BB.top
           ) {
             // was above last tick
-            
             that.y = entity.BB.top - that.BB.height;
-            
           }
 
           if ((entity instanceof MetalSpikesFloor) && that.lastBB.bottom <= entity.BB.top) {
@@ -336,14 +337,12 @@ class Knight {
             that.y = entity.BB.top - that.BB.height;
           }
 
-
           if((entity instanceof Platform) && !that.game.keys["down"] && that.lastBB.bottom <= entity.BB.top) {
             // was above last tick
             that.y = entity.BB.top - that.BB.height;
             that.velocity.y = 0;
           }
           
-
           if (
             (entity instanceof Goblin || entity instanceof Rat) &&
             that.lastBB.bottom <= entity.BB.top && // was above last tick
@@ -353,10 +352,8 @@ class Knight {
             
             // bounce up
             //console.log("collided top");
-            
-            
           }
-          // move this line into the conditional blocks if we don't want jump reset on collision
+
           var hitGroundSoundPath = './sfx/hit_ground.wav';
           if (!(ASSET_MANAGER.getAsset(hitGroundSoundPath).currentTime > 0) && that.state == 3 && (entity instanceof Platform || entity instanceof Floor)) {
             ASSET_MANAGER.playAsset(hitGroundSoundPath);
@@ -367,31 +364,21 @@ class Knight {
               ASSET_MANAGER.playAsset(crateHitSoundPath);
             }
           }
+          
           if (that.state === 3) that.state = 0; // set state to idle
 
         }
         // Facing right collission
         if (that.facing === 0) {
-          // if (
-          //   entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
-          //   !entity.dead &&
-          //   that.lastBB.right <= entity.BB.left
-          // ) {
-          //   console.log("collided left");
-          //   //that.x = entity.BB.left - that.BB.width;
-          //   //that.state = 5;
-      
-           //}
-          if ((entity instanceof Dragon)) 
-          
 
-          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor || entity instanceof MetalSpikesCeiling) && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-            that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
+          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor || entity instanceof MetalSpikesCeiling) 
+            && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+            that.x = entity.BB.left - that.BB.width;
             that.velocity.x = 0;
             that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
               var crateHitSoundPath = './sfx/crate_hit.wav';
-              if (!(ASSET_MANAGER.getAsset(crateHitSoundPath).currentTime > 0)) {
+              if (!(ASSET_MANAGER.getAsset(crateHitSoundPatha).currentTime > 0)) {
                 ASSET_MANAGER.playAsset(crateHitSoundPath);
               }
             }
@@ -401,7 +388,8 @@ class Knight {
         //facing left collssion
         if (that.facing === 1) {
          
-          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor || entity instanceof MetalSpikesCeiling) && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+          if ((entity instanceof Crate || entity.isSpikes === true) 
+              && (that.BB.left <= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.right;
             that.velocity.x = 0;
             that.x += 1; // bounce to the right
@@ -418,7 +406,7 @@ class Knight {
 
         //Jumping up into objects that we don't move through such as crate, spikes
         if (that.velocity.y < 0) {
-          if((entity instanceof Crate || entity instanceof MetalSpikesCeiling) && that.lastBB.top >= entity.BB.bottom) {
+          if((entity instanceof Crate || entity.isSpikes === true) && that.lastBB.top >= entity.BB.bottom) {
             if (entity instanceof MetalSpikesCeiling){
               that.loseHeart();
             }
@@ -426,15 +414,6 @@ class Knight {
             that.velocity.y = FALL_SPEED;
           }
         }
-
-        // if ((entity instanceof MetalSpikesCeiling) && that.lastBB.top <= entity.BB.bottom) {
-        //   // was above last tick
-        //   console.log("Inside ceiling collission");
-        //   that.loseHeart();
-        //   that.BB.top = entity.BB.bottom;
-        //   that.velocity.y = 0;
-        //   that.y = entity.BB.bottom;
-        // }
 
         if (that.velocity.x < 0 || that.velocity.x > 0) {
           if (entity instanceof EnergyJuice && !entity.dead) {
@@ -471,6 +450,8 @@ class Knight {
           }
         }
       }
+
+      // Spear / attack hitbox code
       if(entity.BB && that.spearBox.collide(entity.BB) && entity !== that) {
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Rat || entity instanceof Skeleton) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
@@ -493,12 +474,10 @@ class Knight {
               if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
                 ASSET_MANAGER.playAsset(attackSoundPath);
               }
-              // if (that.game.options.debugging) console.log("got here");
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.state === 4) {
-              //entity.loseHeart();
               if (entity instanceof Goblin) {
                 entity.bounce();
               }
@@ -517,7 +496,6 @@ class Knight {
               if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
                 ASSET_MANAGER.playAsset(attackSoundPath);
               }
-              // if (that.game.options.debugging) console.log("got here");
             }
           } else {
             entity.hurt = false;
@@ -537,10 +515,11 @@ class Knight {
     }
   }
 
-  loseDragonHeart() {
+  loseDragonHeart() { //Dragon hurts us for 2 so a separate function than loseHeart function here
     this.lives-=2;
   }
 
+  //Items give us energy
   gainEnergy() {
     if (this.energy < 5) {
       this.energy++;
@@ -549,6 +528,7 @@ class Knight {
       this.lives++;;
     }
   }
+
   damagedLeft() {
     this.velocity.x = -1000;
     this.velocity.y = -150;
@@ -565,6 +545,7 @@ class Knight {
     
     this.updateBB();
   }
+
   gainGoldAppleEnergy() {
     this.energy += 200;
     if(this.lives < 5) {
@@ -588,7 +569,6 @@ class Knight {
   }
 
   draw(ctx) {
-    
     this.animations[this.state][this.facing].drawFrame(
       this.game.clockTick,
       ctx,
