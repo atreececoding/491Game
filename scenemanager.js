@@ -96,16 +96,16 @@ class SceneManager {
         this.game.addEntity(new Rat(this.game, rat.x, rat.y, rat.size));
       }
     }
-    if (level.statuepuzzles) {
-      for (var i = 0; i < level.statuepuzzles.length; i++) {
-        let statuepuzzle = level.statuepuzzles[i];
-        this.game.addEntity(new StatuePuzzle(this.game, statuepuzzle.x, statuepuzzle.y, statuepuzzle.size));
-      }
-    }
     if (level.floors) {
       for (var i = 0; i < level.floors.length; i++) {
         let floor = level.floors[i];
         this.game.addEntity(new Floor(this.game, floor.x, floor.y, floor.size));
+      }
+    }
+    if (level.statuepuzzles) {
+      for (var i = 0; i < level.statuepuzzles.length; i++) {
+        let statuepuzzle = level.statuepuzzles[i];
+        this.game.addEntity(new StatuePuzzle(this.game, statuepuzzle.x, statuepuzzle.y, statuepuzzle.size));
       }
     }
     if (level.clouds) {

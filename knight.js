@@ -579,6 +579,7 @@ class Knight {
     }
 
     if (this.game.options.debugging) {
+      console.log("this is the this.x value: " + this.x);
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
       ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);
