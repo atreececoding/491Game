@@ -65,6 +65,12 @@ class SceneManager {
         this.game.addEntity(new HungerBar(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
       }
     }
+    if (level.dragons) {
+      for (var i = 0; i < level.dragons.length; i++) {
+        let dragon = level.dragons[i];
+        this.game.addEntity(new Dragon(this.game, dragon.x, dragon.y, dragon.size));
+      }
+    }
     // TODO: We should convert our values to be based on blockwidth like super marriott brothers
     if (level.goblins) {
       for (var i = 0; i < level.goblins.length; i++) {
@@ -138,12 +144,7 @@ class SceneManager {
         this.game.addEntity(new Bat(this.game, bat.x, bat.y, bat.size));
       }
     }
-    if (level.dragons) {
-      for (var i = 0; i < level.dragons.length; i++) {
-        let dragon = level.dragons[i];
-        this.game.addEntity(new Dragon(this.game, dragon.x, dragon.y, dragon.size));
-      }
-    }
+    
     if(level.goldpiles) {
       for (var i = 0; i < level.goldpiles.length; i++) {
         let goldpile = level.goldpiles[i];

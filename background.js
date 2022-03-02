@@ -54,6 +54,16 @@ class Floor {
         ctx.drawImage(this.spritesheetTwo, i - this.game.camera.x, 735, 78, 77);
       }
     }
+    else if (this.game.camera.level === debug) {
+      for (var i = 0; i <= 12000; i += 78) {
+        ctx.drawImage(this.spritesheetTwo, i - this.game.camera.x, 735, 78, 77);
+      }
+    }
+    else if (this.game.camera.level === bossRoom) {
+      for (var i = 0; i <= 2000; i += 78) {
+        ctx.drawImage(this.spritesheetTwo, i - this.game.camera.x, 735, 78, 77);
+      }
+    }
   }
 }
 
@@ -62,20 +72,25 @@ class Platform {
     Object.assign(this, { game, x, y, w, h });
 
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
-
-    this.BB = new BoundingBox(this.x  + 15, this.y + 13, this.w, PARAMS.PLATHEIGHT);
-    this.leftBB = new BoundingBox(
-      this.x ,
-      this.y,
-      PARAMS.PLATWIDTH,
-      PARAMS.PLATWIDTH
-    );
-    this.rightBB = new BoundingBox(
-      this.x + this.w - PARAMS.PLATWIDTH,
-      this.y,
-      PARAMS.PLATHEIGHT,
-      PARAMS.PLATWIDTH
-    );
+    this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/platformlevel2.png");
+    if(this.game.camera.level == levelOne) {
+      this.BB = new BoundingBox(this.x  + 15, this.y + 13, this.w, PARAMS.PLATHEIGHT);
+      this.leftBB = new BoundingBox(
+        this.x ,
+        this.y,
+        PARAMS.PLATWIDTH,
+        PARAMS.PLATWIDTH
+      );
+      this.rightBB = new BoundingBox(
+        this.x + this.w - PARAMS.PLATWIDTH,
+        this.y,
+        PARAMS.PLATHEIGHT,
+        PARAMS.PLATWIDTH
+      );
+    }
+    else {
+      this.BB = new BoundingBox(this.x , this.y, this.w * .93, PARAMS.PLATHEIGHT * .65);
+    }
   }
 
   update() {
@@ -88,7 +103,12 @@ class Platform {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
-    ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 300, 100);
+    if (this.game.camera.level == levelOne) {
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 300, 100);
+    }  
+    else {
+      ctx.drawImage(this.spritesheet2, this.x - this.game.camera.x, this.y, 250, 50);
+    }
   }
 }
 

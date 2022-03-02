@@ -215,21 +215,21 @@
       this.BB = new BoundingBox(
         this.x,
         this.y + 70,
-        PARAMS.BLOCKWIDTH * 4,
+        PARAMS.BLOCKWIDTH *  4,
         PARAMS.BLOCKWIDTH * 4.8
       );
   
       this.lastUpperBB = this.upperBB;
       this.upperBB = new BoundingBox(
         this.x-150,
-        this.y + 20,
+        this.y - 200 ,
         PARAMS.BLOCKWIDTH * 2,
-        PARAMS.BLOCKWIDTH * 2
+        PARAMS.BLOCKWIDTH * 6
       );
 
       this.lastLowerBB = this.lowerBB; 
       this.lowerBB = new BoundingBox(
-        this.x-50,
+        this.x-150,
         this.y + 350,
         PARAMS.BLOCKWIDTH * 5.5,
         PARAMS.BLOCKWIDTH * 5.2
@@ -276,7 +276,7 @@
        
         if(entity.BB && that.BB && that.BB.collide(entity.BB) && entity !== that) {
           if (
-            (entity instanceof Floor || entity instanceof Platform) &&
+            (entity instanceof Floor) &&
             that.lastBB.bottom <= entity.BB.top
           ) {
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 3.967;
@@ -287,7 +287,7 @@
         if(that.state !== 3 && that.state !== 2) {
           if (entity.BB && that.lowerBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
-             
+              
               if (that.timer === undefined) {
                 that.timer = 0;
               }
@@ -300,8 +300,7 @@
                 that.state = 1;
                 that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
-                entity.loseHeart();
-                entity.loseHeart();
+                entity.loseDragonHeart();
                 
                 
                 that.timer = 0;
@@ -324,6 +323,9 @@
           
           else if (entity.BB && that.midBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
+              if (entity.BB.right >= that.midBB.right) {
+                entity.x = that.midBB.right - entity.BB.width;
+              }
               if (that.timer === undefined) {
                 that.timer = 0;
               }
@@ -334,8 +336,7 @@
                 that.state = 4;
                 that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
-                entity.loseHeart();
-                entity.loseHeart();
+                entity.loseDragonHeart();
                 
                 that.timer = 0;
               }
@@ -354,6 +355,9 @@
           
           else if (entity.BB && that.upperBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
+              if (entity.BB.right >= that.upperBB.right) {
+                entity.x = that.upperBB.right - entity.BB.width;
+              }
               if (that.timer === undefined) {
                 that.timer = 0;
               }
@@ -364,8 +368,7 @@
                 that.state = 5;
                 that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
-                entity.loseHeart();
-                entity.loseHeart();
+                entity.loseDragonHeart();
                 
                 that.timer = 0;
               }
@@ -420,22 +423,31 @@
   
     draw(ctx) {
       if(this.lives > 0) {
-        if(this.state === 5) {
+        if(this.state === 1 ) {
           this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
             this.x - this.game.camera.x - 300,
             this.y - 100,
-            5
+            9
+            );
+        }
+        else if(this.state === 5) {
+          this.animations[this.state][this.facing].drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x - this.game.camera.x - 350,
+            this.y - 150,
+            9
             );
         }
         else if (this.state === 4){
           this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
-            this.x - this.game.camera.x - 700,
-            this.y - 165,
-            5
+            this.x - this.game.camera.x - 1200,
+            this.y - 475,
+            9
             );
         }
         else {
@@ -444,7 +456,7 @@
           ctx,
           this.x - this.game.camera.x,
           this.y,
-          5
+          9
           );
         }
       } else if(this.lives <= 0 && !this.dead) {
@@ -454,7 +466,7 @@
           ctx,
           this.x - this.game.camera.x,
           this.y,
-          5
+          9
         );
         if(this.animations[this.state][this.facing].isDone()) {
           this.dead = true;
@@ -475,7 +487,7 @@
           ctx,
           this.x - this.game.camera.x,
           this.y + 400,
-          5
+          9
         );
       }
       if (this.game.options.debugging && this.BB && this.upperBB && this.midBB && this.lowerBB && this.wallBB) {

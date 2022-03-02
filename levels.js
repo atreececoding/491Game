@@ -80,11 +80,13 @@ var levelDebug = {
 };
 
 var bossRoom = {
-    label: "Debug",
+    music: "./music/AstralAcademy.mp3",
+    label: "BossRoom",
+    dragons: [{x: 1700, y: 0, size: 9}],
     floors: [{x: 0, y:735, size: 800}],
-    signposts: [{x: 400, y:580, w:400, h:250}, {x: 1000, y:580, w:130, h:130}],
-    metalspikesceiling: [{x: 200, y:400, w:130, h:130}, {x: 600, y:400, w:130, h:130}, 
-        {x: 800, y:90, w:130, h:130},{x: 800, y:90, w:130, h:130}],
+    platforms: [{ x: 1400, y: 515, w: 270, h: 250 }, {x:1475, y: 300, w:270, h:250}],
+    
+    //dragons: [{x: 1800, y: -1000, size: 8}],
  //   metalspikesfloor: [{x: 600, y:590, w:130, h:130}, {x: 800, y:590, w:130, h:130}],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],

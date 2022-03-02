@@ -11,7 +11,7 @@ class Knight {
       this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
 
       this.lives = 5;
-      this.energy = 3;
+      this.energy = 50;
       this.attackTimer = 2;
       this.hurtTimer = .5;
       
@@ -382,6 +382,7 @@ class Knight {
           //   //that.state = 5;
       
            //}
+          if ((entity instanceof Dragon)) 
           
 
           if ((entity instanceof Crate || entity instanceof MetalSpikesFloor || entity instanceof MetalSpikesCeiling) && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
@@ -534,6 +535,10 @@ class Knight {
       this.hurtTimer = 0;
       this.lives--;
     }
+  }
+
+  loseDragonHeart() {
+    this.lives-=2;
   }
 
   gainEnergy() {

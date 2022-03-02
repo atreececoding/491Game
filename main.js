@@ -21,6 +21,7 @@ ASSET_MANAGER.queueDownload("./sprites/DragonUpperAttack.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/floorLevelTwo.png");
 ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
+ASSET_MANAGER.queueDownload("./sprites/platformlevel2.png");
 ASSET_MANAGER.queueDownload("./sprites/energydrink.png");
 ASSET_MANAGER.queueDownload("./sprites/goldApple.png");
 ASSET_MANAGER.queueDownload("./sprites/redApple.png");
