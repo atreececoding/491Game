@@ -9,9 +9,10 @@ class SceneManager {
 
     this.gameOver = false;
     this.title = true;
-    this.level = levelOne;
+    this.level = null;
 
     this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver);
+    
   }
   clearEntities() {
     this.game.entities.forEach(function (entity) {
@@ -24,13 +25,29 @@ class SceneManager {
     this.winscreen = winscreen;
     this.level = level;
     this.clearEntities();
-    this.x = 0;
-    this.underground = level.underground;
+    this.x = x;
+    this.y = y;
+
+    this.knight.x = x;
+    this.knight.y = y;
+    this.knight.removeFromWorld = false;
+    this.knight.velocity = { x: 0, y: 0 };
+    var that = this;
+    var knight = false;
+    this.game.entities.forEach(function(entity) {
+        if(that.knight === entity) knight = true;
+    });
+    if(!knight) this.game.addEntity(this.knight);
+
+
+    //this.underground = level.underground;
 
     // if(transition) {
     //     this.game.addEntity(new TransitionScreen(this.game, level, x, y, title));
     // } else {
     
+
+
     if (!this.title && !this.winscreen) {
       if (level.music) {
         ASSET_MANAGER.playAsset(level.music);
@@ -48,9 +65,6 @@ class SceneManager {
         this.game.addEntity(new HungerBar(this.game, hunger_bar.x, hunger_bar.y, hunger_bar.size));
       }
     }
-    if (level.knights) {
-      this.game.addEntity(this.knight);
-    }
     // TODO: We should convert our values to be based on blockwidth like super marriott brothers
     if (level.goblins) {
       for (var i = 0; i < level.goblins.length; i++) {
@@ -62,6 +76,12 @@ class SceneManager {
       for(var i = 0; i < level.skeletons.length; i++) {
         let skeleton = level.skeletons[i];
         this.game.addEntity(new Skeleton(this.game, skeleton.x, skeleton.y, skeleton.size))
+      }
+    }
+    if (level.gargoyles) {
+      for(var i = 0; i < level.gargoyles.length; i++) {
+        let gargoyle = level.gargoyles[i];
+        this.game.addEntity(new Gargoyle(this.game, gargoyle.x, gargoyle.y, gargoyle.size))
       }
     }
     if (level.rats) {
@@ -149,6 +169,7 @@ class SceneManager {
       }
     }
 
+
   }
 
   updateAudio() {
@@ -157,6 +178,12 @@ class SceneManager {
 
     ASSET_MANAGER.muteAudio(mute);
     ASSET_MANAGER.adjustVolume(volume);
+    ASSET_MANAGER.adjustAssetVolume("./music/AstralAcademy.mp3", volume * .6);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/hit_ground.wav", volume * .4);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/walking.wav", volume * .4);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/crate_hit.wav", volume * .4);
+    ASSET_MANAGER.adjustAssetVolume("./sfx/spear_hit.mp3", volume * .7);
+
   }
 
   updateOptions() {
@@ -197,13 +224,16 @@ class SceneManager {
     this.updateOptions();
     if (this.title && this.game.keys["click"]) {
       this.title = false;
-      this.loadLevel(this.level, 1, 1, true, false, false);
+      this.loadLevel(levelOne, 1, 1, true, false, false);
     }
+    // else if(!this.title && !this.knight.gameOver && !this.knight.winCondition && !levelOne) {
+    //   this.loadLevel(this.level, 1, 1, true, false, false);
+    // }
     else if (this.knight.gameOver) {
       this.knight.gameOver = false;
       this.clearEntities();
       this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver)
-      this.loadLevel(this.level, 1, 1, true, false, false);
+      this.loadLevel(this.level, 100, 0, true, false, false);
       this.lives = 5;
     }
     else if (this.knight.winCondition) {

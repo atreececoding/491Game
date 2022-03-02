@@ -2,18 +2,23 @@ class Background {
   constructor(game, x = 0, y = 0) {
     Object.assign(this, { game, x, y });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Level1Background.png");
+    this.spritesheetTwo = ASSET_MANAGER.getAsset("./sprites/Level2background.png");
   }
   update() {}
 
   draw(ctx) {
     // Hardcoded
+    if(this.game.camera.level === levelOne) 
     ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
+    else if(this.game.camera.level === levelTwo)
+    ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
   }
 }
 class Floor {
   constructor(game, x = 0, y = 0, w) {
     Object.assign(this, { game, x, y, w });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
+    this.spritesheetTwo = ASSET_MANAGER.getAsset("./sprites/floorLevelTwo.png");
 
     this.BB = new BoundingBox(0, this.y, 6000, PARAMS.BLOCKWIDTH * 2);
     // this.leftBB = new BoundingBox(
@@ -37,8 +42,15 @@ class Floor {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     }
-    for (var i = 0; i <= 6000; i += 78) {
-      ctx.drawImage(this.spritesheet, i, 735, 78, 77);
+    if(this.game.camera.level === levelOne) {
+      for (var i = 0; i <= 6000; i += 78) {
+        ctx.drawImage(this.spritesheet, i, 735, 78, 77);
+      }
+    }
+    else if(this.game.camera.level === levelTwo) {
+      for (var i = 0; i <= 6000; i += 78) {
+        ctx.drawImage(this.spritesheetTwo, i, 735, 78, 77);
+      }
     }
   }
 }
@@ -231,14 +243,22 @@ class CastleGates {
     this.game.entities.forEach(function(entity) {
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (entity instanceof Knight) {
-          that.state = 1;
+          if (that.state === 0) that.state = 1;
+          var level1DoorOpenSoundPath = './sfx/level1_door.wav';
+          if (!(ASSET_MANAGER.getAsset(level1DoorOpenSoundPath).currentTime > 0) && that.state === 1) {
+            ASSET_MANAGER.playAsset(level1DoorOpenSoundPath);
+          }
         }
-        if(that.animations[that.state][that.facing].isDone())
+        if(that.animations[that.state][that.facing].isDone()) 
         that.state = 2;
       }
       that.updateBB();
     }
     );
+    if(levelOne && that.state === 2 && that.game.keys["up"]) {
+      this.game.camera.loadLevel(levelTwo, 0, 0, false, false, false);
+      console.log("loaded level two");
+    }
   }
 
   draw(ctx) {

@@ -109,21 +109,23 @@ class Rat {
             that.velocity.y = 0;
           }
         }
-  
-        if (entity.BB && that.runBB.collide(entity.BB) && entity !== that) {
-          if (entity instanceof Knight && !(that.BB.collide(entity.BB))) {
-            if(entity.BB.x > that.x) {
-              that.facing = 1;
-              that.state = 1;
-              that.velocity.x = 100;
-              
+        
+        if(that.state !== 2) {
+          if (entity.BB && that.runBB.collide(entity.BB) && entity !== that) {
+            if (entity instanceof Knight && !(that.BB.collide(entity.BB))) {
+              if(entity.BB.x > that.x) {
+                that.facing = 1;
+                that.state = 1;
+                that.velocity.x = 100;
+                
+              }
+              else if(entity.BB.x < that.x) {
+                that.facing = 0;
+                that.state = 1;
+                that.velocity.x = -100;
+              }
+              that.x += that.game.clockTick * that.velocity.x;
             }
-            else if(entity.BB.x < that.x) {
-              that.facing = 0;
-              that.state = 1;
-              that.velocity.x = -100;
-            }
-            that.x += that.game.clockTick * that.velocity.x;
           }
         }
       });
@@ -135,6 +137,11 @@ class Rat {
   
     loseHeart() {
       this.lives--;
+      var hurtSoundPath = './sfx/rat_hurt.wav';
+      if (!(ASSET_MANAGER.getAsset(hurtSoundPath).currentTime > 0)) {
+        ASSET_MANAGER.playAsset(hurtSoundPath);
+      }
+
     //   console.log(this.lives);
       if(this.lives <= 0) {
         this.state = 2;

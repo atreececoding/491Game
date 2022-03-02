@@ -48,11 +48,6 @@ var levelTwo = {
     backgrounds: [{x: 0, y: 0, size: 1}],
 };
 
-var bossLevel = {
-    music: "./music/AstralAcademy.mp3",
-    label: "1-3",
-}
-
 var credits = {
     text: [
     "      Made Possible By",

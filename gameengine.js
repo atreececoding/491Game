@@ -57,7 +57,6 @@ class GameEngine {
     window.addEventListener(
       "mousedown",
       function(e) {
-        e.preventDefault();
           switch (e.button) {
             case 0:
             that.attack = true;
