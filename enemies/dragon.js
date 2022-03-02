@@ -486,7 +486,7 @@
           this.game.clockTick,
           ctx,
           this.x - this.game.camera.x,
-          this.y + 400,
+          this.y + 800,
           9
         );
       }

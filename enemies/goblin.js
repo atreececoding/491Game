@@ -199,14 +199,12 @@ class Goblin {
         ) {
           that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 0.93;
           that.velocity.y = 0;
-          console.log("collided floor");
 
         } 
       }
       else if (entity.BB && that.runBB.collide(entity.BB) && entity !== that) {
         if (entity instanceof Knight && !(that.BB.collide(entity.BB)) ) {
           if(entity.BB.x > that.x) {
-            console.log("entered right");
             that.facing = 0;
             //that.state = 1;
             that.velocity.x = 100;
@@ -216,7 +214,6 @@ class Goblin {
             
           }
           else if(entity.BB.x < that.x) {
-            console.log("entered left");
             that.facing = 1;
             //that.state = 1;
             that.velocity.x = -100;
