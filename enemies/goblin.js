@@ -12,7 +12,7 @@ class Goblin {
     this.facing = 0;
     this.state = 0; // 0 = walking, 1 = attacking, 2 = dying
     this.dead = false;
-    this.lives = 25;
+    this.lives = 50;
     this.flicker = true;
     this.speed = 100;
 
@@ -108,7 +108,27 @@ class Goblin {
 
   die() {}
 
+  
   update() {
+    
+    //Patrolling is hardcoded need to fix
+    // if (this.x <= this.patLeft && this.facing === 1) {
+    //   this.x = this.patLeft;
+    //   this.velocity.x = 75;
+    //   this.facing = 0;
+    // } 
+    // if (this.x >= this.patRight && this.facing === 0) {
+    //   this.x = this.patRight;
+    //   this.velocity.x = -75;
+    //   this.facing = 1;
+    // }
+    
+    // this.velocity.y += this.fallAcc * this.game.clockTick;
+    // //this.patrol();
+    // this.x += this.game.clockTick * this.velocity.x;
+    // this.y += this.game.clockTick * this.velocity.y;
+    // this.updateBB();
+
     if (this.hurt) {
       if (this.hurtTimer === undefined) {
         this.hurtTimer = 0;
@@ -127,22 +147,15 @@ class Goblin {
       this.updateBB();
     } else {
       // Patrolling is hardcoded need to fix
-      if (this.x <= this.patLeft && this.facing === 1) {
-        this.x = this.patLeft;
-        this.velocity.x = 75;
-        this.facing = 0;
-      } 
-      if (this.x >= this.patRight && this.facing === 0) {
-        this.x = this.patRight;
-        this.velocity.x = -75;
-        this.facing = 1;
-      }
+      //this.patrol();
       this.velocity.y += this.fallAcc * this.game.clockTick;
       this.x += this.game.clockTick * this.velocity.x;
       this.y += this.game.clockTick * this.velocity.y;
       this.updateBB();
     }
     var that = this;
+    // that.patLeft = that.x - 250;
+    // that.patRight = that.x;
     this.game.entities.forEach(function (entity) {
       if(that.state !== 2) {
         if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
@@ -180,30 +193,51 @@ class Goblin {
       }
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (
+          
           (entity instanceof Floor || entity instanceof Platform) &&
           that.lastBB.bottom <= entity.BB.top
         ) {
           that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 0.93;
           that.velocity.y = 0;
+          console.log("collided floor");
 
         } 
       }
       else if (entity.BB && that.runBB.collide(entity.BB) && entity !== that) {
-        if (entity instanceof Knight && !(that.BB.collide(entity.BB))) {
+        if (entity instanceof Knight && !(that.BB.collide(entity.BB)) ) {
           if(entity.BB.x > that.x) {
+            console.log("entered right");
             that.facing = 0;
             //that.state = 1;
             that.velocity.x = 100;
+          
+            that.patRight = that.x + 250;
+            that.patLeft = that.x;
             
           }
           else if(entity.BB.x < that.x) {
+            console.log("entered left");
             that.facing = 1;
             //that.state = 1;
             that.velocity.x = -100;
+            that.patLeft = that.x - 250;
+            that.patRight = that.x;
+            
           }
           //that.x += that.game.clockTick * that.velocity.x;
         }
+        // that.patLeft = that.x - 250;
+        // that.patRight = that.x;
       }
+      else {
+        
+        that.velocity.y += that.fallAcc * that.game.clockTick;
+        that.patrol();
+        // that.x += that.game.clockTick * that.velocity.x;
+        // that.y += that.game.clockTick * that.velocity.y;
+        // that.updateBB();
+      }
+      
     });
     that.updateBB();
   }
@@ -218,6 +252,38 @@ class Goblin {
     // console.log(this.lives);
     if(this.lives <= 0) {
       this.state = 2;
+    }
+  }
+  bounce() { //Goblin jumpback
+    if(this.facing == 0) {
+      //console.log("working");
+      this.velocity.x = -250;
+      this.velocity.y = -100;
+      this.x += this.velocity.x * this.game.clockTick;
+      this.y += this.velocity.y * this.game.clockTick;
+
+      this.updateBB();
+    }
+    else {
+      //console.log("working");
+      this.velocity.x = 250;
+      this.velocity.y = -100;
+      this.x += this.velocity.x * this.game.clockTick;
+      this.y += this.velocity.y * this.game.clockTick;
+
+    this.updateBB();
+    }
+  }
+  patrol() {
+    if (this.x <= this.patLeft && this.facing === 1) {
+      this.x = this.patLeft;
+      this.velocity.x = 75;
+      this.facing = 0;
+    } 
+    if (this.x >= this.patRight && this.facing === 0) {
+      this.x = this.patRight;
+      this.velocity.x = -75;
+      this.facing = 1;
     }
   }
 

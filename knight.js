@@ -8,7 +8,7 @@ class Knight {
 
       this.size = 0;
       this.facing = 0; // 0 = right, 1 = left
-      this.state = 3; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
+      this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
 
       this.lives = 5;
       this.energy = 3;
@@ -145,24 +145,24 @@ class Knight {
         }
         
     } else if (this.state === 5) {
-        if(this.facing == 0) {
+        // if(this.facing == 0) {
+        //   console.log("working");
+        //   // this.velocity.x = -250;
+        //   // this.velocity.y = -150;
+        //   // this.x += this.velocity.x * TICK;
+        //   // this.y += this.velocity.y * TICK;
 
-          this.velocity.x = -250;
-          this.velocity.y = -150;
-          this.x += this.velocity.x * TICK;
-          this.y += this.velocity.y * TICK;
+        //   // this.updateBB();
+        // }
+        // else {
+        //   console.log("working");
+        //   this.velocity.x = 250;
+        //   this.velocity.y = -150;
+        //   this.x += this.velocity.x * TICK;
+        //   this.y += this.velocity.y * TICK;
 
-          this.updateBB();
-        }
-        else {
-          console.log("working");
-          this.velocity.x = 250;
-          this.velocity.y = -150;
-          this.x += this.velocity.x * TICK;
-          this.y += this.velocity.y * TICK;
-
-        this.updateBB();
-        }
+        // this.updateBB();
+       // }
         if (this.animations[this.state][this.facing].isDone()) {
           this.animations[this.state][this.facing].reset();
           this.state = 0;
@@ -175,6 +175,7 @@ class Knight {
         } else {
         // update velocity
         // ground physics
+        
         if (this.state !== 3) {
           if (this.game.keys["left"] && !this.game.keys["right"]) { // move left
             if (this.game.keys["shift"]) {
@@ -192,11 +193,21 @@ class Knight {
                 this.velocity.x = WALK_SPEED;
                 this.state = 1;
               }
-          } else {
+          
+          } 
+          else if (this.state == 5) {
+            // need to set a timer
+            if(this.facing == 0) {
+              this.velocity.x = -150;
+            }
+            else {
+              this.velocity.x = 150;
+            }
+          }
+          else {
             this.velocity.x = 0;
             this.state = 0;
           }
-          
           // fall if you step off platform
           this.velocity.y = FALL_SPEED;
 
@@ -265,8 +276,9 @@ class Knight {
               this.velocity.x = WALK_SPEED;
             }
         } else {
-            this.velocity.x = 0;
+            //this.velocity.x = 0;
         }
+        
     }
 
     // max speed calculation
@@ -288,7 +300,6 @@ class Knight {
     // update direction
     if (this.game.keys["right"]) this.facing = 0;
     if (this.game.keys["left"]) this.facing = 1;
-
   }
 
     var that = this;
@@ -314,8 +325,9 @@ class Knight {
             that.lastBB.bottom <= entity.BB.top
           ) {
             // was above last tick
+            
             that.y = entity.BB.top - that.BB.height;
-            that.velocity.y = 0;
+            
           }
 
           if ((entity instanceof MetalSpikesFloor) && that.lastBB.bottom <= entity.BB.top) {
@@ -337,8 +349,12 @@ class Knight {
             that.lastBB.bottom <= entity.BB.top && // was above last tick
             !entity.dead
           ) {
-            that.velocity.y = 0; // bounce up
             that.y = entity.BB.top - that.BB.height;
+            
+            // bounce up
+            //console.log("collided top");
+            
+            
           }
           // move this line into the conditional blocks if we don't want jump reset on collision
           var hitGroundSoundPath = './sfx/hit_ground.wav';
@@ -352,10 +368,8 @@ class Knight {
             }
           }
           if (that.state === 3) that.state = 0; // set state to idle
-          
-        }
 
-   
+        }
         // Facing right collission
         if (that.facing === 0) {
           // if (
@@ -367,7 +381,8 @@ class Knight {
           //   //that.x = entity.BB.left - that.BB.width;
           //   //that.state = 5;
       
-          // }
+           //}
+          
 
           if ((entity instanceof Crate || entity instanceof MetalSpikesFloor || entity instanceof MetalSpikesCeiling) && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
@@ -459,6 +474,11 @@ class Knight {
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Rat || entity instanceof Skeleton) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.state === 4) {
+              if (entity instanceof Goblin) {
+                entity.bounce();
+              }
+              console.log(entity.lives);
+              entity.loseHeart();
               if (that.goblinHurtTimer === undefined) {
                 that.goblinHurtTimer = 0;
               } else {
@@ -477,6 +497,12 @@ class Knight {
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.state === 4) {
+              //entity.loseHeart();
+              if (entity instanceof Goblin) {
+                entity.bounce();
+              }
+              console.log(entity.lives);
+              entity.loseHeart();
               if (that.goblinHurtTimer === undefined) {
                 that.goblinHurtTimer = 0;
               } else {
@@ -496,8 +522,7 @@ class Knight {
             entity.hurt = false;
           }
         }
-      }
-      
+      }  
     });
     that.updateBB();
   }
@@ -519,7 +544,22 @@ class Knight {
       this.lives++;;
     }
   }
+  damagedLeft() {
+    this.velocity.x = -1000;
+    this.velocity.y = -150;
+    this.x += this.velocity.x * this.game.clockTick;
+    this.y += this.velocity.y * this.game.clockTick;
 
+    this.updateBB();
+  }
+  damagedRight() {
+    this.velocity.x = 1000;
+    this.velocity.y = -150;
+    this.x += this.velocity.x * this.game.clockTick;
+    this.y += this.velocity.y * this.game.clockTick;
+    
+    this.updateBB();
+  }
   gainGoldAppleEnergy() {
     this.energy += 200;
     if(this.lives < 5) {
