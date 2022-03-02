@@ -72,26 +72,30 @@ class Bat {
   update() {
     // this is hardcoded need to fix
     let scale = 1 + Math.random();
-    if (this.x <= this.patLeft /*&& this.facing === 1*/) {
-      // console.log("got left");
+    if (this.x <= this.patLeft) {
       this.x = this.patLeft;
       this.velocity.x = 100 * scale;
-      //this.facing = 0;
     } 
-    if (this.x >= this.patRight /*&& this.facing === 0*/) {
-      // console.log("got right");
+    if (this.x >= this.patRight ) {
       this.x = this.patRight;
       this.velocity.x = -100 * scale;
-      //this.facing = 1;
+   
     }
-    if (this.y <= this.upPat) {
-      //this.y = this.patUp;
-      this.velocity.y = 100 * scale;
-      // console.log(this.velocity.y);
-    } 
-    if (this.y >= this.downPat) {
-      //this.y = this.patDown;
-      this.velocity.y = -100 * scale;
+    if(this.game.camera.level === levelOne) {
+      if (this.y <= this.upPat) {
+        this.velocity.y = 100 * scale;
+      } 
+      if (this.y >= this.downPat) {
+        this.velocity.y = -100 * scale;
+      }
+    }
+    else if(this.game.camera.level === levelTwo) {
+      if (this.y <= this.upPat + 200) {
+        this.velocity.y = 100 * scale;
+      } 
+      if (this.y >= this.downPat - 200) {
+        this.velocity.y = -100 * scale;
+      }
     }
     this.x += this.game.clockTick * this.velocity.x;
     this.y += this.game.clockTick * this.velocity.y;

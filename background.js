@@ -11,7 +11,7 @@ class Background {
     if(this.game.camera.level === levelOne) 
     ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
     else if(this.game.camera.level === levelTwo)
-    ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 14000, 900);
+    ctx.drawImage(this.spritesheetTwo, -900-this.game.camera.x, 0, 16800, 900);
     else
       ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
   }
@@ -22,7 +22,7 @@ class Floor {
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
     this.spritesheetTwo = ASSET_MANAGER.getAsset("./sprites/floorLevelTwo.png");
 
-    this.BB = new BoundingBox(0, this.y, 12000, PARAMS.BLOCKWIDTH * 2);
+    this.BB = new BoundingBox(0, this.y, 12300, PARAMS.BLOCKWIDTH * 2);
     // this.leftBB = new BoundingBox(
     //   this.x,
     //   this.y,
