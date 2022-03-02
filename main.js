@@ -47,6 +47,18 @@ ASSET_MANAGER.queueDownload("./sprites/signpost.png");
 
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");
+ASSET_MANAGER.queueDownload("./music/Clashing Steel.wav");
+ASSET_MANAGER.queueDownload("./music/Mountains.wav");
+ASSET_MANAGER.queueDownload("./music/Battle-hardened Bravery.wav");
+ASSET_MANAGER.queueDownload("./music/Bloody Battles.wav");
+ASSET_MANAGER.queueDownload("./music/Clashing Steel.wav");
+ASSET_MANAGER.queueDownload("./music/Desert.wav");
+ASSET_MANAGER.queueDownload("./music/Forest.wav");
+ASSET_MANAGER.queueDownload("./music/Hills.wav");
+ASSET_MANAGER.queueDownload("./music/Jungle.wav");
+ASSET_MANAGER.queueDownload("./music/Tundra.wav");
+
+
 
 // Sound Effects
 ASSET_MANAGER.queueDownload("./sfx/crate_hit.wav");

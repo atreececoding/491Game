@@ -70,10 +70,14 @@ class Floor {
 class Platform {
   constructor(game, x = 0, y = 0, w, h) {
     Object.assign(this, { game, x, y, w, h });
+    this.velocity = { x: 0, y: 0 };
+    this.patLeft = this.x;
+    this.patRight = this.x + 250;
+    this.moves = false;
 
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
     this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/platformlevel2.png");
-    if(this.game.camera.level == levelOne) {
+    if(this.game.camera.level === levelOne) {
       this.BB = new BoundingBox(this.x  + 15, this.y + 13, this.w, PARAMS.PLATHEIGHT);
       this.leftBB = new BoundingBox(
         this.x ,
@@ -94,8 +98,24 @@ class Platform {
   }
 
   update() {
-    // this.lastBB = this.BB;
-    // this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+    if (this.game.camera.level !== levelOne && this.moves === true) {
+      if (this.x <= this.patLeft) {
+        this.x = this.patLeft;
+        this.velocity.x = 20;
+      } 
+      if (this.x >= this.patRight ) {
+        this.x = this.patRight;
+        this.velocity.x = -20;
+      }
+      this.x += this.game.clockTick * this.velocity.x;
+      this.y += this.game.clockTick * this.velocity.y;
+      this.updateBB();
+    }
+  }
+
+  updateBB() {
+    this.lastBB = this.BB;
+    this.BB = new BoundingBox(this.x, this.y + 10, PARAMS.BLOCKWIDTH * 2.4, PARAMS.BLOCKHEIGHT * 0.25);
   }
 
   draw(ctx) {
@@ -103,6 +123,7 @@ class Platform {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
+
     if (this.game.camera.level == levelOne) {
       ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 300, 100);
     }  
@@ -196,7 +217,6 @@ class SignPost {
     this.message = ASSET_MANAGER.getAsset("./sprites/message.png");
     this.timer = 0;
     this.display = false;
-
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
   }
 
@@ -222,9 +242,9 @@ class MetalSpikesFloor {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesFloor.png");
-
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h * 0.5);
-  
+
+    this.isSpikes = true;
   }
     update() {
     };
@@ -243,6 +263,8 @@ class MetalSpikesCeiling {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesCeiling.png");
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+
+    this.isSpikes = true;
   }
     update() {
     };
