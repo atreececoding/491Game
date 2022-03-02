@@ -370,15 +370,14 @@ class Knight {
         }
         // Facing right collission
         if (that.facing === 0) {
-
-          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor || entity instanceof MetalSpikesCeiling) 
+          if ((entity instanceof Crate || entity.isSpikes === true) 
             && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width;
             that.velocity.x = 0;
             that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
               var crateHitSoundPath = './sfx/crate_hit.wav';
-              if (!(ASSET_MANAGER.getAsset(crateHitSoundPatha).currentTime > 0)) {
+              if (!(ASSET_MANAGER.getAsset(crateHitSoundPath).currentTime > 0)) {
                 ASSET_MANAGER.playAsset(crateHitSoundPath);
               }
             }
@@ -387,7 +386,6 @@ class Knight {
         }
         //facing left collssion
         if (that.facing === 1) {
-         
           if ((entity instanceof Crate || entity.isSpikes === true) 
               && (that.BB.left <= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.right;
