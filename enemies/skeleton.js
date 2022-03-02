@@ -35,7 +35,7 @@ class Skeleton {
          // CONSTANTS
          let X_OFFSET = 0;
          let X_OFFSET2 = 5;
-         let WIDTH = 65;
+         let WIDTH = 64;
          let WIDTH2 = 123;
          let HEIGHT = 94;
          let HEIGHT2 = 95;
@@ -56,7 +56,7 @@ class Skeleton {
         //facing right = 0
         this.animations[0][0] = new Animator(
           this.spritesheet,
-          X_OFFSET2, Y_OFFSET_2, WIDTH, HEIGHT, FRAME_COUNT2, ANIMATION_SPEED_1, NO_REVERSE, LOOP
+          X_OFFSET, Y_OFFSET_2, 64, HEIGHT, FRAME_COUNT2, ANIMATION_SPEED_1, NO_REVERSE, LOOP
         );
         //facing left = 1
         this.animations[0][1] = new Animator(
