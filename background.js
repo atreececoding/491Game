@@ -11,7 +11,7 @@ class Background {
     if(this.game.camera.level === levelOne) 
     ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
     else if(this.game.camera.level === levelTwo)
-    ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
+    ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 14000, 900);
     else
       ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
   }
@@ -22,7 +22,7 @@ class Floor {
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
     this.spritesheetTwo = ASSET_MANAGER.getAsset("./sprites/floorLevelTwo.png");
 
-    this.BB = new BoundingBox(0, this.y, 6000, PARAMS.BLOCKWIDTH * 2);
+    this.BB = new BoundingBox(0, this.y, 12000, PARAMS.BLOCKWIDTH * 2);
     // this.leftBB = new BoundingBox(
     //   this.x,
     //   this.y,
@@ -50,7 +50,7 @@ class Floor {
       }
     }
     else if(this.game.camera.level === levelTwo) {
-      for (var i = 0; i <= 6000; i += 78) {
+      for (var i = 0; i <= 12000; i += 78) {
         ctx.drawImage(this.spritesheetTwo, i - this.game.camera.x, 735, 78, 77);
       }
     }
@@ -203,11 +203,10 @@ class MetalSpikesFloor {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesFloor.png");
 
-    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h * 0.5);
   
   }
     update() {
-
     };
 
     draw(ctx) {

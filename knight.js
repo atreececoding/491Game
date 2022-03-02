@@ -320,9 +320,10 @@ class Knight {
 
           if ((entity instanceof MetalSpikesFloor) && that.lastBB.bottom <= entity.BB.top) {
             // was above last tick
-            that.y = entity.BB.top - that.BB.height;
             that.loseHeart();
+            that.y = entity.BB.top - that.BB.height;
           }
+
 
           if((entity instanceof Platform) && !that.game.keys["down"] && that.lastBB.bottom <= entity.BB.top) {
             // was above last tick
@@ -355,7 +356,7 @@ class Knight {
         }
 
    
-        // TODO: handle side collision here
+        // Facing right collission
         if (that.facing === 0) {
           // if (
           //   entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
@@ -368,7 +369,7 @@ class Knight {
       
           // }
 
-          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor) && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor || entity instanceof MetalSpikesCeiling) && (that.BB.right > entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width; // MAY NEED TO ADJUST FOR SIDESCROLLING
             that.velocity.x = 0;
             that.updateBB();
@@ -381,21 +382,10 @@ class Knight {
           }
 
         }
-        //facing left
+        //facing left collssion
         if (that.facing === 1) {
-          // if (
-          //   entity instanceof Goblin && Rat &&// collision with enemies or obstacles, TODO: may have to add more in later
-          //   !entity.dead &&
-          //   that.lastBB.left >= entity.BB.right
-          // ) {
-          //   console.log("collided right");
-          //   that.x = entity.BB.right;
-          //   //that.state = 5;
-
-          // }
-
          
-          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor) && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+          if ((entity instanceof Crate || entity instanceof MetalSpikesFloor || entity instanceof MetalSpikesCeiling) && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.right;
             that.velocity.x = 0;
             that.x += 1; // bounce to the right
@@ -409,13 +399,26 @@ class Knight {
           }
         
         }
+
+        //Jumping up into objects that we don't move through such as crate, spikes
         if (that.velocity.y < 0) {
-          // TODO: handle enemy collision from bottom
-          if(entity instanceof Crate && that.lastBB.top >= entity.BB.bottom) {
+          if((entity instanceof Crate || entity instanceof MetalSpikesCeiling) && that.lastBB.top >= entity.BB.bottom) {
+            if (entity instanceof MetalSpikesCeiling){
+              that.loseHeart();
+            }
             that.y = entity.BB.bottom;
             that.velocity.y = FALL_SPEED;
           }
         }
+
+        // if ((entity instanceof MetalSpikesCeiling) && that.lastBB.top <= entity.BB.bottom) {
+        //   // was above last tick
+        //   console.log("Inside ceiling collission");
+        //   that.loseHeart();
+        //   that.BB.top = entity.BB.bottom;
+        //   that.velocity.y = 0;
+        //   that.y = entity.BB.bottom;
+        // }
 
         if (that.velocity.x < 0 || that.velocity.x > 0) {
           if (entity instanceof EnergyJuice && !entity.dead) {
@@ -548,7 +551,6 @@ class Knight {
       this.y,
       this.animationScales[this.state]
     );
-    console.log('drawing knight ' + (this.x - 110 - this.game.camera.x) + ', ' + this.y);
     if (this.state === 6 && this.animations[this.state][this.facing].isDone()) {
       this.die();
     }
