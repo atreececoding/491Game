@@ -72,7 +72,7 @@ class Platform {
     Object.assign(this, { game, x, y, w, h });
     this.velocity = { x: 0, y: 0 };
     this.patLeft = this.x;
-    this.patRight = this.x + 250;
+    this.patRight = this.x + 600;
     this.moves = false;
 
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
@@ -101,11 +101,11 @@ class Platform {
     if (this.game.camera.level !== levelOne && this.moves === true) {
       if (this.x <= this.patLeft) {
         this.x = this.patLeft;
-        this.velocity.x = 20;
+        this.velocity.x = 40;
       } 
       if (this.x >= this.patRight ) {
         this.x = this.patRight;
-        this.velocity.x = -20;
+        this.velocity.x = -40;
       }
       this.x += this.game.clockTick * this.velocity.x;
       this.y += this.game.clockTick * this.velocity.y;
