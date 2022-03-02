@@ -11,7 +11,7 @@ class Background {
     if(this.game.camera.level === levelOne) 
     ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
     else if(this.game.camera.level === levelTwo)
-    ctx.drawImage(this.spritesheetTwo, -900-this.game.camera.x, 0, 16800, 900);
+    ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 900);
     else
       ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
   }

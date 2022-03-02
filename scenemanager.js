@@ -248,6 +248,10 @@ class SceneManager {
       this.title = false;
       this.loadLevel(levelDebug, 0, 0, false, false, false);
     }
+    else if (this.title && this.game.keys["four"]) {
+      this.title = false;
+      this.loadLevel(bossRoom, 0, 0, false, false, false);
+    }
     else if (this.title && this.game.keys["click"]) {
       this.title = false;
       this.loadLevel(levelOne, 0, 0, true, false, false);
