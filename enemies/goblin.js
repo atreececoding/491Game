@@ -240,7 +240,7 @@ class Goblin {
       this.state = 2;
     }
   }
-  bounce() {
+  bounce() { //Goblin jumpback
     if(this.facing == 0) {
       //console.log("working");
       this.velocity.x = -250;
