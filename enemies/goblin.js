@@ -123,11 +123,11 @@ class Goblin {
     //   this.facing = 1;
     // }
     
-    this.velocity.y += this.fallAcc * this.game.clockTick;
-    //this.patrol();
-    this.x += this.game.clockTick * this.velocity.x;
-    this.y += this.game.clockTick * this.velocity.y;
-    this.updateBB();
+    // this.velocity.y += this.fallAcc * this.game.clockTick;
+    // //this.patrol();
+    // this.x += this.game.clockTick * this.velocity.x;
+    // this.y += this.game.clockTick * this.velocity.y;
+    // this.updateBB();
 
     if (this.hurt) {
       if (this.hurtTimer === undefined) {
@@ -193,11 +193,13 @@ class Goblin {
       }
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (
+          
           (entity instanceof Floor || entity instanceof Platform) &&
           that.lastBB.bottom <= entity.BB.top
         ) {
           that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 0.93;
           that.velocity.y = 0;
+          console.log("collided floor");
 
         } 
       }

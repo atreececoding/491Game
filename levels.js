@@ -79,6 +79,13 @@ var levelDebug = {
     backgrounds: [{x: 0, y: 0, size: 1}],
 };
 
+var bossLevel = {
+    music: "./music/AstralAcademy.mp3",
+    label: "Boss Level",
+    floors: [{x: 0, y:735, size: 800}],
+
+}
+
 var credits = {
     text: [
     "      Made Possible By",
