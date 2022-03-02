@@ -12,7 +12,7 @@ class SceneManager {
     this.level = null;
 
     this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver);
-    
+    this.puzzleSolved = false;
   }
   clearEntities() {
     this.game.entities.forEach(function (entity) {
@@ -94,6 +94,12 @@ class SceneManager {
       for (var i = 0; i < level.rats.length; i++) {
         let rat = level.rats[i];
         this.game.addEntity(new Rat(this.game, rat.x, rat.y, rat.size));
+      }
+    }
+    if (level.statuepuzzles) {
+      for (var i = 0; i < level.statuepuzzles.length; i++) {
+        let statuepuzzle = level.statuepuzzles[i];
+        this.game.addEntity(new StatuePuzzle(this.game, statuepuzzle.x, statuepuzzle.y, statuepuzzle.size));
       }
     }
     if (level.floors) {
@@ -243,7 +249,7 @@ class SceneManager {
     this.updateOptions();
     if (this.title && this.game.keys["two"]) {
       this.title = false;
-      this.game.camera.loadLevel(levelTwo, 0, 0, false, false, false);
+      this.game.camera.loadLevel(levelTwo, 0, 555, false, false, false);
     }
     else if (this.title && this.game.keys["three"]) {
       this.title = false;

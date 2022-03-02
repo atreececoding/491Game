@@ -370,7 +370,7 @@ class Knight {
         }
         // Facing right collission
         if (that.facing === 0) {
-          if ((entity instanceof Crate || entity.isSpikes === true) 
+          if ((entity.isImpassible || entity.isSpikes) 
             && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.left - that.BB.width;
             that.velocity.x = 0;
@@ -386,7 +386,7 @@ class Knight {
         }
         //facing left collssion
         if (that.facing === 1) {
-          if ((entity instanceof Crate || entity.isSpikes === true) 
+          if ((entity.isImpassible || entity.isSpikes) 
               && (that.BB.left <= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.right;
             that.velocity.x = 0;
@@ -404,7 +404,7 @@ class Knight {
 
         //Jumping up into objects that we don't move through such as crate, spikes
         if (that.velocity.y < 0) {
-          if((entity instanceof Crate || entity.isSpikes === true) && that.lastBB.top >= entity.BB.bottom) {
+          if((entity.isImpassible || entity.isSpikes === true) && that.lastBB.top >= entity.BB.bottom) {
             if (entity instanceof MetalSpikesCeiling){
               that.loseHeart();
             }

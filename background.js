@@ -13,7 +13,7 @@ class Background {
     else if(this.game.camera.level === levelTwo)
     ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 900);
     else
-      ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
+      ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 900);
   }
 }
 class Floor {
@@ -192,7 +192,7 @@ class Crate {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/crates.png");
-
+    this.isImpassible = true;
     this.BB = new BoundingBox(this.x, this.y, this.w, this.h);
   
   }
@@ -230,6 +230,7 @@ class SignPost {
       }
       ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128, 128);
       if (this.display === true) {
+          this.game.puzzlesolved = true;
           this.timer += this.game.clockTick;
           if (this.timer > 1.5) this.display = false;
           ctx.drawImage(this.message, this.x - this.game.camera.x - 128, 300, 400, 250);
@@ -242,7 +243,7 @@ class MetalSpikesFloor {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesFloor.png");
-    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h * 0.5);
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y + 20, this.w, this.h * 0.5);
 
     this.isSpikes = true;
   }
@@ -262,7 +263,7 @@ class MetalSpikesCeiling {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesCeiling.png");
-    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y - 20, this.w, this.h);
 
     this.isSpikes = true;
   }
@@ -275,6 +276,33 @@ class MetalSpikesCeiling {
         ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
       }
       ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128 , 128);
+    }
+}
+
+class StatuePuzzle {
+  constructor(game, x = 0, y = 0,w,h) {
+    Object.assign(this, { game, x, y, w, h });
+    this.velocity = {x:0, y:0};
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/statuepuzzle.png");
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+    this.isImpassible = true;
+  }
+    update() {
+      if (this.game.puzzlesolved === true){
+        this.velocity.y = -100;
+      }
+      this.x += this.game.clockTick * this.velocity.x;
+      this.y += this.game.clockTick * this.velocity.y;
+      this.updateBB();
+    };
+
+    updateBB() {
+      this.lastBB = this.BB;
+      this.BB = new BoundingBox(this.x, this.y, 120, 800);
+    }
+
+    draw(ctx) {
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 140, 760);
     }
 }
 
