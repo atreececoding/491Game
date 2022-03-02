@@ -49,14 +49,11 @@ var levelTwo = {
 };
 
 var levelDebug = {
-    music: "./music/AstralAcademy.mp3",
     label: "Debug",
     floors: [{x: 0, y:735, size: 800}],
-    signposts: [{x: 400, y:400, w:400, h:250}, {x: 600, y:400, w:130, h:130}, {x: 800, y:400, w:130, h:130}],
+    signposts: [{x: 400, y:580, w:400, h:250}, {x: 1000, y:580, w:130, h:130}],
     metalspikesceiling: [{x: 400, y:90, w:130, h:130}, {x: 600, y:90, w:130, h:130}, {x: 800, y:90, w:130, h:130}],
-    //metalspikesfloor: [{ x: 220, y: 610, w:130, h:130}],
-    //crates: [{x: 400, y:610, w:130, h:130}],
-    //skeletons: [{x: 600, y: 300, size: 1}],
+    metalspikesfloor: [{x: 600, y:590, w:130, h:130}, {x: 800, y:590, w:130, h:130}],
     goldpiles: [{x: 5700, y: 450, w: 800, h: 400}],
     dragons: [{x: 5200, y: 0, size: 1}],
     goldapples:[{x: 6075, y: 425, size: 2}],
