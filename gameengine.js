@@ -106,6 +106,18 @@ class GameEngine {
           that.keys["down"] = true;
           // if (that.options.debugging) console.log("Down/S pressed");
           break;
+        case "Digit1":
+          that.keys["one"] = true;
+          // if (that.options.debugging) console.log("Down/S pressed");
+          break;
+        case "Digit2":
+          that.keys["two"] = true;
+          // if (that.options.debugging) console.log("Down/S pressed");
+          break;
+        case "Digit3":
+          that.keys["three"] = true;
+          // if (that.options.debugging) console.log("Down/S pressed");
+          break;
         case "Space":
           that.keys["space"] = true;
           // if (that.options.debugging) console.log("Space pressed");

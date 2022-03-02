@@ -147,16 +147,7 @@ class Goblin {
       this.updateBB();
     } else {
       // Patrolling is hardcoded need to fix
-      if (this.x <= this.patLeft && this.facing === 1) {
-        this.x = this.patLeft;
-        this.velocity.x = 75;
-        this.facing = 0;
-      } 
-      if (this.x >= this.patRight && this.facing === 0) {
-        this.x = this.patRight;
-        this.velocity.x = -75;
-        this.facing = 1;
-      }
+      //this.patrol();
       this.velocity.y += this.fallAcc * this.game.clockTick;
       this.x += this.game.clockTick * this.velocity.x;
       this.y += this.game.clockTick * this.velocity.y;

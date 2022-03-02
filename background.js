@@ -11,7 +11,9 @@ class Background {
     if(this.game.camera.level === levelOne) 
     ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
     else if(this.game.camera.level === levelTwo)
-    ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
+    ctx.drawImage(this.spritesheetTwo, -900-this.game.camera.x, 0, 16800, 900);
+    else
+      ctx.drawImage(this.spritesheetTwo, 0-this.game.camera.x, 0, 7000, 1000);
   }
 }
 class Floor {
@@ -20,7 +22,7 @@ class Floor {
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
     this.spritesheetTwo = ASSET_MANAGER.getAsset("./sprites/floorLevelTwo.png");
 
-    this.BB = new BoundingBox(0, this.y, 6000, PARAMS.BLOCKWIDTH * 2);
+    this.BB = new BoundingBox(0, this.y, 12300, PARAMS.BLOCKWIDTH * 2);
     // this.leftBB = new BoundingBox(
     //   this.x,
     //   this.y,
@@ -44,12 +46,12 @@ class Floor {
     }
     if(this.game.camera.level === levelOne) {
       for (var i = 0; i <= 6000; i += 78) {
-        ctx.drawImage(this.spritesheet, i, 735, 78, 77);
+        ctx.drawImage(this.spritesheet, i - this.game.camera.x, 735, 78, 77);
       }
     }
     else if(this.game.camera.level === levelTwo) {
-      for (var i = 0; i <= 6000; i += 78) {
-        ctx.drawImage(this.spritesheetTwo, i, 735, 78, 77);
+      for (var i = 0; i <= 12000; i += 78) {
+        ctx.drawImage(this.spritesheetTwo, i - this.game.camera.x, 735, 78, 77);
       }
     }
   }
@@ -167,6 +169,73 @@ class Crate {
 
 }
 
+class SignPost {
+  constructor(game, x = 0, y = 0,w,h) {
+    Object.assign(this, { game, x, y, w, h});
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/signpost.png");
+    this.message = ASSET_MANAGER.getAsset("./sprites/message.png");
+    this.timer = 0;
+    this.display = false;
+
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+  }
+
+    update() {
+    };
+
+    draw(ctx) {
+      if (this.game.options.debugging) {
+        ctx.strokeStyle = "Red";
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      }
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128, 128);
+      if (this.display === true) {
+          this.timer += this.game.clockTick;
+          if (this.timer > 1.5) this.display = false;
+          ctx.drawImage(this.message, this.x - this.game.camera.x - 128, 300, 400, 250);
+      }
+    }
+
+}
+
+class MetalSpikesFloor {
+  constructor(game, x = 0, y = 0,w,h) {
+    Object.assign(this, { game, x, y, w, h });
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesFloor.png");
+
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h * 0.5);
+  
+  }
+    update() {
+    };
+
+    draw(ctx) {
+      if (this.game.options.debugging) {
+        ctx.strokeStyle = "Red";
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      }
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128 , 128);
+    }
+}
+
+class MetalSpikesCeiling {
+  constructor(game, x = 0, y = 0,w,h) {
+    Object.assign(this, { game, x, y, w, h });
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesCeiling.png");
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+  }
+    update() {
+    };
+
+    draw(ctx) {
+      if (this.game.options.debugging) {
+        ctx.strokeStyle = "Red";
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      }
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128 , 128);
+    }
+}
+
 class GoldPile {
   constructor(game, x = 0, y = 0, w, h) {
     Object.assign(this, {game, x, y, w, h});
@@ -236,6 +305,8 @@ class CastleGates {
       PARAMS.BLOCKWIDTH * 6,
     );
   }
+
+
 
   update() {
     this.updateBB();

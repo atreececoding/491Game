@@ -131,45 +131,47 @@ class Skeleton {
         var that = this;
         this.game.entities.forEach(function (entity) {
           if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
-            if (entity instanceof Knight && that.state != 2) {
-              that.state = 1;
-              that.velocity.x = 0;
-              // TO STOP THE KNIGHT FROM GOING THROUGH THE GOBLIN
-              if (that.facing === 1) {
-                that.x = entity.BB.right;
-              }
-              else {
-                that.x = entity.BB.left - that.BB.width;
-              }
-              /////////////////////////////////////////////////////
-              that.lastAttack = that.game.clockTick;
-              that.timeSinceLastAttack = 0;
-              if (that.hurtTimer === undefined) {
-                that.hurtTimer = 0;
-              } else {
-                that.hurtTimer += that.game.clockTick;
-              }
-              if (that.hurtTimer > 1) {
-                entity.loseHeart();
-                that.hurtTimer = undefined;
-              }
-              entity.state = 5;
-            
-            } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+            if(that.state !== 2) {
+              if (entity instanceof Knight && that.state != 2) {
+                that.state = 1;
                 that.velocity.x = 0;
-                if (that.facing === 0) {
-                  that.velocity.x = 75;
-                  that.lastAttack = undefined;
-                } 
+                // TO STOP THE KNIGHT FROM GOING THROUGH THE GOBLIN
                 if (that.facing === 1) {
-                  that.velocity.x = -75;
-                  that.lastAttack = undefined;
+                  that.x = entity.BB.right;
                 }
-              that.state = 0;
-            } else {
-              that.timeSinceLastAttack += that.game.clockTick;
+                else {
+                  that.x = entity.BB.left - that.BB.width;
+                }
+                /////////////////////////////////////////////////////
+                that.lastAttack = that.game.clockTick;
+                that.timeSinceLastAttack = 0;
+                if (that.hurtTimer === undefined) {
+                  that.hurtTimer = 0;
+                } else {
+                  that.hurtTimer += that.game.clockTick;
+                }
+                if (that.hurtTimer > 1) {
+                  entity.loseHeart();
+                  that.hurtTimer = undefined;
+                }
+                entity.state = 5;
+              
+              } else if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+                  that.velocity.x = 0;
+                  if (that.facing === 0) {
+                    that.velocity.x = 75;
+                    that.lastAttack = undefined;
+                  } 
+                  if (that.facing === 1) {
+                    that.velocity.x = -75;
+                    that.lastAttack = undefined;
+                  }
+                that.state = 0;
+              } else {
+                that.timeSinceLastAttack += that.game.clockTick;
+              }
             }
-    
+            
             if (
               (entity instanceof Floor || entity instanceof Platform) &&
               that.lastBB.bottom <= entity.BB.top
