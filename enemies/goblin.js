@@ -15,7 +15,6 @@ class Goblin {
     this.lives = 50;
     this.flicker = true;
     this.speed = 100;
-
     this.fallAcc = 560;
 
     this.updateBB();

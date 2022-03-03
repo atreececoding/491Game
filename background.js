@@ -21,7 +21,7 @@ class Floor {
     Object.assign(this, { game, x, y, w });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/floor.png");
     this.spritesheetTwo = ASSET_MANAGER.getAsset("./sprites/floorLevelTwo.png");
-
+    this.isImpassible = true;
     this.BB = new BoundingBox(0, this.y, 12300, PARAMS.BLOCKWIDTH * 2);
     // this.leftBB = new BoundingBox(
     //   this.x,
@@ -74,7 +74,8 @@ class Platform {
     this.patLeft = this.x;
     this.patRight = this.x + 600;
     this.moves = false;
-
+    this.dropThrough = true;
+    this.isPlatform = true;
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
     this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/platformlevel2.png");
     if(this.game.camera.level === levelOne) {

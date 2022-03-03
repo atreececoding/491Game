@@ -118,6 +118,8 @@ class Knight {
 
 
   update() {
+    console.log('this.x ' + this.x);
+
     if (this.lives < 1) {
       this.state = 6;
     }
@@ -301,6 +303,7 @@ class Knight {
       if (entity.wallBB && entity.wallBB.collide(that.BB) && entity !== that) {
         that.velocity.x = 0;
         that.x = entity.wallBB.left - that.BB.width;
+        console.log('colliding with wallBB');
       }
 
       if (entity instanceof SignPost && that.BB.collide(entity.BB) && entity !== that){
@@ -311,41 +314,34 @@ class Knight {
       }
 
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
-        
+        // falling
         if (that.velocity.y > 0) {
+          if ((entity.isImpassible || entity.isSpikes || entity.isPlatform) && // landing
+            (that.lastBB.bottom <= entity.BB.top)) {
+              // was above last tick
+              let stopFall = !entity.dropThrough && !entity.dead;
 
-          
-          // falling
-          if (
-            (entity instanceof Floor || entity instanceof Crate) && // landing
-            that.lastBB.bottom <= entity.BB.top
-          ) {
-            // was above last tick
-            that.y = entity.BB.top - that.BB.height;
-          }
+              if (!stopFall) {
+                if (!that.game.keys["down"]) {
+                  stopFall = true;
+                }
+              }
 
-          if ((entity instanceof MetalSpikesFloor) && that.lastBB.bottom <= entity.BB.top) {
-            // was above last tick
-            that.loseHeart();
-            that.y = entity.BB.top - that.BB.height;
-          }
+              if (stopFall) {
+                that.y = entity.BB.top - that.BB.height;
+                that.velocity.y = 0;
+              } 
 
-          if((entity instanceof Platform) && !that.game.keys["down"] && that.lastBB.bottom <= entity.BB.top) {
-            // was above last tick
-            that.y = entity.BB.top - that.BB.height;
-            that.velocity.y = 0;
+              if (entity instanceof MetalSpikesFloor) {
+                that.loseHeart();
+              }
+          } else if (entity instanceof Goblin || entity instanceof Rat) {
+            if (that.lastBB.bottom <= entity.BB.top) {
+              that.y = entity.BB.top - that.BB.height;
+              that.velocity.y = 0;
+            }
           }
-          
-          if (
-            (entity instanceof Goblin || entity instanceof Rat) &&
-            that.lastBB.bottom <= entity.BB.top && // was above last tick
-            !entity.dead
-          ) {
-            that.y = entity.BB.top - that.BB.height;
-            
-            // bounce up
-            //console.log("collided top");
-          }
+   
           
           if (that.state == 3 && (entity instanceof Platform || entity instanceof Floor)) {
             ASSET_MANAGER.playSFX('./sfx/hit_ground.wav');
@@ -362,13 +358,18 @@ class Knight {
         if (that.facing === 0) {
           if ((entity.isImpassible || entity.isSpikes) 
             && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+            if (entity instanceof Rat) {
+            }
+            if(entity instanceof Crate) {
+            }
             that.x = entity.BB.left - that.BB.width;
+
             that.velocity.x = 0;
             that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
               ASSET_MANAGER.playSFX('./sfx/crate_hit.wav');
             }
-          }
+          } 
 
         }
         //facing left collssion
@@ -376,8 +377,9 @@ class Knight {
           if ((entity.isImpassible || entity.isSpikes) 
               && (that.BB.left <= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.right;
+          console.log('colliding with impassible facing left');
+
             that.velocity.x = 0;
-            that.x += 1; // bounce to the right
             that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
               ASSET_MANAGER.playSFX('./sfx/crate_hit.wav');
@@ -388,7 +390,7 @@ class Knight {
 
         //Jumping up into objects that we don't move through such as crate, spikes
         if (that.velocity.y < 0) {
-          if((entity.isImpassible || entity.isSpikes === true) && that.lastBB.top >= entity.BB.bottom) {
+          if((entity.isImpassible || entity.isSpikes) && that.lastBB.top >= entity.BB.bottom) {
             if (entity instanceof MetalSpikesCeiling){
               that.loseHeart();
             }
@@ -397,31 +399,23 @@ class Knight {
           }
         }
 
-        if (that.velocity.x < 0 || that.velocity.x > 0) {
-          if (entity instanceof EnergyJuice && !entity.dead) {
-            entity.removeFromWorld = true;
-            if (that.game.options.debugging) print("Hit energy drink");
-            that.gainEnergy();
-            if (that.game.options.debugging) print(that.energy);
-            ASSET_MANAGER.playSFX('./sfx/red_bull.wav');
-          }
+        if (entity instanceof EnergyJuice && !entity.dead) {
+          entity.removeFromWorld = true;
+          that.gainEnergy();
+          ASSET_MANAGER.playSFX('./sfx/red_bull.wav');
         }
-        if (that.velocity.x < 0 || that.velocity.x > 0 || that.velocity.x > 0 || that.velocity.y > 0) {
-          if (entity instanceof redApple && !entity.dead) {
-            entity.removeFromWorld = true;
-            if (that.game.options.debugging) print("Hit red apple");
-            that.gainRedAppleEnergy();
-            if (that.game.options.debugging) print(that.energy);
-            ASSET_MANAGER.playSFX('./sfx/eat_apple.wav');
-          }
-          if (entity instanceof goldApple && !entity.dead) {
-            entity.removeFromWorld = true;
-            if (that.game.options.debugging) print("Hit gold apple");
-            that.gainGoldAppleEnergy();
-            if (that.game.options.debugging) print(that.energy);
-            ASSET_MANAGER.playSFX('./sfx/eat_apple.wav');
-          }
+
+        if (entity instanceof redApple && !entity.dead) {
+          entity.removeFromWorld = true;
+          that.gainRedAppleEnergy();
+          ASSET_MANAGER.playSFX('./sfx/eat_apple.wav');
         }
+        if (entity instanceof goldApple && !entity.dead) {
+          entity.removeFromWorld = true;
+          that.gainGoldAppleEnergy();
+          ASSET_MANAGER.playSFX('./sfx/eat_apple.wav');
+        }
+        
       }
 
       // Spear / attack hitbox code
@@ -500,6 +494,7 @@ class Knight {
     this.velocity.x = -1000;
     this.velocity.y = -150;
     this.x += this.velocity.x * this.game.clockTick;
+    console.log('damaged left');
     this.y += this.velocity.y * this.game.clockTick;
 
     this.updateBB();
@@ -508,6 +503,8 @@ class Knight {
     this.velocity.x = 1000;
     this.velocity.y = -150;
     this.x += this.velocity.x * this.game.clockTick;
+    console.log('damaged right');
+
     this.y += this.velocity.y * this.game.clockTick;
     
     this.updateBB();
@@ -546,9 +543,8 @@ class Knight {
     if (this.state === 6 && this.animations[this.state][this.facing].isDone()) {
       this.die();
     }
-
+  
     if (this.game.options.debugging) {
-      console.log("this is the this.x value: " + this.x);
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
       ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);

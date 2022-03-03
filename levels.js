@@ -2,7 +2,7 @@ var levelOne = {
     music: "./music/AstralAcademy.mp3",
     label: "1-1",
     // hardcoded y for bounding box
-    floors: [{ x: 0, y: 735, size: 800 }],
+    floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
     clouds: [{x:366, y:222, w: 200, h: 90}],
     platforms: [{ x: 397, y: 513, w: 270, h: 250 }, {x: 820, y: 475, w: 270, h: 250}, {x: 1220, y: 420, w: 270, h: 250}, 
         {x: 1800, y: 500, w: 270, h: 250}, {x: 3980, y: 405, w: 270, h: 250}, {x: 4900, y: 300, w: 270, h: 250}],
@@ -39,7 +39,7 @@ var levelOneRedone = {
     music: "./music/AstralAcademy.mp3",
     label: "1-1",
     // hardcoded y for bounding box
-    floors: [{ x: 0, y: 735, size: 800 }],
+    floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
     clouds: [{x:366, y:222, w: 200, h: 90}],
     platforms: [{ x: 397, y: 513, w: 270, h: 250 }, {x: 820, y: 475, w: 270, h: 250}, {x: 1220, y: 420, w: 270, h: 250}, 
         {x: 1800, y: 500, w: 270, h: 250}, {x: 3980, y: 405, w: 270, h: 250}, {x: 4900, y: 300, w: 270, h: 250}],
@@ -75,7 +75,7 @@ var levelOneRedone = {
 var levelTwo = {
     music: "./music/AstralAcademy.mp3",
     label: "1-2",
-    floors: [{x: 0, y:735, size: 800}],
+    floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
     metalspikesceiling: [{x: 100, y:90, w:130, h:130}, {x: 950, y:90, w:130, h:130}, 
         {x: 1300, y:90, w:130, h:130}, {x: 1650, y:90, w:130, h:130},
         {x: 3950, y:90, w:130, h:130}, {x: 4600, y:90, w:130, h:130},
@@ -113,7 +113,7 @@ var levelTwo = {
 var levelDebug = {
     music: "./music/Clashing Steel.wav",
     label: "Debug",
-    floors: [{x: 0, y:735, size: 800}],
+    floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
     statuepuzzles: [{x: 495, y:0, w:150, h:600}],
     signposts: [{x: 300, y:610, w:130, h:130}],
     platforms: [{ x: 397, y: 513, w: 270, h: 250 }],

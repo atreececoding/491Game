@@ -12,7 +12,6 @@ class Rat {
       this.state = 0; // 0 = idle, 1 = walking, 2 = dying
       this.dead = false;
       this.lives = 1;
-  
       this.updateBB();
   
       this.animations = [];
