@@ -107,10 +107,8 @@ class Knight {
   die() {
     console.log("DEAD");
     this.gameOver = true;
-    var gameOverSoundPath = './sfx/game_over.wav';
-    if (!(ASSET_MANAGER.getAsset(gameOverSoundPath).currentTime > 0)) {
-      ASSET_MANAGER.playAsset(gameOverSoundPath);
-    }
+    ASSET_MANAGER.playSFX('./sfx/game_over.wav');
+ 
   }
 
   win() {
@@ -168,10 +166,8 @@ class Knight {
           this.state = 0;
           this.loseHeart();         
         }
-        var knightHurtSoundPath = './sfx/knight_hurt.wav';
-        if (!(ASSET_MANAGER.getAsset(knightHurtSoundPath).currentTime > 0)) {
-          ASSET_MANAGER.playAsset(knightHurtSoundPath);
-        }
+        ASSET_MANAGER.playSFX('./sfx/knight_hurt.wav');
+   
         } else {
         // update velocity
         // ground physics
@@ -276,7 +272,7 @@ class Knight {
               this.velocity.x = WALK_SPEED;
             }
         } else {
-            //this.velocity.x = 0;
+            this.velocity.x = 0;
         }
         
     }
@@ -289,10 +285,7 @@ class Knight {
     this.y += this.velocity.y * TICK;
 
     if (this.velocity.x !== 0 && (this.state === 1 || this.state === 2)) {
-      var walkingSoundPath = './sfx/walking.wav';
-      if (!(ASSET_MANAGER.getAsset(walkingSoundPath).currentTime > 0)) {
-        ASSET_MANAGER.playAsset(walkingSoundPath);
-      }
+      ASSET_MANAGER.playSFX('./sfx/walking.wav');
     }
 
     this.updateBB();
@@ -353,16 +346,13 @@ class Knight {
             // bounce up
             //console.log("collided top");
           }
-
-          var hitGroundSoundPath = './sfx/hit_ground.wav';
-          if (!(ASSET_MANAGER.getAsset(hitGroundSoundPath).currentTime > 0) && that.state == 3 && (entity instanceof Platform || entity instanceof Floor)) {
-            ASSET_MANAGER.playAsset(hitGroundSoundPath);
+          
+          if (that.state == 3 && (entity instanceof Platform || entity instanceof Floor)) {
+            ASSET_MANAGER.playSFX('./sfx/hit_ground.wav');
           }
+       
           if (entity instanceof Crate && (that.state === 3)) {
-            var crateHitSoundPath = './sfx/crate_hit.wav';
-            if (!(ASSET_MANAGER.getAsset(crateHitSoundPath).currentTime > 0)) {
-              ASSET_MANAGER.playAsset(crateHitSoundPath);
-            }
+            ASSET_MANAGER.playSFX('./sfx/crate_hit.wav');
           }
           
           if (that.state === 3) that.state = 0; // set state to idle
@@ -376,10 +366,7 @@ class Knight {
             that.velocity.x = 0;
             that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
-              var crateHitSoundPath = './sfx/crate_hit.wav';
-              if (!(ASSET_MANAGER.getAsset(crateHitSoundPath).currentTime > 0)) {
-                ASSET_MANAGER.playAsset(crateHitSoundPath);
-              }
+              ASSET_MANAGER.playSFX('./sfx/crate_hit.wav');
             }
           }
 
@@ -393,10 +380,7 @@ class Knight {
             that.x += 1; // bounce to the right
             that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
-              var crateHitSoundPath = './sfx/crate_hit.wav';
-              if (!(ASSET_MANAGER.getAsset(crateHitSoundPath).currentTime > 0)) {
-                ASSET_MANAGER.playAsset(crateHitSoundPath);
-              }
+              ASSET_MANAGER.playSFX('./sfx/crate_hit.wav');
             }
           }
         
@@ -419,10 +403,7 @@ class Knight {
             if (that.game.options.debugging) print("Hit energy drink");
             that.gainEnergy();
             if (that.game.options.debugging) print(that.energy);
-            var drinkRedBullSoundPath = './sfx/red_bull.wav';
-            if (!(ASSET_MANAGER.getAsset(drinkRedBullSoundPath).currentTime > 0)) {
-              ASSET_MANAGER.playAsset(drinkRedBullSoundPath);
-            }
+            ASSET_MANAGER.playSFX('./sfx/red_bull.wav');
           }
         }
         if (that.velocity.x < 0 || that.velocity.x > 0 || that.velocity.x > 0 || that.velocity.y > 0) {
@@ -431,20 +412,14 @@ class Knight {
             if (that.game.options.debugging) print("Hit red apple");
             that.gainRedAppleEnergy();
             if (that.game.options.debugging) print(that.energy);
-            var appleEatSoundPath = './sfx/eat_apple.wav';
-            if (!(ASSET_MANAGER.getAsset(appleEatSoundPath).currentTime > 0)) {
-              ASSET_MANAGER.playAsset(appleEatSoundPath);
-            }
+            ASSET_MANAGER.playSFX('./sfx/eat_apple.wav');
           }
           if (entity instanceof goldApple && !entity.dead) {
             entity.removeFromWorld = true;
             if (that.game.options.debugging) print("Hit gold apple");
             that.gainGoldAppleEnergy();
             if (that.game.options.debugging) print(that.energy);
-            var appleEatSoundPath = './sfx/eat_apple.wav';
-            if (!(ASSET_MANAGER.getAsset(appleEatSoundPath).currentTime > 0)) {
-              ASSET_MANAGER.playAsset(appleEatSoundPath);
-            }
+            ASSET_MANAGER.playSFX('./sfx/eat_apple.wav');
           }
         }
       }
@@ -468,10 +443,7 @@ class Knight {
                 entity.loseHeart();
                 that.goblinHurtTimer = undefined;
               }
-              var attackSoundPath = './sfx/spear_hit.mp3';
-              if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
-                ASSET_MANAGER.playAsset(attackSoundPath);
-              }
+              ASSET_MANAGER.playSFX('./sfx/spear_hit.mp3');
             }
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
@@ -490,10 +462,7 @@ class Knight {
                 entity.loseHeart();
                 that.goblinHurtTimer = undefined;
               }
-              var attackSoundPath = './sfx/spear_hit.mp3';
-              if (!(ASSET_MANAGER.getAsset(attackSoundPath).currentTime > 0)) {
-                ASSET_MANAGER.playAsset(attackSoundPath);
-              }
+              ASSET_MANAGER.playSFX('./sfx/spear_hit.mp3');
             }
           } else {
             entity.hurt = false;

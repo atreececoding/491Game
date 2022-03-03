@@ -256,10 +256,7 @@
   
     update() {
       if (this.state === 1 || this.state === 4 || this.state === 5) {
-        var dragonAttackSoundPath = './sfx/dragon_attack.wav';
-        if (!(ASSET_MANAGER.getAsset(dragonAttackSoundPath).currentTime > 0)) {
-          ASSET_MANAGER.playAsset(dragonAttackSoundPath);
-        }
+        ASSET_MANAGER.playSFX('./sfx/dragon_attack.wav');
       }
   
       this.velocity.y += this.GRAVITY;
@@ -397,10 +394,8 @@
   
     loseHeart() {
       this.lives--;
-      var hurtSoundPath = './sfx/dragon_hurt.wav';
-      if (!(ASSET_MANAGER.getAsset(hurtSoundPath).currentTime > 0)) {
-        ASSET_MANAGER.playAsset(hurtSoundPath);
-      }
+      ASSET_MANAGER.playSFX('./sfx/dragon_hurt.wav');
+
 
       console.log(this.lives);
       if(this.lives <= 0) {

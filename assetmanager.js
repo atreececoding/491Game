@@ -115,6 +115,16 @@ class AssetManager {
     audio.play();
   }
 
+  playSFX(path) {
+    if (!this.soundHasStarted(path)) {
+      this.playAsset(path);
+    }
+  }
+
+  soundHasStarted(path) {
+    return this.cache[path].currentTime > 0;
+  }
+  
   muteAudio(mute) {
     for (var key in this.cache) {
       let asset = this.cache[key];

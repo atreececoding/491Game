@@ -102,10 +102,7 @@ class Bat {
     this.updateBB();
 
     if (this.BB.collide(this.game.camera.knight.BB)) {
-      var batSoundPath = './sfx/rat_hurt.wav';
-      if (!(ASSET_MANAGER.getAsset(batSoundPath).currentTime > 0)) {
-        ASSET_MANAGER.playAsset(batSoundPath);
-      }
+      ASSET_MANAGER.playSFX('./sfx/rat_hurt.wav');
     }
   }
 

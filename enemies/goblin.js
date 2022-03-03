@@ -242,10 +242,8 @@ class Goblin {
     this.lives--;
     console.log(this.lives);
     this.hurt = true;
-    var hurtSoundPath = './sfx/goblin_hurt.wav';
-    if (!(ASSET_MANAGER.getAsset(hurtSoundPath).currentTime > 0)) {
-      ASSET_MANAGER.playAsset(hurtSoundPath);
-    }
+    ASSET_MANAGER.playSFX('./sfx/goblin_hurt.wav');
+    
     // console.log(this.lives);
     if(this.lives <= 0) {
       this.state = 2;

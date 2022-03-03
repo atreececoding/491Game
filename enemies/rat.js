@@ -137,10 +137,8 @@ class Rat {
   
     loseHeart() {
       this.lives--;
-      var hurtSoundPath = './sfx/rat_hurt.wav';
-      if (!(ASSET_MANAGER.getAsset(hurtSoundPath).currentTime > 0)) {
-        ASSET_MANAGER.playAsset(hurtSoundPath);
-      }
+      ASSET_MANAGER.playSFX('./sfx/rat_hurt.wav');
+      
 
     //   console.log(this.lives);
       if(this.lives <= 0) {
