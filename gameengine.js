@@ -12,9 +12,10 @@ class GameEngine {
     this.mouse = null;
     this.wheel = null;
     this.keys = {};
-
     // THE KILL SWITCH
     this.running = false;
+
+    this.paused = false;
 
     // Options and the Details
     this.options = options || {
@@ -129,6 +130,8 @@ class GameEngine {
           that.keys["shift"] = true;
           // if (that.options.debugging) console.log("Shift pressed");
           break;
+        case "Escape":
+          that.paused = !that.paused;
       }
     }
 
@@ -231,8 +234,19 @@ class GameEngine {
   }
 
   loop() {
+    
     this.clockTick = this.timer.tick();
-    this.update();
-    this.draw();
+    if (!this.paused) {
+      this.update();
+      this.draw();
+    } else {
+      let centerX = this.ctx.canvas.width / 2;
+      let centerY = this.ctx.canvas.height / 2;
+      this.ctx.fillStyle = "Black";
+      this.ctx.font = '100px MonoLisa';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText("P A U S E D", centerX, centerY);
+    }
+    
   }
 }
