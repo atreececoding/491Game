@@ -164,9 +164,11 @@ class Goblin {
             // TO STOP THE KNIGHT FROM GOING THROUGH THE GOBLIN
             if (that.facing === 1) {
               that.x = entity.BB.right ;
+              entity.damagedLeft();
             }
             else {
               that.x = entity.BB.left - that.BB.width;
+              entity.damagedRight();
             }
             /////////////////////////////////////////////////////
             that.lastAttack = that.game.clockTick;

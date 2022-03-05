@@ -423,7 +423,7 @@ class Knight {
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Rat || entity instanceof Skeleton) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.state === 4) {
-              if (entity instanceof Goblin) {
+              if (entity instanceof Goblin || entity instanceof Skeleton) {
                 entity.bounce();
               }
               console.log(entity.lives);
@@ -442,7 +442,7 @@ class Knight {
           }
           else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
             if(that.state === 4) {
-              if (entity instanceof Goblin) {
+              if (entity instanceof Goblin || entity instanceof Skeleton) {
                 entity.bounce();
               }
               console.log(entity.lives);

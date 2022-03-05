@@ -12,7 +12,7 @@ class Skeleton {
         this.facing = 0;
         this.state = 0; // 0 = walking, 1 = attacking, 2 = dying
         this.dead = false;
-        this.lives = 5;
+        this.lives = 50;
     
         this.speed = 100;
     
@@ -138,9 +138,11 @@ class Skeleton {
                 // TO STOP THE KNIGHT FROM GOING THROUGH THE GOBLIN
                 if (that.facing === 1) {
                   that.x = entity.BB.right;
+                  entity.damagedLeft();
                 }
                 else {
                   that.x = entity.BB.left - that.BB.width;
+                  entity.damagedRight();
                 }
                 /////////////////////////////////////////////////////
                 that.lastAttack = that.game.clockTick;
@@ -185,12 +187,14 @@ class Skeleton {
             if (entity instanceof Knight && !(that.BB.collide(entity.BB))) {
               if(entity.BB.x > that.x) {
                 that.facing = 0;
+                
                 //that.state = 1;
                 that.velocity.x = 100;
                 
               }
               else if(entity.BB.x < that.x) {
                 that.facing = 1;
+                
                 //that.state = 1;
                 that.velocity.x = -100;
               }
@@ -207,7 +211,26 @@ class Skeleton {
           this.state = 2;
         }
       }
+      bounce() { //Skeleton jumpback
+        if(this.facing == 0) {
+          //console.log("working");
+          this.velocity.x = -250;
+          this.velocity.y = -100;
+          this.x += this.velocity.x * this.game.clockTick;
+          this.y += this.velocity.y * this.game.clockTick;
     
+          this.updateBB();
+        }
+        else {
+          //console.log("working");
+          this.velocity.x = 250;
+          this.velocity.y = -100;
+          this.x += this.velocity.x * this.game.clockTick;
+          this.y += this.velocity.y * this.game.clockTick;
+    
+        this.updateBB();
+        }
+      }
       draw(ctx) {
         if(this.lives > 0) {
           if(this.state === 1) {
