@@ -226,7 +226,7 @@ class Crate {
 class Bell {
   constructor(game, x = 0, y = 0, w, h) {
     Object.assign(this, { game, x, y, w, h });
-    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/crates.png");
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/bells.png");
     this.isImpassible = true;
     this.puzzlesolved = false;
     this.BB = new BoundingBox(this.x, this.y, this.w, this.h);

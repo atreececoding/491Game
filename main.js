@@ -46,6 +46,7 @@ ASSET_MANAGER.queueDownload("./sprites/MetalSpikesCeiling.png");
 ASSET_MANAGER.queueDownload("./sprites/message.png");
 ASSET_MANAGER.queueDownload("./sprites/signpost.png");
 ASSET_MANAGER.queueDownload("./sprites/statuepuzzle.png");
+ASSET_MANAGER.queueDownload("./sprites/bells.png");
 
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");
