@@ -138,6 +138,12 @@ class SceneManager {
         this.game.addEntity(new Crate(this.game, crate.x, crate.y, crate.w, crate.h));
       }
     }
+    if (level.bells) {
+      for (var i = 0; i < level.bells.length; i++) {
+        let bell = level.bells[i];
+        this.game.addEntity(new Bell(this.game, bell.x, bell.y, bell.w, bell.h));
+      }
+    }
     if (level.metalspikesfloor) {
       for (var i = 0; i < level.metalspikesfloor.length; i++) {
         let metalspikefloor = level.metalspikesfloor[i];
