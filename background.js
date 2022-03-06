@@ -78,7 +78,7 @@ class Platform {
     this.isPlatform = true;
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
     this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/platformlevel2.png");
-    if(this.game.camera.level === levelOne || levelOneRedone) {
+    if(this.game.camera.level === levelOne) {
       this.BB = new BoundingBox(this.x  + 15, this.y + 13, this.w, PARAMS.PLATHEIGHT);
       this.leftBB = new BoundingBox(
         this.x ,
@@ -102,11 +102,11 @@ class Platform {
     if (this.game.camera.level === levelTwo && this.moves === true) {
       if (this.x <= this.patLeft) {
         this.x = this.patLeft;
-        this.velocity.x = 40;
+        this.velocity.x = 60;
       } 
       if (this.x >= this.patRight ) {
         this.x = this.patRight;
-        this.velocity.x = -40;
+        this.velocity.x = -60;
       }
       this.x += this.game.clockTick * this.velocity.x;
       this.y += this.game.clockTick * this.velocity.y;
@@ -232,9 +232,14 @@ class SignPost {
     this.display = false;
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
     this.textMessages = [];
-    this.textMessages[101] = ["Try jumping over the", "goblin with the", "W key"];
-    this.textMessages[102] = ["You can jump through", "a platform or drop down", "when standing on it by", "pressing the 'S' key"];
-  
+    this.textMessages[101] = ["Try jumping over the", "goblin with the", "W key or attack by", "clicking your mouse"];
+    this.textMessages[102] = ["You can jump onto a", "platform from below!", "To drop down", "through the bottom", "of a platform", "press 'S'"];
+    this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
+    this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
+    this.textMessages[104] = ["Hold SHIFT to run!", "If you run and ", "jump continue to", "hold SHIFT to jump", "farther than normal"];
+    this.textMessages[105] = ["Press W to open", "doors and enter", "new areas!"];
+    
+
     this.textMessages[501] = [credits.text[0]];
     this.textMessages[502] = [credits.text[1]];
     this.textMessages[503] = [credits.text[2]];
@@ -258,12 +263,11 @@ class SignPost {
         ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128, 128);
       }
       if (this.display === true) {
-        this.game.puzzlesolved = true;
         this.timer += this.game.clockTick;
         if (this.timer > 1.5 && this.id < 500) this.display = false;
         else if (this.timer > 0 && this.id >= 500) this.display = false;
         if (this.id < 500){
-          ctx.drawImage(this.message, this.x - this.game.camera.x - 128, 300, 400, 250);
+          ctx.drawImage(this.message, this.x - this.game.camera.x - 128, this.y - 300, 400, 250);
           ctx.font = '30px monospace';
           if (this.textMessages[this.id] === undefined){
             ctx.fillText("message is missing!?", this.x - this.game.camera.x - 100, (this.y - 250));
@@ -332,12 +336,13 @@ class MetalSpikesCeiling {
 }
 
 class StatuePuzzle {
-  constructor(game, x = 0, y = 0,w,h) {
-    Object.assign(this, { game, x, y, w, h });
+  constructor(game, x = 0, y = 0, v = true) {
+    Object.assign(this, { game, x, y, v});
     this.velocity = {x:0, y:0};
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/statuepuzzle.png");
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
     this.isImpassible = true;
+    this.visible = v;
   }
     update() {
       if (this.game.puzzlesolved === true){
@@ -354,7 +359,9 @@ class StatuePuzzle {
     }
 
     draw(ctx) {
-      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 140, 760);
+      if (this.v) {
+        ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 140, 760);
+      }
     }
 }
 
@@ -433,6 +440,7 @@ class CastleGates {
   update() {
     this.updateBB();
     var that = this;
+    //I think we want the below to be in our knight so that we don't have two entitites doing this for loop
     this.game.entities.forEach(function(entity) {
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         if (entity instanceof Knight) {
