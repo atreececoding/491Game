@@ -61,7 +61,7 @@ var levelOne = {
     hungerbars: [{ x: 5, y: 60, size: 1 }],
     castlegates: [{x: 5625, y: 390, w: 400, h:2000}],
     castles: [{x: 5200, y: -760, size: 1}],
-    statuepuzzles: [{x: 5850, y:0, w:150, h:800, visible: false}],
+    statuepuzzles: [{x: 5850, y:0, w:150, h:800, v: false}],
     backgrounds: [{ x: 0, y: 0, size: 1}],
 };
 
@@ -88,6 +88,7 @@ var levelTwo = {
             {x:5140, y:480, w:130, h:130}, {x:5270, y:480, w:130, h:130}],
     statuepuzzles: [{x: -150, y:0, w:150, h:800, visible: false},
                     {x: 11020, y:0, w:150, h:550, visible: true}],
+    bells: [{x: 10750, y: 120, w: 64, h: 64}],
     redapples: [{x: 1165, y: 500, size: 1 }, {x: 2595, y: 210, size: 1},
                 {x: 4275, y: 600, size: 1},{x: 6545, y: 165, size: 1}, 
                 {x: 7770, y: 200, size: 1},{x: 9485, y: 125, size: 1},
@@ -99,7 +100,7 @@ var levelTwo = {
     bats:  [{x: 1430, y: 680, size: 1}, {x: 1625, y: 645, size: 1}, {x: 1910, y: 530, size: 1}, 
             {x: 2050, y: 540, size: 1}, {x: 4200, y: 540, size: 1}, 
             {x: 5310, y: 385, size: 1}, {x: 8625, y: 540, size: 1},
-            {x: 10485, y: 440, size: 1},],
+            {x: 10555, y: 460, size: 1},],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
     castlegates: [{x: 11700, y: 250, w: 2000, h: 5500}],
@@ -119,6 +120,7 @@ var levelDebug = {
     redapples: [{x: 800, y: 650, size: 1 }],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
+    bells: [{x: 250, y: 380, w: 64, h: 64}],
     backgrounds: [{x: 0, y: 0, size: 1}]
 };
 
