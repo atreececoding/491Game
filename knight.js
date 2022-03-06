@@ -119,7 +119,7 @@ class Knight {
 
 
   update() {
-    console.log('this.x ' + this.x);
+    // console.log('this.x ' + this.x);
 
     if (this.lives < 1) {
       this.state = 6;
@@ -144,14 +144,33 @@ class Knight {
           this.animations[this.state][this.facing].reset();
           this.state = 0;
         }        
-    } 
+    } else if (this.endScript) {
+      this.state = 1;
+      console.log('changed state to walking')
+      this.facing = 0;
+      if (this.x < 2125 - (PARAMS.BLOCKWIDTH * .7 / 2)) {
+        this.velocity.x = 150;      
+      } else {
+        this.credits = true;
+        this.endScript = false;
+        this.creditsScriptIsDone = true;
+      }
+      this.velocity.y = 100;    
+      this.x += this.velocity.x * TICK;
+      this.y += this.velocity.y * TICK;
+    }
     else if(this.credits) {
-      this.game.pauseInput();
+      // if past the last credits -> display win screen
       this.state = 0;
+      this.facing = 0;
       this.velocity.y = 100;    
       this.velocity.x = 150;      
       this.x += this.velocity.x * TICK;
       this.y += this.velocity.y * TICK;
+
+      if (this.x > 10500) {
+        this.endScreen = true;
+      }
     }
     else if (this.state === 5) {
         // if(this.facing == 0) {
@@ -184,6 +203,7 @@ class Knight {
         // ground physics
         
         if (this.state !== 3) {
+          
           if (this.game.keys["left"] && !this.game.keys["right"]) { // move left
             if (this.game.keys["shift"]) {
               this.velocity.x = -RUN_SPEED;
@@ -319,9 +339,17 @@ class Knight {
         entity.display = true;
         console.log("Inside of SignPost collision " + entity.id);
       }
-      if ((entity instanceof Platform || entity instanceof EndPlatform)  &&  that.BB.collide(entity.BB) && entity !== that){
+      if ((entity instanceof Platform)  &&  that.BB.collide(entity.BB) && entity !== that){
         entity.moves = true;
-        that.credits = true;
+      }
+      if ((entity instanceof EndPlatform)  &&  that.BB.collide(entity.BB) && entity !== that){
+        if (!that.creditsScriptIsDone) {
+          that.endScript = true;
+        }
+        if (that.creditsScriptIsDone) {
+          entity.moves = true;
+          that.credits = true;
+        }
       }
 
 
@@ -545,6 +573,7 @@ class Knight {
   }
 
   draw(ctx) {
+    
     this.animations[this.state][this.facing].drawFrame(
       this.game.clockTick,
       ctx,
@@ -555,7 +584,11 @@ class Knight {
     if (this.state === 6 && this.animations[this.state][this.facing].isDone()) {
       this.die();
     }
-  
+
+    if (this.endScreen) {
+      ctx.drawImage(ASSET_MANAGER.getAsset('./sprites/winscreen.png'), 0, 0, 1200, 800);
+    }
+
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);

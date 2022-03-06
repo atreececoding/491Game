@@ -157,12 +157,20 @@ class EndPlatform {
   updateBB() {
     this.lastBB = this.BB;
     this.BB = new BoundingBox(this.x, this.y, 250, 50);
+    this.wallBB = new BoundingBox (
+      this.x + this.BB.width,
+      0,
+      PARAMS.BLOCKWIDTH * 2,
+      PARAMS.BLOCKWIDTH * 12
+    );
   }
 
   draw(ctx) {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      ctx.strokeStyle = "White";
+      ctx.strokeRect(this.wallBB.x - this.game.camera.x, this.wallBB.y, this.wallBB.width, this.wallBB.height);
     }
     ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 250, 50);
   }
@@ -227,8 +235,14 @@ class SignPost {
     this.textMessages[101] = ["Try jumping over the", "goblin with the", "W key"];
     this.textMessages[102] = ["You can jump through", "a platform or drop down", "when standing on it by", "pressing the 'S' key"];
   
-    this.textMessages[501] = ["Try jumping over the", "goblin with the", "W key TEST TEST"];
-    this.textMessages[502] = ["Try jumping over the", "goblin with the", "W key TESTTESTTEST"];
+    this.textMessages[501] = [credits.text[0]];
+    this.textMessages[502] = [credits.text[1]];
+    this.textMessages[503] = [credits.text[2]];
+    this.textMessages[504] = [credits.text[3]];
+    this.textMessages[505] = [credits.text[4]];
+    this.textMessages[506] = [credits.text[5]];
+    this.textMessages[507] = [credits.text[6]];
+    this.textMessages[508] = [credits.text[7]];
   }
 
     update() {
@@ -246,7 +260,8 @@ class SignPost {
       if (this.display === true) {
         this.game.puzzlesolved = true;
         this.timer += this.game.clockTick;
-        if (this.timer > 1.5) this.display = false;
+        if (this.timer > 1.5 && this.id < 500) this.display = false;
+        else if (this.timer > 0 && this.id >= 500) this.display = false;
         if (this.id < 500){
           ctx.drawImage(this.message, this.x - this.game.camera.x - 128, 300, 400, 250);
           ctx.font = '30px monospace';
@@ -260,15 +275,14 @@ class SignPost {
           }
       }
       else {       
-        console.log("Inside of SignPost this.id else block " + this.id);
         ctx.drawImage(this.message, 400, 300, 400, 250);
-        ctx.font = '30px monospace';
+        ctx.font = '40px monospace';
         if (this.textMessages[this.id] === undefined){
-          ctx.fillText("message is missing!?", 400, (this.y - 250));
+          ctx.fillText("message is missing!?", 430, (this.y - 250));
         }
         else {
           for (let i = 0; i < this.textMessages[this.id].length; i++){
-              ctx.fillText(this.textMessages[this.id][i], 410, (this.y - 250) + (30 * i));
+              ctx.fillText(this.textMessages[this.id][i], 420, (this.y - 180) + (30 * i));
           }
         }
 

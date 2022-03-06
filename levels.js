@@ -124,10 +124,15 @@ var bossRoom = {
     dragons: [{x: 1700, y: 0, size: 9}],
     floors: [{x: 0, y:735, size: 800}],
     //Signpost ids using 501 to 600 range for this level
-    signposts: [{x: 595, y:610, w:767, h:300, id:401}, 
-                {x: 2595, y:610, w:767, h:300, id:402}, 
-                {x: 3465, y:610, w:767, h:300, id:501}],
-    endplatforms: [{x: 1980, y: 735}],
+    signposts: [{x: 2500, y:610, w:767, h:300, id:501}, 
+                {x: 3500, y:610, w:767, h:300, id:502},
+                {x: 4500, y:610, w:767, h:300, id:503},
+                {x: 5500, y:610, w:767, h:300, id:504},
+                {x: 6500, y:610, w:767, h:300, id:505},
+                {x: 7500, y:610, w:767, h:300, id:506},
+                {x: 8500, y:610, w:767, h:300, id:507},
+                {x: 9500, y:610, w:767, h:300, id:508},],
+    endplatforms: [{x: 2000, y: 735}],
     platforms: [{ x: 1400, y: 515, w: 270, h: 250 }, {x:1475, y: 300, w:270, h:250}],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
@@ -137,14 +142,14 @@ var bossRoom = {
 
 var credits = {
     text: [
-    "      Made Possible By",
-    "• Richard Hardwick",
-    "• Brandon Lu",
-    "• Glenn Pak",
-    "• Andrew Treece",
-    "       Playtesters",
-    "• Sam Wu",
-    "• Runsen Wu",
+    "Made Possible By",
+    "Richard Hardwick",
+    "Brandon Lu",
+    "Glenn Pak",
+    "Andrew Treece",
+    "Playtesters",
+    "Sam Wu",
+    "Runsen Wu",
     ]
 }
 

@@ -33,7 +33,7 @@
       this.spritesheetMidAttack = ASSET_MANAGER.getAsset("./sprites/DragonMidAttack.png")
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/DragonRev2.png");
   
-      this.lives = 150;
+      this.lives = 500;
   
       // velocity
       this.velocity = {
@@ -231,7 +231,7 @@
       this.lowerBB = new BoundingBox(
         this.x-150,
         this.y + 350,
-        PARAMS.BLOCKWIDTH * 5.5,
+        PARAMS.BLOCKWIDTH * 2,
         PARAMS.BLOCKWIDTH * 5.2
       );
 
@@ -284,7 +284,9 @@
         if(that.state !== 3 && that.state !== 2) {
           if (entity.BB && that.lowerBB.collide(entity.BB) && entity !== that) {
             if (entity instanceof Knight) {
-              
+              if (entity.BB.right >= that.lowerBB.right) {
+                entity.x = that.lowerBB.right - entity.BB.width;
+              }
               if (that.timer === undefined) {
                 that.timer = 0;
               }
