@@ -337,7 +337,6 @@ class Knight {
 
       if (entity instanceof SignPost && that.BB.collide(entity.BB) && entity !== that){
         entity.display = true;
-        console.log("Inside of SignPost collision " + entity.id);
       }
       if ((entity instanceof Platform)  &&  that.BB.collide(entity.BB) && entity !== that){
         entity.moves = true;
@@ -354,6 +353,12 @@ class Knight {
 
 
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
+
+        if (entity instanceof Bell){
+          ASSET_MANAGER.playSFX('./sfx/bell_bong.mp3');
+          entity.puzzlesolved = true;
+        }
+
         // falling
         if (that.velocity.y > 0) {
           if ((entity.isImpassible || entity.isSpikes || entity.isPlatform) && // landing
