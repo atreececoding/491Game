@@ -53,6 +53,12 @@ class SceneManager {
         ASSET_MANAGER.playAsset(level.music);
       }
     }
+    if (level.signposts) {
+      for (var i = 0; i < level.signposts.length; i++) {
+        let signpost = level.signposts[i];
+        this.game.addEntity(new SignPost(this.game, signpost.x, signpost.y, signpost.w, signpost.h, signpost.id));
+      }
+    }
     if (level.healthbars) {
       for (var i = 0; i < level.healthbars.length; i++) {
         let health_bar = level.healthbars[i];
@@ -111,7 +117,7 @@ class SceneManager {
     if (level.statuepuzzles) {
       for (var i = 0; i < level.statuepuzzles.length; i++) {
         let statuepuzzle = level.statuepuzzles[i];
-        this.game.addEntity(new StatuePuzzle(this.game, statuepuzzle.x, statuepuzzle.y, statuepuzzle.size));
+        this.game.addEntity(new StatuePuzzle(this.game, statuepuzzle.x, statuepuzzle.y, statuepuzzle.v));
       }
     }
     if (level.clouds) {
@@ -142,12 +148,6 @@ class SceneManager {
       for (var i = 0; i < level.metalspikesceiling.length; i++) {
         let metalspikeceiling = level.metalspikesceiling[i];
         this.game.addEntity(new MetalSpikesCeiling(this.game, metalspikeceiling.x, metalspikeceiling.y, metalspikeceiling.w, metalspikeceiling.h));
-      }
-    }
-    if (level.signposts) {
-      for (var i = 0; i < level.signposts.length; i++) {
-        let signpost = level.signposts[i];
-        this.game.addEntity(new SignPost(this.game, signpost.x, signpost.y, signpost.w, signpost.h, signpost.id));
       }
     }
     if (level.bats) {
