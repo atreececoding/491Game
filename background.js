@@ -406,6 +406,7 @@ class CastleGates {
   constructor(game, x = 0, y = 0, w, h) {
     Object.assign(this, {game, x, y, w, h});
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/castlegates.png");
+    this.spritesheetLev2 = ASSET_MANAGER.getAsset("./sprites/castledoors.png");
 
     this.state = 0;
     this.facing = 0;
@@ -420,9 +421,16 @@ class CastleGates {
         this.animations.push([i]);
       }
     }
-    this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 60, 64, 1, 1000, false, true);
-    this.animations[1][0] = new Animator(this.spritesheet, 0, 0, 62, 64, 3, 0.2, false, false);
-    this.animations[2][0] = new Animator(this.spritesheet, 186, 0, 60, 64, 1, 1000, false, true)
+    if(this.game.camera.level === levelOne) {
+      this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 60, 64, 1, 1000, false, true);
+      this.animations[1][0] = new Animator(this.spritesheet, 0, 0, 62, 64, 3, 0.2, false, false);
+      this.animations[2][0] = new Animator(this.spritesheet, 186, 0, 61, 64, 1, 1000, false, true);
+    }
+    else if(this.game.camera.level === levelTwo) {
+      this.animations[0][0] = new Animator(this.spritesheetLev2, 0, 0, 63, 64, 1, 1000, false, true);
+      this.animations[1][0] = new Animator(this.spritesheetLev2, 0, 0, 62.1, 64, 3, 0.2, false, false);
+      this.animations[2][0] = new Animator(this.spritesheetLev2, 186, 0, 61, 64, 1, 1000, false, true);
+    }
   }
 
   updateBB() {
@@ -434,8 +442,6 @@ class CastleGates {
       PARAMS.BLOCKWIDTH * 6,
     );
   }
-
-
 
   update() {
     this.updateBB();
@@ -456,21 +462,37 @@ class CastleGates {
       that.updateBB();
     }
     );
-    if(levelOne && that.state === 2 && that.game.keys["up"]) {
+    if(that.game.camera.level === levelOne && that.state === 2 && that.game.keys["up"]) {
       this.game.camera.loadLevel(levelTwo, 0, 0, false, false, false);
       console.log("loaded level two");
+    }
+    else if(that.game.camera.level === levelTwo && that.state === 2 && that.game.keys["up"]) {
+      this.game.camera.loadLevel(bossRoom, 0, 0, false, false, false);
+      console.log("loaded boss room");
     }
   }
 
   draw(ctx) {
-    this.animations[this.state][this.facing].drawCastleGateFrame(
-      this.game.clockTick,
-      ctx,
-      this.x - this.game.camera.x,
-      this.y,
-      3.6,
-      5.9
-    );
+    if(this.game.camera.level === levelOne) {
+      this.animations[this.state][this.facing].drawCastleGateFrame(
+        this.game.clockTick,
+        ctx,
+        this.x - this.game.camera.x,
+        this.y,
+        3.6,
+        5.9
+      );
+    }
+    else if(this.game.camera.level === levelTwo) {
+      this.animations[this.state][this.facing].drawCastleGateFrame(
+        this.game.clockTick,
+        ctx,
+        this.x - this.game.camera.x,
+        this.y,
+        6.75,
+        7.7
+      );
+    }
     // if (this.game.options.debugging) {
     //   ctx.strokeStyle = "Red";
     //   ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.w, this.BB.h);
