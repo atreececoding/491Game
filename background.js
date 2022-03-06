@@ -360,7 +360,7 @@ class MetalSpikesCeiling {
 }
 
 class StatuePuzzle {
-  constructor(game, x = 0, y = 0, v = true) {
+  constructor(game, x = 0, y = 0, v) {
     Object.assign(this, { game, x, y, v});
     this.velocity = {x:0, y:0};
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/statuepuzzle.png");
@@ -369,7 +369,7 @@ class StatuePuzzle {
     this.visible = v;
   }
     update() {
-      if (this.game.puzzlesolved === true){
+      if (this.game.puzzlesolved === true && this.v === true){
         this.velocity.y = -100;
       }
       this.x += this.game.clockTick * this.velocity.x;
