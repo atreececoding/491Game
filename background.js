@@ -323,7 +323,7 @@ class MetalSpikesFloor {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/MetalSpikesFloor.png");
-    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y + 20, this.w, this.h * 0.5);
+    this.BB = new BoundingBox(this.x - this.game.camera.x, this.y + 30, this.w, this.h * 0.7);
 
     this.isSpikes = true;
   }
@@ -335,7 +335,7 @@ class MetalSpikesFloor {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
       }
-      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128 , 128);
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 100 , 100);
     }
 }
 
