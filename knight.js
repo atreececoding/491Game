@@ -515,7 +515,7 @@ class Knight {
   loseHeart() {
     //If the timer has accrued more time from ticks than value in seconds we lose a heart when called
     this.hurtTimer+= this.game.clockTick;
-    if (this.hurtTimer > .5) {
+    if (this.hurtTimer > .25) {
       this.hurtTimer = 0;
       this.lives--;
     }
