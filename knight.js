@@ -560,12 +560,11 @@ class Knight {
   }
 
   gainRedAppleEnergy() {
-    if (this.energy < 5) {
-      this.energy += 5;
-    }
-    if(this.lives < 5) {
-      this.lives = 5;
-    }
+      this.energy += 2;
+      if (this.energy > 5) this.energy = 5;
+
+      this.lives += 2;
+      if (this.lives > 5) this.lives = 5;
   }
 
   loseEnergy() {
