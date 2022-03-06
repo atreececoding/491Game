@@ -142,6 +142,13 @@ var bossRoom = {
     platforms: [{ x: 1400, y: 515, w: 270, h: 250 }, {x:1475, y: 300, w:270, h:250}],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
+    goldapples:[{x: 10550, y: 580, size: 2}],
+    goldpiles: [{x: 10200, y: 610, size: 1}, {x: 10400, y: 610, size: 1}, {x: 10600, y: 610, size: 1}, 
+        {x: 10800, y: 610, size: 1},
+    // stacked up
+        {x: 10600, y: 480, size: 1}, {x: 10800, y: 480, size: 1}, {x: 11000, y: 480, size: 1},
+        {x: 11000, y: 380, size: 1}
+    ],
     backgrounds: [{x: 0, y: 0, size: 1}],
 
 }
