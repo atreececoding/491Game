@@ -223,6 +223,30 @@ class Crate {
 
 }
 
+class Bell {
+  constructor(game, x = 0, y = 0, w, h) {
+    Object.assign(this, { game, x, y, w, h });
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/crates.png");
+    this.isImpassible = true;
+    this.puzzlesolved = false;
+    this.BB = new BoundingBox(this.x, this.y, this.w, this.h);
+  }
+    update() {
+      if (this.puzzlesolved) {
+        this.game.puzzlesolved = true;
+      }
+    };
+
+    draw(ctx) {
+      if (this.game.options.debugging) {
+        ctx.strokeStyle = "Red";
+        ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+      }
+      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, this.w, this.h);
+    }
+
+}
+
 class SignPost {
   constructor(game, x = 0, y = 0,w,h,id) {
     Object.assign(this, { game, x, y, w, h, id});
