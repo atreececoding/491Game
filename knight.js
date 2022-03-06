@@ -30,6 +30,7 @@ class Knight {
 
       this.gameOver = false;
       this.winCondition = false;
+      this.credits = false;
       };
 
     loadAnimations() {
@@ -142,9 +143,17 @@ class Knight {
         if (this.animations[this.state][this.facing].isDone()) {
           this.animations[this.state][this.facing].reset();
           this.state = 0;
-        }
-        
-    } else if (this.state === 5) {
+        }        
+    } 
+    else if(this.credits) {
+      this.game.pauseInput();
+      this.state = 0;
+      this.velocity.y = 100;    
+      this.velocity.x = 150;      
+      this.x += this.velocity.x * TICK;
+      this.y += this.velocity.y * TICK;
+    }
+    else if (this.state === 5) {
         // if(this.facing == 0) {
         //   console.log("working");
         //   // this.velocity.x = -250;
@@ -308,10 +317,13 @@ class Knight {
 
       if (entity instanceof SignPost && that.BB.collide(entity.BB) && entity !== that){
         entity.display = true;
+        console.log("Inside of SignPost collision " + entity.id);
       }
-      if (entity instanceof Platform && that.BB.collide(entity.BB) && entity !== that){
+      if ((entity instanceof Platform || entity instanceof EndPlatform)  &&  that.BB.collide(entity.BB) && entity !== that){
         entity.moves = true;
+        that.credits = true;
       }
+
 
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
         // falling

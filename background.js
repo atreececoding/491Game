@@ -8,10 +8,10 @@ class Background {
 
   draw(ctx) {
     // Hardcoded
-    if(this.game.camera.level === levelOne) 
-    ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
+    if(this.game.camera.level === (levelOne || levelOneRedone)) 
+      ctx.drawImage(this.spritesheet, 0-this.game.camera.x, 0, 7000, 800);
     else if(this.game.camera.level === levelTwo)
-    ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 900);
+      ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 900);
     else
       ctx.drawImage(this.spritesheetTwo, -1300-this.game.camera.x, 0, 16800, 1000);
   }
@@ -78,7 +78,7 @@ class Platform {
     this.isPlatform = true;
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
     this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/platformlevel2.png");
-    if(this.game.camera.level === levelOne) {
+    if(this.game.camera.level === levelOne || levelOneRedone) {
       this.BB = new BoundingBox(this.x  + 15, this.y + 13, this.w, PARAMS.PLATHEIGHT);
       this.leftBB = new BoundingBox(
         this.x ,
@@ -99,7 +99,7 @@ class Platform {
   }
 
   update() {
-    if (this.game.camera.level !== levelOne && this.moves === true) {
+    if (this.game.camera.level === levelTwo && this.moves === true) {
       if (this.x <= this.patLeft) {
         this.x = this.patLeft;
         this.velocity.x = 40;
@@ -125,7 +125,7 @@ class Platform {
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
     }
 
-    if (this.game.camera.level == levelOne) {
+    if (this.game.camera.level == (levelOne || levelOneRedone)) {
       ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 300, 100);
     }  
     else {
@@ -134,38 +134,42 @@ class Platform {
   }
 }
 
-// class Platform {
-//   constructor(game, x = 0, y = 0, w, h) {
-//     Object.assign(this, { game, x, y, w, h });
+class EndPlatform {
+  constructor(game, x = 0, y = 0) {
+    Object.assign(this, { game, x, y});
+    this.velocity = { x: 0, y: 0 };
+    this.isPlatform = true;
+    this.moves;
+    this.spritesheet = ASSET_MANAGER.getAsset("./sprites/platformlevel2.png");
+    this.BB = new BoundingBox(this.x , this.y, 250, 50);
+  }
 
-//     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Platform1.png");
+  update() {
+    if (this.moves){
+      this.velocity.x = 150;
+    }
+      this.x += this.game.clockTick * this.velocity.x;
+      this.y += this.game.clockTick * this.velocity.y;
+      this.updateBB();
+    }
+  
 
-//     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, PARAMS.PLATHEIGHT);
-//     this.leftBB = new BoundingBox(
-//       this.x - this.game.camera.x,
-//       this.y,
-//       PARAMS.PLATWIDTH,
-//       PARAMS.PLATWIDTH
-//     );
-//     this.rightBB = new BoundingBox(
-//       this.x + this.w - PARAMS.PLATWIDTH,
-//       this.y,
-//       PARAMS.PLATHEIGHT,
-//       PARAMS.PLATWIDTH
-//     );
-//   }
+  updateBB() {
+    this.lastBB = this.BB;
+    this.BB = new BoundingBox(this.x, this.y, 250, 50);
+  }
 
-//   update() {
-//     // this.lastBB = this.BB;
-//     // this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
-//   }
+  draw(ctx) {
+    if (this.game.options.debugging) {
+      ctx.strokeStyle = "Red";
+      ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+    }
+    ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 250, 50);
+  }
+}
 
-//   draw(ctx) {
-//     ctx.strokeStyle = "Red";
-//     ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-//     ctx.drawImage(this.spritesheet, 400 - this.game.camera.x, 300 , 300, 100);
-//   }
-// }
+
+
 class Cloud {
   constructor(game, x = 0, y = 0,w,h) {
     Object.assign(this, { game, x, y, w, h });
@@ -212,13 +216,19 @@ class Crate {
 }
 
 class SignPost {
-  constructor(game, x = 0, y = 0,w,h) {
-    Object.assign(this, { game, x, y, w, h});
+  constructor(game, x = 0, y = 0,w,h,id) {
+    Object.assign(this, { game, x, y, w, h, id});
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/signpost.png");
     this.message = ASSET_MANAGER.getAsset("./sprites/message.png");
     this.timer = 0;
     this.display = false;
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
+    this.textMessages = [];
+    this.textMessages[101] = ["Try jumping over the", "goblin with the", "W key"];
+    this.textMessages[102] = ["You can jump through", "a platform or drop down", "when standing on it by", "pressing the 'S' key"];
+  
+    this.textMessages[501] = ["Try jumping over the", "goblin with the", "W key TEST TEST"];
+    this.textMessages[502] = ["Try jumping over the", "goblin with the", "W key TESTTESTTEST"];
   }
 
     update() {
@@ -229,15 +239,42 @@ class SignPost {
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
       }
-      ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128, 128);
+      //Below if is for the end credits
+      if (this.id < 500){
+        ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y, 128, 128);
+      }
       if (this.display === true) {
-          this.game.puzzlesolved = true;
-          this.timer += this.game.clockTick;
-          if (this.timer > 1.5) this.display = false;
+        this.game.puzzlesolved = true;
+        this.timer += this.game.clockTick;
+        if (this.timer > 1.5) this.display = false;
+        if (this.id < 500){
           ctx.drawImage(this.message, this.x - this.game.camera.x - 128, 300, 400, 250);
+          ctx.font = '30px monospace';
+          if (this.textMessages[this.id] === undefined){
+            ctx.fillText("message is missing!?", this.x - this.game.camera.x - 100, (this.y - 250));
+          }
+          else {
+            for (let i = 0; i < this.textMessages[this.id].length; i++){
+                ctx.fillText(this.textMessages[this.id][i], this.x - this.game.camera.x - 100, (this.y - 250) + (30 * i));
+            }
+          }
+      }
+      else {       
+        console.log("Inside of SignPost this.id else block " + this.id);
+        ctx.drawImage(this.message, 400, 300, 400, 250);
+        ctx.font = '30px monospace';
+        if (this.textMessages[this.id] === undefined){
+          ctx.fillText("message is missing!?", 400, (this.y - 250));
+        }
+        else {
+          for (let i = 0; i < this.textMessages[this.id].length; i++){
+              ctx.fillText(this.textMessages[this.id][i], 410, (this.y - 250) + (30 * i));
+          }
+        }
+
       }
     }
-    
+  }
 }
 
 class MetalSpikesFloor {

@@ -237,6 +237,7 @@ class GameEngine {
     
     this.clockTick = this.timer.tick();
     if (!this.paused) {
+      this.ctx.textAlign = 'left';
       this.update();
       this.draw();
     } else {

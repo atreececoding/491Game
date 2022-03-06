@@ -71,6 +71,12 @@ class SceneManager {
         this.game.addEntity(new Dragon(this.game, dragon.x, dragon.y, dragon.size));
       }
     }
+    if (level.endplatforms) {
+      for (var i = 0; i < level.endplatforms.length; i++) {
+        let endplatform = level.endplatforms[i];
+        this.game.addEntity(new EndPlatform(this.game, endplatform.x, endplatform.y));
+      }
+    }
     // TODO: We should convert our values to be based on blockwidth like super marriott brothers
     if (level.goblins) {
       for (var i = 0; i < level.goblins.length; i++) {
@@ -141,7 +147,7 @@ class SceneManager {
     if (level.signposts) {
       for (var i = 0; i < level.signposts.length; i++) {
         let signpost = level.signposts[i];
-        this.game.addEntity(new SignPost(this.game, signpost.x, signpost.y, signpost.w, signpost.h));
+        this.game.addEntity(new SignPost(this.game, signpost.x, signpost.y, signpost.w, signpost.h, signpost.id));
       }
     }
     if (level.bats) {
@@ -247,7 +253,11 @@ class SceneManager {
 
     this.updateAudio();
     this.updateOptions();
-    if (this.title && this.game.keys["two"]) {
+    if (this.title && this.game.keys["one"]) {
+      this.title = false;
+      this.game.camera.loadLevel(levelOneRedone, 0, 555, false, false, false);
+    }
+    else if (this.title && this.game.keys["two"]) {
       this.title = false;
       this.game.camera.loadLevel(levelTwo, 0, 555, false, false, false);
     }
