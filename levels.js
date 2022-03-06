@@ -86,8 +86,8 @@ var levelTwo = {
             {x:7320, y:610, w:130, h:130}, {x:8300, y:610, w:130, h:130},
             //Stacked crates below here:
             {x:5140, y:480, w:130, h:130}, {x:5270, y:480, w:130, h:130}],
-    //statuepuzzles: [{x: -150, y:0, w:150, h:800, visible: false},
-                    //{x: 11020, y:0, w:150, h:550, visible: true}],
+    statuepuzzles: [{x: -150, y:0, w:150, h:800, visible: false},
+                    {x: 11020, y:0, w:150, h:550, visible: true}],
     redapples: [{x: 1165, y: 500, size: 1 }, {x: 2595, y: 210, size: 1},
                 {x: 4275, y: 600, size: 1},{x: 6545, y: 165, size: 1}, 
                 {x: 7770, y: 200, size: 1},{x: 9485, y: 125, size: 1},
