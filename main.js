@@ -77,6 +77,7 @@ ASSET_MANAGER.queueDownload("./sfx/rat_hurt.wav");
 ASSET_MANAGER.queueDownload("./sfx/red_bull.wav");
 ASSET_MANAGER.queueDownload("./sfx/spear_hit.mp3");
 ASSET_MANAGER.queueDownload("./sfx/walking.wav");
+ASSET_MANAGER.queueDownload("./sfx/bell_bong.mp3");
 
 
 ASSET_MANAGER.downloadAll(() => {
@@ -96,6 +97,8 @@ ASSET_MANAGER.downloadAll(() => {
   ASSET_MANAGER.resetAudioOnEnd("./sfx/red_bull.wav");
   ASSET_MANAGER.resetAudioOnEnd("./sfx/spear_hit.mp3");
   ASSET_MANAGER.resetAudioOnEnd("./sfx/walking.wav");
+  ASSET_MANAGER.resetAudioOnEnd("./sfx/bell_bong.mp3");
+  
 
 
   const canvas = document.getElementById("gamecanvas");
