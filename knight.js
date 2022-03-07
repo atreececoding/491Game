@@ -11,7 +11,7 @@ class Knight {
       this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
 
       this.lives = 5;
-      this.energy = 50;
+      this.energy = 2;
       this.attackTimer = 2;
       this.hurtTimer = .5;
       
@@ -404,6 +404,7 @@ class Knight {
           if ((entity.isImpassible || entity.isSpikes) 
             && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             if (entity instanceof Rat) {
+              
             }
             if(entity instanceof Crate) {
             }
@@ -428,6 +429,9 @@ class Knight {
             that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
               ASSET_MANAGER.playSFX('./sfx/crate_hit.wav');
+            }
+            if (entity instanceof Rat) {
+              
             }
           }
         
@@ -520,6 +524,7 @@ class Knight {
       this.lives--;
     }
   }
+  
 
   loseDragonHeart() { //Dragon hurts us for 2 so a separate function than loseHeart function here
     this.lives-=2;
@@ -534,7 +539,7 @@ class Knight {
       this.lives++;;
     }
   }
-
+  
   damagedLeft() {
     this.velocity.x = -1000;
     this.velocity.y = -150;

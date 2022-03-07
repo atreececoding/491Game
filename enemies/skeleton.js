@@ -12,7 +12,7 @@ class Skeleton {
         this.facing = 0;
         this.state = 0; // 0 = walking, 1 = attacking, 2 = dying
         this.dead = false;
-        this.lives = 50;
+        this.lives = 150;
     
         this.speed = 100;
     
@@ -135,7 +135,7 @@ class Skeleton {
               if (entity instanceof Knight && that.state != 2) {
                 that.state = 1;
                 that.velocity.x = 0;
-                // TO STOP THE KNIGHT FROM GOING THROUGH THE GOBLIN
+                // TO STOP THE KNIGHT FROM GOING THROUGH THE SKELETON
                 if (that.facing === 1) {
                   that.x = entity.BB.right;
                   entity.damagedLeft();
@@ -215,7 +215,7 @@ class Skeleton {
         if(this.facing == 0) {
           //console.log("working");
           this.velocity.x = -250;
-          this.velocity.y = -100;
+          //this.velocity.y = -100;
           this.x += this.velocity.x * this.game.clockTick;
           this.y += this.velocity.y * this.game.clockTick;
     
@@ -224,7 +224,7 @@ class Skeleton {
         else {
           //console.log("working");
           this.velocity.x = 250;
-          this.velocity.y = -100;
+          //this.velocity.y = -100;
           this.x += this.velocity.x * this.game.clockTick;
           this.y += this.velocity.y * this.game.clockTick;
     

@@ -256,12 +256,14 @@ class SignPost {
     this.display = false;
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
     this.textMessages = [];
-    this.textMessages[101] = ["Try jumping over the", "goblin with the", "W key or attack by", "clicking your mouse"];
-    this.textMessages[102] = ["You can jump onto a", "platform from below!", "To drop down", "through the bottom", "of a platform", "press 'S'"];
-    this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
+    this.textMessages[101] = ["Try jumping over the", "crate with the", "W key and attacking", "the goblin by" , "clicking your mouse"];
+    this.textMessages[102] = ["See how grabbing the", "apple increased your" , "energy? You can jump", "back up through the", "platform from below"];
     this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
     this.textMessages[104] = ["Hold SHIFT to run!", "If you run and ", "jump continue to", "hold SHIFT to jump", "farther than normal"];
     this.textMessages[105] = ["Press W to open", "doors and enter", "new areas!"];
+    this.textMessages[106] = ["Rats will drain your" , "energy! Kill them ", "with no mercy."]
+    this.textMessages[107] = ["Have you realized your", "energy has dropped?", "Every time you jump", "you will lose energy.", "Try jumping to the", "next platform."]
+    this.textMessages[108] = ["To drop down", "through the bottom", "of a platform", "press 'S'", "Try grabbing the apple", "to restore energy"];
     
 
     this.textMessages[501] = [credits.text[0]];

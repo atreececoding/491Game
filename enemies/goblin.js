@@ -12,7 +12,7 @@ class Goblin {
     this.facing = 0;
     this.state = 0; // 0 = walking, 1 = attacking, 2 = dying
     this.dead = false;
-    this.lives = 25;
+    this.lives = 100;
     this.flicker = true;
     this.speed = 100;
     this.fallAcc = 560;
