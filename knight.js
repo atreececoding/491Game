@@ -11,7 +11,7 @@ class Knight {
       this.state = 0; // 0 = idle, 1 = walking, 2 = running, 3 = jumping/falling, 4 = attacking, 5 = hurting, 6 = dying
 
       this.lives = 5;
-      this.energy = 5;
+      this.energy = 2;
       this.attackTimer = 2;
       this.hurtTimer = .5;
       
