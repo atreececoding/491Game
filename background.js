@@ -262,6 +262,7 @@ class SignPost {
     this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
     this.textMessages[104] = ["Hold SHIFT to run!", "If you run and ", "jump continue to", "hold SHIFT to jump", "farther than normal"];
     this.textMessages[105] = ["Press W to open", "doors and enter", "new areas!"];
+    this.textMessages[106] = ["Rats will drain your" , "energy! Kill them ", "with no mercy."]
     
 
     this.textMessages[501] = [credits.text[0]];
