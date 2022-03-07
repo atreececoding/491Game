@@ -141,7 +141,7 @@ class EndPlatform {
     this.isPlatform = true;
     this.moves;
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/platformlevel2.png");
-    this.BB = new BoundingBox(this.x , this.y, 250, 50);
+    this.updateBB();
   }
 
   update() {
