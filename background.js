@@ -256,7 +256,7 @@ class SignPost {
     this.display = false;
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
     this.textMessages = [];
-    this.textMessages[101] = ["Try jumping over the", "goblin with the", "W key or attack by", "clicking your mouse"];
+    this.textMessages[101] = ["Try jumping over the", "crate with the", "W key and attacking", "the goblin by" , "clicking your mouse"];
     this.textMessages[102] = ["You can jump onto a", "platform from below!", "To drop down", "through the bottom", "of a platform", "press 'S'"];
     this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
     this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
