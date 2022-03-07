@@ -93,13 +93,27 @@ class Rat {
     die() {}
   
     update() {
+      if (this.hurtTimer == undefined) {
+        this.hurtTimer = 0;
+      } else {
+        this.hurtTimer += this.game.clockTick;
+      }
+      
  
           this.velocity.y += 100;
           this.y += this.game.clockTick * this.velocity.y;
       var that = this;
       this.game.entities.forEach(function (entity) {
         if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
-          
+          if(entity instanceof Knight) {
+            that.hurtTimer += that.game.clockTick;
+            if(that.hurtTimer > 3) {
+              that.hurtTimer = 0;
+              if (entity.energy > 0) {
+                entity.loseEnergy()
+              }
+            }
+          }
           if (
             (entity instanceof Floor || entity instanceof Platform) &&
             that.lastBB.bottom <= entity.BB.top
@@ -117,11 +131,14 @@ class Rat {
                 that.state = 1;
                 that.velocity.x = 100;
                 
+                
               }
               else if(entity.BB.x < that.x) {
                 that.facing = 0;
                 that.state = 1;
                 that.velocity.x = -100;
+                
+                
               }
               that.x += that.game.clockTick * that.velocity.x;
             }
