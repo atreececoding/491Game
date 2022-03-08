@@ -228,12 +228,18 @@ class Bell {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/bells.png");
     this.isImpassible = true;
+    this.belltimer = 0;
+    this.belltimed = false;
     this.puzzlesolved = false;
     this.BB = new BoundingBox(this.x, this.y, this.w, this.h);
   }
     update() {
       if (this.puzzlesolved) {
         this.game.puzzlesolved = true;
+        this.belltimer += this.game.clockTick;
+        if(this.belltimer < 1) {
+          ASSET_MANAGER.playSFX("./sfx/bell_bong.mp3");
+        }
       }
     };
 

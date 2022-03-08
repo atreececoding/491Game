@@ -358,8 +358,8 @@ class Knight {
         }
         if (entity instanceof Bell){
 
-          ASSET_MANAGER.playSFX('./sfx/bell_bong.mp3');
           entity.puzzlesolved = true;
+          entity.belltimer = 0;
         }
 
         // falling
