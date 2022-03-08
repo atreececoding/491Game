@@ -71,7 +71,7 @@ var levelOne = {
 };
 
 var levelTwo = {
-    music: "./music/AstralAcademy.mp3",
+    music: "./music/Desert.wav",
     label: "1-2",
         //Signpost ids using 201 to 300 range for this level
     floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
@@ -132,7 +132,7 @@ var levelDebug = {
 };
 
 var bossRoom = {
-    music: "./music/AstralAcademy.mp3",
+    music: "./music/Clashing Steel.wav",
     label: "BossRoom",
     crates: [{ x: -130, y: 610, w: 130, h: 130}, {x: -130, y: 485, w: 130, h: 130}, {x: -130, y: 360, w: 130, h: 130}, {x: -130, y: 235, w: 130, h: 130},
         {x: -130, y: 110, w: 130, h: 130}, {x: -130, y: -15, w: 130, h: 130}, {x: -130, y: -140, w: 130, h: 130}, {x: 0, y: -140, w: 130, h: 130},],
