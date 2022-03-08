@@ -334,7 +334,6 @@ class Knight {
         that.x = entity.wallBB.left - that.BB.width;
         console.log('colliding with wallBB');
       }
-
       if (entity instanceof SignPost && that.BB.collide(entity.BB) && entity !== that){
         entity.display = true;
       }
@@ -354,6 +353,9 @@ class Knight {
 
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
 
+        if(entity instanceof CastleGates && that.game.keys["up"]) {
+          that.energy++;
+        }
         if (entity instanceof Bell){
 
           ASSET_MANAGER.playSFX('./sfx/bell_bong.mp3');
