@@ -493,10 +493,12 @@ class CastleGates {
     }
     );
     if(that.game.camera.level === levelOne && that.state === 2 && that.game.keys["up"]) {
+      ASSET_MANAGER.pauseBackgroundMusic();
       this.game.camera.loadLevel(levelTwo, 0, 0, false, false, false);
       console.log("loaded level two");
     }
     else if(that.game.camera.level === levelTwo && that.state === 2 && that.game.keys["up"]) {
+      ASSET_MANAGER.pauseBackgroundMusic();
       this.game.camera.loadLevel(bossRoom, 0, 0, false, false, false);
       console.log("loaded boss room");
     }
