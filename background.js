@@ -256,6 +256,8 @@ class SignPost {
     this.display = false;
     this.BB = new BoundingBox(this.x - this.game.camera.x, this.y, this.w, this.h);
     this.textMessages = [];
+
+    //Level 1 signpost messages
     this.textMessages[101] = ["Try jumping over the", "crate with the", "W key and attacking", "the goblin by" , "clicking your mouse"];
     this.textMessages[102] = ["See how grabbing the", "apple increased your" , "energy? You can jump", "back up through the", "platform from below"];
     this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
@@ -264,8 +266,10 @@ class SignPost {
     this.textMessages[106] = ["Rats will drain your" , "energy! Kill them ", "with no mercy."]
     this.textMessages[107] = ["Have you realized your", "energy has dropped?", "Every time you jump", "you will lose energy.", "Try jumping to the", "next platform."]
     this.textMessages[108] = ["To drop down", "through the bottom", "of a platform", "press 'S'", "Try grabbing the apple", "to restore energy"];
+    //Level 2 signpost messages
+    this.textMessages[201] = ["When your path", "is blocked explore", "your environment to", "see if you can", "make a way through", "with a chain", "reaction"]
     
-
+    //End credits signpost messages
     this.textMessages[501] = [credits.text[0]];
     this.textMessages[502] = [credits.text[1]];
     this.textMessages[503] = [credits.text[2]];

@@ -71,8 +71,9 @@ var levelOne = {
 var levelTwo = {
     music: "./music/AstralAcademy.mp3",
     label: "1-2",
-        //Signpost ids using 101 to 200 range for this level
+        //Signpost ids using 201 to 300 range for this level
     floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
+    signposts: [{x: 10200, y: 610, w: 130, h:130, id: 201}],
     metalspikesceiling: [{x: 100, y:90, w:130, h:130}, {x: 950, y:90, w:130, h:130}, 
         {x: 1300, y:90, w:130, h:130}, {x: 1650, y:90, w:130, h:130},
         {x: 3950, y:90, w:130, h:130}, {x: 4600, y:90, w:130, h:130},
@@ -92,7 +93,7 @@ var levelTwo = {
     statuepuzzles: [{x: -150, y:0, w:150, h:800, v: false},
                     {x: 11020, y:0, w:150, h:550, v: true},
                     {x: 11950, y:0, w:150, h:800, v: false}],
-    bells: [{x: 10750, y: 150, w: 64, h: 64}],
+    bells: [{x: 10450, y: 0, w: 200, h: 320}],
     redapples: [{x: 1165, y: 500, size: 1 }, {x: 2595, y: 210, size: 1},
                 {x: 4275, y: 600, size: 1},{x: 6545, y: 165, size: 1}, 
                 {x: 7770, y: 200, size: 1},{x: 9485, y: 125, size: 1},

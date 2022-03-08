@@ -355,6 +355,7 @@ class Knight {
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
 
         if (entity instanceof Bell){
+
           ASSET_MANAGER.playSFX('./sfx/bell_bong.mp3');
           entity.puzzlesolved = true;
         }
@@ -570,7 +571,7 @@ class Knight {
   }
 
   gainRedAppleEnergy() {
-      this.energy += 2;
+      this.energy += 3;
       if (this.energy > 5) this.energy = 5;
 
       this.lives += 2;
