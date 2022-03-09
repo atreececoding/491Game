@@ -50,7 +50,7 @@ class Floor {
       }
     }
     else if(this.game.camera.level === levelTwo) {
-      for (var i = 0; i <= 12000; i += 78) {
+      for (var i = 0; i <= 14000; i += 78) {
         ctx.drawImage(this.spritesheetTwo, i - this.game.camera.x, 735, 78, 77);
       }
     }

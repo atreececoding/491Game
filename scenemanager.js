@@ -181,6 +181,12 @@ class SceneManager {
         this.game.addEntity(new redApple(this.game, redapple.x, redapple.y, redapple.size));
       }
     }
+    if (level.bluepotions) {
+      for(var i = 0; i < level.bluepotions.length; i++) {
+        let bluepotion = level.bluepotions[i];
+        this.game.addEntity(new BluePotion(this.game, bluepotion.x, bluepotion.y, bluepotion.size));
+      }
+    }
     if (level.goldapples) {
       for (var i = 0; i < level.goldapples.length; i++) {
         let goldapple = level.goldapples[i];

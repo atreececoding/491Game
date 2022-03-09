@@ -11,7 +11,7 @@
     PATROL: 1,
     ATTACK: 2,
   };
-  const FIRE_PREP = 2;
+  const FIRE_PREP = 3;
   
   
   
@@ -362,7 +362,7 @@
                 that.uppertimer = 0;
               }
               else {
-                that.uppertimer += that.game.clocktick;
+                that.uppertimer += that.game.clockTick;
                 console.log(that.uppertimer);
               }
               if (that.uppertimer > FIRE_PREP) {

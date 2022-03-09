@@ -456,6 +456,11 @@ class Knight {
           that.gainEnergy();
           ASSET_MANAGER.playSFX('./sfx/red_bull.wav');
         }
+        if (entity instanceof BluePotion && !entity.dead) {
+          entity.removeFromWorld = true;
+          that.gainBluePotionEnergy();
+          ASSET_MANAGER.playSFX('./sfx/red_bull.wav');
+        }
 
         if (entity instanceof redApple && !entity.dead) {
           entity.removeFromWorld = true;
@@ -570,6 +575,13 @@ class Knight {
     }
     this.win();
 
+  }
+
+  gainBluePotionEnergy() {
+    this.energy += 1000;
+    if(this.lives < 5) {
+      this.lives = 5;
+    }
   }
 
   gainRedAppleEnergy() {
