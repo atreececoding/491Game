@@ -291,7 +291,10 @@ class SceneManager {
     else if (this.knight.gameOver) {
       this.knight.gameOver = false;
       this.clearEntities();
-      this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver)
+      this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver);
+      if(this.game.camera.level === bossRoom) {
+        this.knight.energy = 1000;
+      }
       this.loadLevel(this.level, 0, 555, true, false, false);
       this.lives = 5;
     }
