@@ -128,7 +128,7 @@ var levelDebug = {
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
     bells: [{x: 1050, y: 480, w: 100, h: 100}],
-    skeletons: [{x: 450, y: 550, size: 1}],
+    skeletons: [{x: 750, y: 450, size: 1}],
     backgrounds: [{x: 0, y: 0, size: 1}]
 };
 

@@ -58,12 +58,12 @@ class Skeleton {
         //facing right = 0
         this.animations[0][0] = new Animator(
           this.walkSpritesheet,
-          0, 0, 100, 100, 9, ANIMATION_SPEED_1, NO_REVERSE, LOOP
+          X_OFFSET, 0, 100, 100, 9, ANIMATION_SPEED_1, NO_REVERSE, LOOP
         );
         //facing left = 1
         this.animations[0][1] = new Animator(
           this.walkRevSpritesheet,
-          0, 0, 100, 100, 9, ANIMATION_SPEED_1, REVERSE, LOOP
+          X_OFFSET, 0, 100, 100, 9, ANIMATION_SPEED_1, REVERSE, LOOP
         );
     
         //attacking
@@ -96,7 +96,7 @@ class Skeleton {
       updateBB() {
         this.lastBB = this.BB;
         this.BB = new BoundingBox(
-          this.x,
+          this.x ,
           this.y,
           PARAMS.BLOCKWIDTH,
           PARAMS.BLOCKHEIGHT * 1.25
@@ -113,8 +113,6 @@ class Skeleton {
       die() {}
     
       update() {
-        
-        // Patrolling is hardcoded need to fix
         if (this.x <= this.patLeft && this.facing === 1) {
           this.x = this.patLeft;
           this.velocity.x = 75;
@@ -234,9 +232,6 @@ class Skeleton {
         }
       }
       draw(ctx) {
-
-        ctx.font = '30px monospace';
-          ctx.fillText(this.animations.FRAME_COUNT, this.x - this.game.camera.x, this.y);
         
         if(this.lives > 0) {
           if(this.state === 1) {
@@ -252,12 +247,12 @@ class Skeleton {
             this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
-            this.x - this.game.camera.x,
-            this.y,
+            this.x - this.game.camera.x - 50,
+            this.y - 25,
             2
             );
           }
-        } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+        } else if(this.lives <= 0) {
           this.velocity.x = 0;
           this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
