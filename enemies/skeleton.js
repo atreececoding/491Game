@@ -4,6 +4,8 @@ class Skeleton {
     
         this.velocity = { x: 0, y: 0 };
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/skeletons.png");
+        this.walkSpritesheet = ASSET_MANAGER.getAsset("./sprites/skele_walk_grid.png");
+        this.walkRevSpritesheet = ASSET_MANAGER.getAsset("./sprites/skele_walk_grid_rev.png");
         this.spritesheetRev = ASSET_MANAGER.getAsset("./sprites/skeletonsRev.png");
     
         this.patLeft = this.x - 400;
@@ -55,13 +57,13 @@ class Skeleton {
         //Walking
         //facing right = 0
         this.animations[0][0] = new Animator(
-          this.spritesheet,
-          X_OFFSET, Y_OFFSET_2, 64, HEIGHT, FRAME_COUNT2, ANIMATION_SPEED_1, NO_REVERSE, LOOP
+          this.walkSpritesheet,
+          0, 0, 100, 100, 9, ANIMATION_SPEED_1, NO_REVERSE, LOOP
         );
         //facing left = 1
         this.animations[0][1] = new Animator(
-          this.spritesheetRev,
-          262, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT2, ANIMATION_SPEED_1, REVERSE, LOOP
+          this.walkRevSpritesheet,
+          0, 0, 100, 100, 9, ANIMATION_SPEED_1, REVERSE, LOOP
         );
     
         //attacking
@@ -232,6 +234,10 @@ class Skeleton {
         }
       }
       draw(ctx) {
+
+        ctx.font = '30px monospace';
+          ctx.fillText(this.animations.FRAME_COUNT, this.x - this.game.camera.x, this.y);
+        
         if(this.lives > 0) {
           if(this.state === 1) {
             this.animations[this.state][this.facing].drawFrame(

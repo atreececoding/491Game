@@ -48,6 +48,8 @@ ASSET_MANAGER.queueDownload("./sprites/message.png");
 ASSET_MANAGER.queueDownload("./sprites/signpost.png");
 ASSET_MANAGER.queueDownload("./sprites/statuepuzzle.png");
 ASSET_MANAGER.queueDownload("./sprites/bells.png");
+ASSET_MANAGER.queueDownload("./sprites/skele_walk_grid.png");
+ASSET_MANAGER.queueDownload("./sprites/skele_walk_grid_rev.png");
 
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");
