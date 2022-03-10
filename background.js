@@ -23,18 +23,6 @@ class Floor {
     this.spritesheetTwo = ASSET_MANAGER.getAsset("./sprites/floorLevelTwo.png");
     this.isImpassible = true;
     this.BB = new BoundingBox(0, this.y, 12300, PARAMS.BLOCKWIDTH * 2);
-    // this.leftBB = new BoundingBox(
-    //   this.x,
-    //   this.y,
-    //   PARAMS.BLOCKWIDTH,
-    //   PARAMS.BLOCKWIDTH * 2
-    // );
-    // this.rightBB = new BoundingBox(
-    //   this.x + this.w - PARAMS.BLOCKWIDTH,
-    //   this.y,
-    //   PARAMS.BLOCKWIDTH,
-    //   PARAMS.BLOCKWIDTH * 2
-    // );
   }
 
   update() {}
@@ -269,9 +257,9 @@ class SignPost {
     this.textMessages[103] = ["These bats are here", "to help our hero! ", "Try jumping into a", "bat and then jump", "again to get a boost"];
     this.textMessages[104] = ["Hold SHIFT to run!", "If you run and ", "jump continue to", "hold SHIFT to jump", "farther than normal"];
     this.textMessages[105] = ["Press W to open", "doors and enter", "new areas!"];
-    this.textMessages[106] = ["Rats will drain your" , "energy! Kill them ", "with no mercy."]
-    this.textMessages[107] = ["Have you realized your", "energy has dropped?", "Every time you jump", "you will lose energy.", "Try jumping to the", "next platform."]
-    this.textMessages[108] = ["To drop down", "through the bottom", "of a platform", "press 'S'", "Try grabbing the apple", "to restore energy"];
+    this.textMessages[106] = ["Rats will drain your" , "energy! Kill them ", "with no mercy"]
+    this.textMessages[107] = ["Have you realized", "your energy has", "dropped? Jumps cause", "you to lose energy.", "Try jumping to the", "next platform."]
+    this.textMessages[108] = ["To drop down", "through the bottom", "of a platform", "press 'S'", "Grabbing the apple", "will restore energy"];
     //Level 2 signpost messages
     this.textMessages[201] = ["When your path", "is blocked explore", "your environment to", "see if you can", "make a way through", "with a chain", "reaction"]
     
