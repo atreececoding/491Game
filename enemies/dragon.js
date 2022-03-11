@@ -67,18 +67,7 @@
   
       // 0 = idle, 1 = lower attack, 2 = dying, 3 = dead, 4 = mid, 5 = upper
       // facing right = 0
-      this.animations[0][0] = new Animator(
-        this.spritesheet,
-        146,
-        0,
-        80.02,
-        112,
-        13,
-        0.3,
-        false,
-        true
-      );
-  
+
       this.animations[0][1] = new Animator(
         this.spritesheet,
         17,
@@ -89,18 +78,6 @@
         0.2,
         true,
         true
-      );
-  
-      this.animations[1][0] = new Animator(
-        this.spritesheet,
-        6,
-        602,
-        134,
-        106,
-        4,
-        0.15,
-        false,
-        false
       );
       
       this.animations[1][1] = new Animator(
@@ -115,18 +92,6 @@
         true
       );
       
-      this.animations[2][0] = new Animator(
-        this.spritesheet,
-        8,
-        739,
-        116,
-        126,
-        5,
-        0.2,
-        false,
-        false
-      );
-  
       this.animations[2][1] = new Animator(
         this.spritesheet,
         0,
@@ -139,18 +104,6 @@
         false
       );
   
-      this.animations[3][0] = new Animator(
-        this.spritesheet,
-        479,
-        812,
-        97,
-        32,
-        1,
-        123,
-        false,
-        true
-      );
-  
       this.animations[3][1] = new Animator(
         this.spritesheet,
         479,
@@ -160,18 +113,6 @@
         1,
         123,
         false,
-        true
-      );
-
-      this.animations[4][0] = new Animator(
-        this.spritesheetMidAttack,
-        0,
-        0,
-        400,
-        200,
-        6,
-        0.15,
-        true,
         true
       );
 
@@ -187,18 +128,6 @@
         true
       );
 
-      this.animations[5][0] = new Animator(
-        this.spritesheetUpperAttack,
-        0,
-        0,
-        400,
-        200,
-        7,
-        0.15,
-        true,
-        true
-      );
-
       this.animations[5][1] = new Animator(
         this.spritesheetUpperAttack,
         0,
@@ -211,28 +140,21 @@
         true
       );
 
-      this.animations[6][0] = new Animator(
+
+      this.animations[6][1] = new Animator (
         this.spritesheetDamaged,
-        146,
+        17,
         0,
-        80.02,
-        112,
-        13,
-        0.3,
-        false,
+        80.0,
+        113,
+        this.animations[0][1].frameCount,
+        this.animations[0][1].frameDuration,
+        true,
         true
       );
 
-      this.animations[6][1] = this.animations[0][1];
-      this.spritesheetDamaged,
-      146,
-      0,
-      80.02,
-      112,
-      13,
-      0.3,
-      false,
-      true
+      this.animations[6][1].elapsedTime = this.animations[0][1].elapsedTime;
+      this.animations[6][1].totalTime = this.animations[0][1].totalTime;
     }
   
     updateBB() {
@@ -280,6 +202,9 @@
     die() {}
   
     update() {
+      this.damaged = false;
+      
+      
       if (this.state === 1 || this.state === 4 || this.state === 5) {
         ASSET_MANAGER.playSFX('./sfx/dragon_attack.wav');
       }
@@ -295,9 +220,12 @@
       var that = this;
       const TICK = that.game.clockTick;
       this.game.entities.forEach(function (entity) {
+
+        if (entity instanceof Knight && that.BB.collide(entity.spearBox) && entity.state === 4){
+          that.damaged = true;
+        }
        
         if(entity.BB && that.BB && that.BB.collide(entity.BB) && entity !== that) {
-          that.damaged = true;
           if (
             (entity instanceof Floor) &&
             that.lastBB.bottom <= entity.BB.top
@@ -446,18 +374,12 @@
     }
   
     draw(ctx) {
+      // ctx.fillStyle = "white";
+      // ctx.font = '40px monospace';
+      // ctx.fillText("Current frame #: " + this.animations[this.state][this.facing].currentFrame(), this.x, this.y);
       if(this.lives > 0) {
 
         if(this.state === 1) {
-          // if (this.damaged === true){
-          //   this.animations[this.state+5][this.facing].drawFrame(
-          //     this.game.clockTick,
-          //     ctx,
-          //     (this.x - this.game.camera.x - 300),
-          //     (this.y - 100)
-          //     );
-          //}
-          
             this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
@@ -485,13 +407,26 @@
             );
         }
         else {
-          this.animations[this.state][this.facing].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - this.game.camera.x,
-          this.y,
-          9
-          );
+          if (this.damaged){
+            this.animations[6][this.facing].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - this.game.camera.x,
+              this.y,
+              9
+              );
+              this.animations[0][1].elapsedTime = this.animations[6][1].elapsedTime;
+          }
+          else{
+            this.animations[this.state][this.facing].drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x - this.game.camera.x,
+            this.y,
+            9
+            );
+            this.animations[6][1].elapsedTime = this.animations[0][1].elapsedTime;
+          }
         }
       } else if(this.lives <= 0 && !this.dead) {
         this.velocity.x = 0;
