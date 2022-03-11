@@ -265,7 +265,7 @@ class SignPost {
     this.textMessages[105] = ["Press W to open", "doors and enter", "new areas!"];
     this.textMessages[106] = ["Rats will drain your" , "energy! Kill them ", "with no mercy."]
     this.textMessages[107] = ["Have you realized your", "energy has dropped?", "Every time you jump", "you will lose energy.", "Try jumping to the", "next platform."]
-    this.textMessages[108] = ["To drop down", "through the bottom", "of a platform", "press 'S'", "Try grabbing the apple", "to restore energy"];
+    this.textMessages[108] = ["To drop down", "through the bottom", "of a platform", "press 'S'", "Grab an apple to", "restore energy"];
     //Level 2 signpost messages
     this.textMessages[201] = ["When your path", "is blocked explore", "your environment to", "see if you can", "make a way through", "with a chain", "reaction"]
     
