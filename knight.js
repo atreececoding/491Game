@@ -173,24 +173,7 @@ class Knight {
       }
     }
     else if (this.state === 5) {
-        // if(this.facing == 0) {
-        //   console.log("working");
-        //   // this.velocity.x = -250;
-        //   // this.velocity.y = -150;
-        //   // this.x += this.velocity.x * TICK;
-        //   // this.y += this.velocity.y * TICK;
 
-        //   // this.updateBB();
-        // }
-        // else {
-        //   console.log("working");
-        //   this.velocity.x = 250;
-        //   this.velocity.y = -150;
-        //   this.x += this.velocity.x * TICK;
-        //   this.y += this.velocity.y * TICK;
-
-        // this.updateBB();
-       // }
         if (this.animations[this.state][this.facing].isDone()) {
           this.animations[this.state][this.facing].reset();
           this.state = 0;

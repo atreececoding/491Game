@@ -119,7 +119,7 @@ var levelDebug = {
     music: "./music/Clashing Steel.wav",
     label: "Debug",
     floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
-    statuepuzzles: [{x: 495, y:0, v: false}],
+    //statuepuzzles: [{x: 495, y:0, v: false}],
     //Signpost ids using 401 to 500 range for this level
     signposts: [{x: 300, y:610, w:130, h:130, id:401}],
     platforms: [{ x: 297, y: 613, w: 270, h: 250 }],

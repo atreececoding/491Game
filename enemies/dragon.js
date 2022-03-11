@@ -25,6 +25,7 @@
         this.size = 0;
         this.facing = 1;
         this.state = 0; // 0 = idle, 1 = low attack, dying, dead, mid attack, high attack
+        this.damaged = false;
         this.dead = false;
 
       // spritesheets for the dragon
@@ -32,6 +33,9 @@
       this.spritesheetUpperAttack = ASSET_MANAGER.getAsset("./sprites/DragonUpperAttack.png");
       this.spritesheetMidAttack = ASSET_MANAGER.getAsset("./sprites/DragonMidAttack.png")
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/DragonRev2.png");
+      this.spritesheetUpperAttackDamaged = ASSET_MANAGER.getAsset("./sprites/DragonUpperAttackDamaged.png");
+      this.spritesheetMidAttackDamaged = ASSET_MANAGER.getAsset("./sprites/DragonMidAttackDamaged.png")
+      this.spritesheetDamaged = ASSET_MANAGER.getAsset("./sprites/DragonRev2Damaged.png");
   
       this.lives = 1000;
   
@@ -206,8 +210,29 @@
         false,
         true
       );
-  
-      
+
+      this.animations[6][0] = new Animator(
+        this.spritesheetDamaged,
+        146,
+        0,
+        80.02,
+        112,
+        13,
+        0.3,
+        false,
+        true
+      );
+
+      this.animations[6][1] = this.animations[0][1];
+      this.spritesheetDamaged,
+      146,
+      0,
+      80.02,
+      112,
+      13,
+      0.3,
+      false,
+      true
     }
   
     updateBB() {
@@ -272,6 +297,7 @@
       this.game.entities.forEach(function (entity) {
        
         if(entity.BB && that.BB && that.BB.collide(entity.BB) && entity !== that) {
+          that.damaged = true;
           if (
             (entity instanceof Floor) &&
             that.lastBB.bottom <= entity.BB.top
@@ -300,10 +326,7 @@
                 that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
                 entity.loseDragonHeart();
-                
-                
                 that.lowtimer = 0;
-                
               }
             }
            
@@ -424,8 +447,18 @@
   
     draw(ctx) {
       if(this.lives > 0) {
-        if(this.state === 1 ) {
-          this.animations[this.state][this.facing].drawFrame(
+
+        if(this.state === 1) {
+          // if (this.damaged === true){
+          //   this.animations[this.state+5][this.facing].drawFrame(
+          //     this.game.clockTick,
+          //     ctx,
+          //     (this.x - this.game.camera.x - 300),
+          //     (this.y - 100)
+          //     );
+          //}
+          
+            this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
             this.x - this.game.camera.x - 300,
