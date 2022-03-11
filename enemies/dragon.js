@@ -26,6 +26,7 @@
         this.facing = 1;
         this.state = 0; // 0 = idle, 1 = low attack, dying, dead, mid attack, high attack
         this.damaged = false;
+        this.hurtframes = 0;
         this.dead = false;
 
       // spritesheets for the dragon
@@ -202,9 +203,6 @@
     die() {}
   
     update() {
-      this.damaged = false;
-      
-      
       if (this.state === 1 || this.state === 4 || this.state === 5) {
         ASSET_MANAGER.playSFX('./sfx/dragon_attack.wav');
       }
@@ -220,10 +218,6 @@
       var that = this;
       const TICK = that.game.clockTick;
       this.game.entities.forEach(function (entity) {
-
-        if (entity instanceof Knight && that.BB.collide(entity.spearBox) && entity.state === 4){
-          that.damaged = true;
-        }
        
         if(entity.BB && that.BB && that.BB.collide(entity.BB) && entity !== that) {
           if (
@@ -331,7 +325,6 @@
                 that.lastAttack = undefined;
                 that.uppertimer = 0;
             } else {
-              
               that.timeSinceLastAttack += that.game.clockTick;
             }
 
@@ -352,7 +345,6 @@
     loseHeart() {
       this.lives--;
       ASSET_MANAGER.playSFX('./sfx/dragon_hurt.wav');
-
 
       console.log(this.lives);
       if(this.lives <= 0) {
@@ -397,6 +389,7 @@
             9
             );
         }
+        //If we are not attacking in any of the 3 attack areas we are "idle"
         else if (this.state === 4){
           this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
@@ -406,8 +399,10 @@
             9
             );
         }
+        //If we are damaged while idle we are damaged and show the damaged spritesheet
+        //We check what frame we are on and set our damaged = false after 3 frames
         else {
-          if (this.damaged){
+          if (this.damaged && this.animations[this.state][this.facing].currentFrame() - this.hurtframes < 1){
             this.animations[6][this.facing].drawFrame(
               this.game.clockTick,
               ctx,
@@ -418,6 +413,7 @@
               this.animations[0][1].elapsedTime = this.animations[6][1].elapsedTime;
           }
           else{
+            this.damaged = false;
             this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
