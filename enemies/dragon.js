@@ -25,6 +25,8 @@
         this.size = 0;
         this.facing = 1;
         this.state = 0; // 0 = idle, 1 = low attack, dying, dead, mid attack, high attack
+        this.damaged = false;
+        this.hurtframes = 0;
         this.dead = false;
 
       // spritesheets for the dragon
@@ -32,6 +34,9 @@
       this.spritesheetUpperAttack = ASSET_MANAGER.getAsset("./sprites/DragonUpperAttack.png");
       this.spritesheetMidAttack = ASSET_MANAGER.getAsset("./sprites/DragonMidAttack.png")
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/DragonRev2.png");
+      this.spritesheetUpperAttackDamaged = ASSET_MANAGER.getAsset("./sprites/DragonUpperAttackDamaged.png");
+      this.spritesheetMidAttackDamaged = ASSET_MANAGER.getAsset("./sprites/DragonMidAttackDamaged.png")
+      this.spritesheetDamaged = ASSET_MANAGER.getAsset("./sprites/DragonRev2Damaged.png");
   
       this.lives = 1000;
   
@@ -63,18 +68,7 @@
   
       // 0 = idle, 1 = lower attack, 2 = dying, 3 = dead, 4 = mid, 5 = upper
       // facing right = 0
-      this.animations[0][0] = new Animator(
-        this.spritesheet,
-        146,
-        0,
-        80.02,
-        112,
-        13,
-        0.3,
-        false,
-        true
-      );
-  
+
       this.animations[0][1] = new Animator(
         this.spritesheet,
         17,
@@ -85,18 +79,6 @@
         0.2,
         true,
         true
-      );
-  
-      this.animations[1][0] = new Animator(
-        this.spritesheet,
-        6,
-        602,
-        134,
-        106,
-        4,
-        0.15,
-        false,
-        false
       );
       
       this.animations[1][1] = new Animator(
@@ -111,18 +93,6 @@
         true
       );
       
-      this.animations[2][0] = new Animator(
-        this.spritesheet,
-        8,
-        739,
-        116,
-        126,
-        5,
-        0.2,
-        false,
-        false
-      );
-  
       this.animations[2][1] = new Animator(
         this.spritesheet,
         0,
@@ -135,18 +105,6 @@
         false
       );
   
-      this.animations[3][0] = new Animator(
-        this.spritesheet,
-        479,
-        812,
-        97,
-        32,
-        1,
-        123,
-        false,
-        true
-      );
-  
       this.animations[3][1] = new Animator(
         this.spritesheet,
         479,
@@ -156,18 +114,6 @@
         1,
         123,
         false,
-        true
-      );
-
-      this.animations[4][0] = new Animator(
-        this.spritesheetMidAttack,
-        0,
-        0,
-        400,
-        200,
-        6,
-        0.15,
-        true,
         true
       );
 
@@ -183,18 +129,6 @@
         true
       );
 
-      this.animations[5][0] = new Animator(
-        this.spritesheetUpperAttack,
-        0,
-        0,
-        400,
-        200,
-        7,
-        0.15,
-        true,
-        true
-      );
-
       this.animations[5][1] = new Animator(
         this.spritesheetUpperAttack,
         0,
@@ -206,8 +140,22 @@
         false,
         true
       );
-  
-      
+
+
+      this.animations[6][1] = new Animator (
+        this.spritesheetDamaged,
+        17,
+        0,
+        80.0,
+        113,
+        this.animations[0][1].frameCount,
+        this.animations[0][1].frameDuration,
+        true,
+        true
+      );
+
+      this.animations[6][1].elapsedTime = this.animations[0][1].elapsedTime;
+      this.animations[6][1].totalTime = this.animations[0][1].totalTime;
     }
   
     updateBB() {
@@ -300,10 +248,7 @@
                 that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
                 entity.loseDragonHeart();
-                
-                
                 that.lowtimer = 0;
-                
               }
             }
            
@@ -380,7 +325,6 @@
                 that.lastAttack = undefined;
                 that.uppertimer = 0;
             } else {
-              
               that.timeSinceLastAttack += that.game.clockTick;
             }
 
@@ -402,7 +346,6 @@
       this.lives--;
       ASSET_MANAGER.playSFX('./sfx/dragon_hurt.wav');
 
-
       console.log(this.lives);
       if(this.lives <= 0) {
         this.state = 2;
@@ -423,9 +366,13 @@
     }
   
     draw(ctx) {
+      // ctx.fillStyle = "white";
+      // ctx.font = '40px monospace';
+      // ctx.fillText("Current frame #: " + this.animations[this.state][this.facing].currentFrame(), this.x, this.y);
       if(this.lives > 0) {
-        if(this.state === 1 ) {
-          this.animations[this.state][this.facing].drawFrame(
+
+        if(this.state === 1) {
+            this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
             this.x - this.game.camera.x - 300,
@@ -442,6 +389,7 @@
             9
             );
         }
+        //If we are not attacking in any of the 3 attack areas we are "idle"
         else if (this.state === 4){
           this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
@@ -451,14 +399,30 @@
             9
             );
         }
+        //If we are damaged while idle we are damaged and show the damaged spritesheet
+        //We check what frame we are on and set our damaged = false after 3 frames
         else {
-          this.animations[this.state][this.facing].drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x - this.game.camera.x,
-          this.y,
-          9
-          );
+          if (this.damaged && this.animations[this.state][this.facing].currentFrame() - this.hurtframes < 1){
+            this.animations[6][this.facing].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - this.game.camera.x,
+              this.y,
+              9
+              );
+              this.animations[0][1].elapsedTime = this.animations[6][1].elapsedTime;
+          }
+          else{
+            this.damaged = false;
+            this.animations[this.state][this.facing].drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x - this.game.camera.x,
+            this.y,
+            9
+            );
+            this.animations[6][1].elapsedTime = this.animations[0][1].elapsedTime;
+          }
         }
       } else if(this.lives <= 0 && !this.dead) {
         this.velocity.x = 0;

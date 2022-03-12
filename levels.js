@@ -119,15 +119,16 @@ var levelDebug = {
     music: "./music/Clashing Steel.wav",
     label: "Debug",
     floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
-    statuepuzzles: [{x: 495, y:0, v: false}],
+    //statuepuzzles: [{x: 495, y:0, v: false}],
     //Signpost ids using 401 to 500 range for this level
     signposts: [{x: 300, y:610, w:130, h:130, id:401}],
-    platforms: [{ x: 397, y: 513, w: 270, h: 250 }],
+    platforms: [{ x: 297, y: 613, w: 270, h: 250 }],
     metalspikesfloor: [{x: 600, y:610, w:130, h:130}, {x: 880, y:610, w:130, h:130}],
     redapples: [{x: 800, y: 650, size: 1 }],
     healthbars: [{ x: 5, y: 5, size: 1 }],
     hungerbars: [{ x: 5, y: 60, size: 1 }],
-    bells: [{x: 250, y: 380, w: 64, h: 64}],
+    bells: [{x: 1050, y: 480, w: 100, h: 100}],
+    skeletons: [{x: 750, y: 450, size: 1}],
     backgrounds: [{x: 0, y: 0, size: 1}]
 };
 

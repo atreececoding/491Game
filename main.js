@@ -14,10 +14,13 @@ ASSET_MANAGER.queueDownload("./sprites/skeletons.png");
 ASSET_MANAGER.queueDownload("./sprites/skeletonsRev.png");
 ASSET_MANAGER.queueDownload("./sprites/Dragon2.png");
 ASSET_MANAGER.queueDownload("./sprites/DragonRev2.png");
+ASSET_MANAGER.queueDownload("./sprites/DragonRev2Damaged.png");
 ASSET_MANAGER.queueDownload("./sprites/dragon2_grid.png");
 ASSET_MANAGER.queueDownload("./sprites/DragonDead.png");
 ASSET_MANAGER.queueDownload("./sprites/DragonMidAttack.png");
 ASSET_MANAGER.queueDownload("./sprites/DragonUpperAttack.png");
+ASSET_MANAGER.queueDownload("./sprites/DragonMidAttackDamaged.png");
+ASSET_MANAGER.queueDownload("./sprites/DragonUpperAttackDamaged.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/floorLevelTwo.png");
 ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
@@ -48,6 +51,8 @@ ASSET_MANAGER.queueDownload("./sprites/message.png");
 ASSET_MANAGER.queueDownload("./sprites/signpost.png");
 ASSET_MANAGER.queueDownload("./sprites/statuepuzzle.png");
 ASSET_MANAGER.queueDownload("./sprites/bells.png");
+ASSET_MANAGER.queueDownload("./sprites/skele_walk_grid.png");
+ASSET_MANAGER.queueDownload("./sprites/skele_walk_grid_rev.png");
 
 // Music
 ASSET_MANAGER.queueDownload("./music/AstralAcademy.mp3");

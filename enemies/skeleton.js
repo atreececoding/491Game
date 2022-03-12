@@ -4,6 +4,8 @@ class Skeleton {
     
         this.velocity = { x: 0, y: 0 };
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/skeletons.png");
+        this.walkSpritesheet = ASSET_MANAGER.getAsset("./sprites/skele_walk_grid.png");
+        this.walkRevSpritesheet = ASSET_MANAGER.getAsset("./sprites/skele_walk_grid_rev.png");
         this.spritesheetRev = ASSET_MANAGER.getAsset("./sprites/skeletonsRev.png");
     
         this.patLeft = this.x - 400;
@@ -55,13 +57,13 @@ class Skeleton {
         //Walking
         //facing right = 0
         this.animations[0][0] = new Animator(
-          this.spritesheet,
-          X_OFFSET, Y_OFFSET_2, 64, HEIGHT, FRAME_COUNT2, ANIMATION_SPEED_1, NO_REVERSE, LOOP
+          this.walkSpritesheet,
+          X_OFFSET, 0, 100, 100, 9, ANIMATION_SPEED_1, NO_REVERSE, LOOP
         );
         //facing left = 1
         this.animations[0][1] = new Animator(
-          this.spritesheetRev,
-          262, Y_OFFSET_3, WIDTH, HEIGHT, FRAME_COUNT2, ANIMATION_SPEED_1, REVERSE, LOOP
+          this.walkRevSpritesheet,
+          X_OFFSET, 0, 100, 100, 9, ANIMATION_SPEED_1, REVERSE, LOOP
         );
     
         //attacking
@@ -94,7 +96,7 @@ class Skeleton {
       updateBB() {
         this.lastBB = this.BB;
         this.BB = new BoundingBox(
-          this.x,
+          this.x ,
           this.y,
           PARAMS.BLOCKWIDTH,
           PARAMS.BLOCKHEIGHT * 1.25
@@ -111,8 +113,6 @@ class Skeleton {
       die() {}
     
       update() {
-        
-        // Patrolling is hardcoded need to fix
         if (this.x <= this.patLeft && this.facing === 1) {
           this.x = this.patLeft;
           this.velocity.x = 75;
@@ -232,6 +232,7 @@ class Skeleton {
         }
       }
       draw(ctx) {
+        
         if(this.lives > 0) {
           if(this.state === 1) {
             this.animations[this.state][this.facing].drawFrame(
@@ -246,12 +247,12 @@ class Skeleton {
             this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
-            this.x - this.game.camera.x,
-            this.y,
+            this.x - this.game.camera.x - 50,
+            this.y - 25,
             2
             );
           }
-        } else if(this.lives <= 0 && (this.facing === 0 || this.facing === 1)) {
+        } else if(this.lives <= 0) {
           this.velocity.x = 0;
           this.animations[this.state][this.facing].drawFrame(
             this.game.clockTick,

@@ -173,24 +173,7 @@ class Knight {
       }
     }
     else if (this.state === 5) {
-        // if(this.facing == 0) {
-        //   console.log("working");
-        //   // this.velocity.x = -250;
-        //   // this.velocity.y = -150;
-        //   // this.x += this.velocity.x * TICK;
-        //   // this.y += this.velocity.y * TICK;
 
-        //   // this.updateBB();
-        // }
-        // else {
-        //   console.log("working");
-        //   this.velocity.x = 250;
-        //   this.velocity.y = -150;
-        //   this.x += this.velocity.x * TICK;
-        //   this.y += this.velocity.y * TICK;
-
-        // this.updateBB();
-       // }
         if (this.animations[this.state][this.facing].isDone()) {
           this.animations[this.state][this.facing].reset();
           this.state = 0;
@@ -477,6 +460,14 @@ class Knight {
 
       // Spear / attack hitbox code
       if(entity.BB && that.spearBox.collide(entity.BB) && entity !== that) {
+
+        //Attacking the dragon, setting it to damaged state, logging the current frame of animation for sprite swapping
+        if (entity instanceof Dragon && that.state === 4) {
+          entity.damaged = true;
+          entity.hurtframes = entity.animations[entity.state][entity.facing].currentFrame();
+        }
+
+
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Rat || entity instanceof Skeleton) && !entity.dead) {
           if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
             if(that.state === 4) {
