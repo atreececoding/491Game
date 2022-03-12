@@ -526,7 +526,11 @@ class Knight {
   
 
   loseDragonHeart() { //Dragon hurts us for 2 so a separate function than loseHeart function here
-    this.lives-=2;
+    this.hurtTimer+= this.game.clockTick;
+    if (this.hurtTimer > 2) {
+      this.hurtTimer = 0;
+      this.lives-=2;
+    }
   }
 
   //Items give us energy
