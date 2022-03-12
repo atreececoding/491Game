@@ -45,8 +45,15 @@
         x: VELOCITY_X,
         y: VELOCITY_Y,
       };
-      this.lastFire = 0;
+      this.fireTimer = 0;
       this.timeSinceLastFire = 2;
+
+      this.lowTimed = false;
+      this.midTimed = false;
+      this.upperTimed = false;
+
+      this.fireTimed = false;
+      //this.fireStart = false;
       
       this.GRAVITY = 1;
       // initialize bounding box
@@ -172,7 +179,7 @@
         this.x-150,
         this.y - 200 ,
         PARAMS.BLOCKWIDTH * 2,
-        PARAMS.BLOCKWIDTH * 6
+        PARAMS.BLOCKWIDTH * 3
       );
 
       this.lastLowerBB = this.lowerBB; 
@@ -203,6 +210,8 @@
     die() {}
   
     update() {
+
+
       if (this.state === 1 || this.state === 4 || this.state === 5) {
         ASSET_MANAGER.playSFX('./sfx/dragon_attack.wav');
       }
@@ -226,114 +235,109 @@
           ) {
             that.y = entity.BB.top - PARAMS.BLOCKHEIGHT * 3.967;
             that.velocity.y = 0;
-            //console.log("collided with floor");
           } 
         }
         if(that.state !== 3 && that.state !== 2) {
-          if (entity.BB && that.lowerBB.collide(entity.BB) && entity !== that) {
+          if (entity.BB && that.lowerBB.collide(entity.BB) && entity !== that && !that.midTimed && !that.upperTimed) {
             if (entity instanceof Knight) {
               if (entity.BB.right >= that.lowerBB.right) {
                 entity.x = that.lowerBB.right - entity.BB.width;
               }
-              if (that.lowtimer === undefined) {
-                that.lowtimer = 0;
-              }
-              else {
-                that.lowtimer += that.game.clockTick;
-                console.log(that.lowtimer);
-              }
-              if (that.lowtimer > FIRE_PREP) {
-                console.log("Lower fire");
-                that.state = 1;
-                that.lastAttack = that.game.clockTick;
-                that.timeSinceLastAttack = 0;
-                entity.loseDragonHeart();
-                that.lowtimer = 0;
-              }
-            }
-           
-            
-            if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
-                
-                that.state = 0;
-                that.lastAttack = undefined;
-                that.lowtimer = 0;
-            } else {
-              
-              that.timeSinceLastAttack += that.game.clockTick;
+              that.lowTimed = true;
             }
 
           }
           
-          else if (entity.BB && that.midBB.collide(entity.BB) && entity !== that) {
+          else if (entity.BB && that.midBB.collide(entity.BB) && entity !== that && !that.upperTimed && !that.lowTimed) {
             if (entity instanceof Knight) {
               if (entity.BB.right >= that.midBB.right) {
                 entity.x = that.midBB.right - entity.BB.width;
               }
-              if (that.midtimer === undefined) {
-                that.midtimer = 0;
-              }
-              else {
-                that.midtimer += that.game.clockTick;
-                console.log(that.midtimer);
-              }
-              if (that.midtimer > FIRE_PREP) {
-                that.state = 4;
-                that.lastAttack = that.game.clockTick;
-                that.timeSinceLastAttack = 0;
-                entity.loseDragonHeart();
-                
-                that.midtimer = 0;
-              }
-            } 
-            if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
-                
-                that.state = 0;
-                that.lastAttack = undefined;
-                that.midtimer = 0;
-            } else {
+              that.midTimed = true;
               
-              that.timeSinceLastAttack += that.game.clockTick;
-            }
+            } 
 
           }
           
-          else if (entity.BB && that.upperBB.collide(entity.BB) && entity !== that) {
+          else if (entity.BB && that.upperBB.collide(entity.BB) && entity !== that && !that.midTimed && !that.lowTimed) {
             if (entity instanceof Knight) {
               if (entity.BB.right >= that.upperBB.right) {
                 entity.x = that.upperBB.right - entity.BB.width;
               }
-              if (that.uppertimer === undefined) {
-                that.uppertimer = 0;
-              }
-              else {
-                that.uppertimer += that.game.clockTick;
-                console.log(that.uppertimer);
-              }
-              if (that.uppertimer > FIRE_PREP) {
-                that.state = 5;
-                that.lastAttack = that.game.clockTick;
-                that.timeSinceLastAttack = 0;
-                entity.loseDragonHeart();
-                
-                that.uppertimer = 0;
-              }
+              that.upperTimed = true;
+              
             } 
-            if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
-                
-                that.state = 0;
-                that.lastAttack = undefined;
-                that.uppertimer = 0;
-            } else {
-              that.timeSinceLastAttack += that.game.clockTick;
+          }
+         
+          if(entity.BB && (that.lowerBB.collide(entity.BB) || that.upperBB.collide(entity.BB) || that.midBB.collide(entity.BB)) && entity !== that) {
+            if(entity instanceof Knight) {
+              that.fireTimed = true;
             }
+          }
+         
+          if (that.fireTimed) {
+              that.fireTimer += that.game.clockTick;
+              //console.log("got here " + that.fireTimer);
+              console.log(that.fireTimer);
+          }
 
+          if (that.fireTimer > 100) {
+            console.log("fire");
+            if(that.lowTimed && that.state !== 4 && that.state !== 5) {
+              that.state = 1;
+            }
+            else if (that.midTimed && that.state !== 1 && that.state !== 5) {
+              that.state = 4;
+            }
+            else if (that.upperTimed && that.state !== 1 && that.state !== 4) {
+              that.state = 5;
+            }
+            that.lastAttack = that.game.clockTick;
+            that.timeSinceLastAttack = 0;
+            if(entity.BB && that.lowTimed && !that.midTimed && !that.upperTimed && that.lowerBB.collide(entity.BB) && entity !== that && that.state === 1 && that.state !== 4 && that.state !== 5) {
+              if(entity instanceof Knight)
+                entity.loseDragonHeart();
+            }
+            else if(entity.BB && that.midTimed && !that.lowTimed && !that.upperTimed && that.midBB.collide(entity.BB) && entity !== that && that.state === 4 && that.state !== 5 && that.state !== 1) {
+              if(entity instanceof Knight)
+                entity.loseDragonHeart();
+            }
+            else if(entity.BB && that.upperTimed && !that.lowTimed && !that.midTimed && that.upperBB.collide(entity.BB) && entity !== that && that.state === 5 && that.state !== 4 && that.state !== 1) {
+              if(entity instanceof Knight) {
+                console.log("lost heart");
+                entity.loseDragonHeart();
+              }
+            }
+            if(that.fireTimer > 200) {
+              that.fireTimed = false;
+              that.fireTimer = 0;
+              console.log("reset");
+              if(that.lowTimed) {
+                that.lowTimed = false;
+              }
+              else if (that.midTimed) {
+                that.midTimed = false;
+              }
+              else if (that.upperTimed) {
+                that.upperTimed = false;
+              }
+            }
           }
-          else if (entity instanceof Knight && !that.lowerBB.collide(entity.BB) && !that.midBB.collide(entity.BB) && !that.upperBB.collide(entity.BB)  && entity != that) {
-            that.lowtimer = 0;
-            that.midtimer = 0;
-            that.uppertimer = 0;
+
+          if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
+                
+            that.state = 0;
+            that.lastAttack = undefined;
+            that.fireTimer = 0;
+          } else {
+            that.timeSinceLastAttack += that.game.clockTick;
           }
+
+          // else if (entity instanceof Knight && !that.lowerBB.collide(entity.BB) && !that.midBB.collide(entity.BB) && !that.upperBB.collide(entity.BB)  && entity != that) {
+          //   that.lowtimer = 0;
+          //   that.midtimer = 0;
+          //   that.uppertimer = 0;
+          // }
         }
         
       });
@@ -402,7 +406,7 @@
         //If we are damaged while idle we are damaged and show the damaged spritesheet
         //We check what frame we are on and set our damaged = false after 3 frames
         else {
-          if (this.damaged && this.animations[this.state][this.facing].currentFrame() - this.hurtframes < 1){
+          if (this.damaged && this.animations[this.state][this.facing].currentFrame() - this.hurtframes <= 1){
             this.animations[6][this.facing].drawFrame(
               this.game.clockTick,
               ctx,
