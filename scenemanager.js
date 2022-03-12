@@ -181,6 +181,12 @@ class SceneManager {
         this.game.addEntity(new redApple(this.game, redapple.x, redapple.y, redapple.size));
       }
     }
+    if (level.bluepotions) {
+      for(var i = 0; i < level.bluepotions.length; i++) {
+        let bluepotion = level.bluepotions[i];
+        this.game.addEntity(new BluePotion(this.game, bluepotion.x, bluepotion.y, bluepotion.size));
+      }
+    }
     if (level.goldapples) {
       for (var i = 0; i < level.goldapples.length; i++) {
         let goldapple = level.goldapples[i];
@@ -285,7 +291,10 @@ class SceneManager {
     else if (this.knight.gameOver) {
       this.knight.gameOver = false;
       this.clearEntities();
-      this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver)
+      this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver);
+      if(this.game.camera.level === bossRoom) {
+        this.knight.energy = 1000;
+      }
       this.loadLevel(this.level, 0, 555, true, false, false);
       this.lives = 5;
     }

@@ -11,7 +11,7 @@
     PATROL: 1,
     ATTACK: 2,
   };
-  const FIRE_PREP = 2;
+  const FIRE_PREP = 3;
   
   
   
@@ -287,14 +287,14 @@
               if (entity.BB.right >= that.lowerBB.right) {
                 entity.x = that.lowerBB.right - entity.BB.width;
               }
-              if (that.timer === undefined) {
-                that.timer = 0;
+              if (that.lowtimer === undefined) {
+                that.lowtimer = 0;
               }
               else {
-                that.timer += TICK;
-                console.log(that.timer);
+                that.lowtimer += that.game.clockTick;
+                console.log(that.lowtimer);
               }
-              if (that.timer > FIRE_PREP) {
+              if (that.lowtimer > FIRE_PREP) {
                 console.log("Lower fire");
                 that.state = 1;
                 that.lastAttack = that.game.clockTick;
@@ -302,7 +302,7 @@
                 entity.loseDragonHeart();
                 
                 
-                that.timer = 0;
+                that.lowtimer = 0;
                 
               }
             }
@@ -312,7 +312,7 @@
                 
                 that.state = 0;
                 that.lastAttack = undefined;
-                that.timer = 0;
+                that.lowtimer = 0;
             } else {
               
               that.timeSinceLastAttack += that.game.clockTick;
@@ -325,26 +325,27 @@
               if (entity.BB.right >= that.midBB.right) {
                 entity.x = that.midBB.right - entity.BB.width;
               }
-              if (that.timer === undefined) {
-                that.timer = 0;
+              if (that.midtimer === undefined) {
+                that.midtimer = 0;
               }
               else {
-                that.timer += TICK;
+                that.midtimer += that.game.clockTick;
+                console.log(that.midtimer);
               }
-              if (that.timer > FIRE_PREP) {
+              if (that.midtimer > FIRE_PREP) {
                 that.state = 4;
                 that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
                 entity.loseDragonHeart();
                 
-                that.timer = 0;
+                that.midtimer = 0;
               }
             } 
             if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
                 
                 that.state = 0;
                 that.lastAttack = undefined;
-                that.timer = 0;
+                that.midtimer = 0;
             } else {
               
               that.timeSinceLastAttack += that.game.clockTick;
@@ -357,26 +358,27 @@
               if (entity.BB.right >= that.upperBB.right) {
                 entity.x = that.upperBB.right - entity.BB.width;
               }
-              if (that.timer === undefined) {
-                that.timer = 0;
+              if (that.uppertimer === undefined) {
+                that.uppertimer = 0;
               }
               else {
-                that.timer += TICK;
+                that.uppertimer += that.game.clockTick;
+                console.log(that.uppertimer);
               }
-              if (that.timer > FIRE_PREP) {
+              if (that.uppertimer > FIRE_PREP) {
                 that.state = 5;
                 that.lastAttack = that.game.clockTick;
                 that.timeSinceLastAttack = 0;
                 entity.loseDragonHeart();
                 
-                that.timer = 0;
+                that.uppertimer = 0;
               }
             } 
             if (that.lastAttack && abs(that.lastAttack - that.timeSinceLastAttack) > 2) {
                 
                 that.state = 0;
                 that.lastAttack = undefined;
-                that.timer = 0;
+                that.uppertimer = 0;
             } else {
               
               that.timeSinceLastAttack += that.game.clockTick;
@@ -384,7 +386,9 @@
 
           }
           else if (entity instanceof Knight && !that.lowerBB.collide(entity.BB) && !that.midBB.collide(entity.BB) && !that.upperBB.collide(entity.BB)  && entity != that) {
-            that.timer = 0;
+            that.lowtimer = 0;
+            that.midtimer = 0;
+            that.uppertimer = 0;
           }
         }
         

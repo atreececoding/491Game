@@ -23,6 +23,7 @@ ASSET_MANAGER.queueDownload("./sprites/floorLevelTwo.png");
 ASSET_MANAGER.queueDownload("./sprites/Platform1.png");
 ASSET_MANAGER.queueDownload("./sprites/platformlevel2.png");
 ASSET_MANAGER.queueDownload("./sprites/energydrink.png");
+ASSET_MANAGER.queueDownload("./sprites/bluePotion.png");
 ASSET_MANAGER.queueDownload("./sprites/goldApple.png");
 ASSET_MANAGER.queueDownload("./sprites/redApple.png");
 ASSET_MANAGER.queueDownload("./sprites/health_bar.png");

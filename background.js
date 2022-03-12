@@ -50,7 +50,7 @@ class Floor {
       }
     }
     else if(this.game.camera.level === levelTwo) {
-      for (var i = 0; i <= 12000; i += 78) {
+      for (var i = 0; i <= 14000; i += 78) {
         ctx.drawImage(this.spritesheetTwo, i - this.game.camera.x, 735, 78, 77);
       }
     }
@@ -228,12 +228,18 @@ class Bell {
     Object.assign(this, { game, x, y, w, h });
     this.spritesheet = ASSET_MANAGER.getAsset("./sprites/bells.png");
     this.isImpassible = true;
+    this.belltimer = 0;
+    this.belltimed = false;
     this.puzzlesolved = false;
     this.BB = new BoundingBox(this.x, this.y, this.w, this.h);
   }
     update() {
       if (this.puzzlesolved) {
         this.game.puzzlesolved = true;
+        this.belltimer += this.game.clockTick;
+        if(this.belltimer < 1) {
+          ASSET_MANAGER.playSFX("./sfx/bell_bong.mp3");
+        }
       }
     };
 
@@ -493,10 +499,12 @@ class CastleGates {
     }
     );
     if(that.game.camera.level === levelOne && that.state === 2 && that.game.keys["up"]) {
+      ASSET_MANAGER.pauseBackgroundMusic();
       this.game.camera.loadLevel(levelTwo, 0, 0, false, false, false);
       console.log("loaded level two");
     }
     else if(that.game.camera.level === levelTwo && that.state === 2 && that.game.keys["up"]) {
+      ASSET_MANAGER.pauseBackgroundMusic();
       this.game.camera.loadLevel(bossRoom, 0, 0, false, false, false);
       console.log("loaded boss room");
     }

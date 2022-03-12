@@ -334,7 +334,6 @@ class Knight {
         that.x = entity.wallBB.left - that.BB.width;
         console.log('colliding with wallBB');
       }
-
       if (entity instanceof SignPost && that.BB.collide(entity.BB) && entity !== that){
         entity.display = true;
       }
@@ -354,10 +353,13 @@ class Knight {
 
       if (entity.BB && that.BB.collide(entity.BB) && entity !== that) {
 
+        if(entity instanceof CastleGates && that.game.keys["up"]) {
+          that.energy++;
+        }
         if (entity instanceof Bell){
 
-          ASSET_MANAGER.playSFX('./sfx/bell_bong.mp3');
           entity.puzzlesolved = true;
+          entity.belltimer = 0;
         }
 
         // falling
@@ -452,6 +454,11 @@ class Knight {
         if (entity instanceof EnergyJuice && !entity.dead) {
           entity.removeFromWorld = true;
           that.gainEnergy();
+          ASSET_MANAGER.playSFX('./sfx/red_bull.wav');
+        }
+        if (entity instanceof BluePotion && !entity.dead) {
+          entity.removeFromWorld = true;
+          that.gainBluePotionEnergy();
           ASSET_MANAGER.playSFX('./sfx/red_bull.wav');
         }
 
@@ -568,6 +575,13 @@ class Knight {
     }
     this.win();
 
+  }
+
+  gainBluePotionEnergy() {
+    this.energy += 1000;
+    if(this.lives < 5) {
+      this.lives = 5;
+    }
   }
 
   gainRedAppleEnergy() {

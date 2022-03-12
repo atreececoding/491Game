@@ -71,7 +71,7 @@ var levelOne = {
 };
 
 var levelTwo = {
-    music: "./music/AstralAcademy.mp3",
+    music: "./music/Desert.wav",
     label: "1-2",
         //Signpost ids using 201 to 300 range for this level
     floors: [{ x: 0, y: 735, size: 800 }, {x: 0, y: -202, size: 800}],
@@ -93,13 +93,13 @@ var levelTwo = {
             //Stacked crates below here:
             {x:5140, y:480, w:130, h:130}, {x:5270, y:480, w:130, h:130}],
     statuepuzzles: [{x: -150, y:0, w:150, h:800, v: false},
-                    {x: 10950, y:0, w:250, h:550, v: true},
+                    {x: 11000, y:0, w:250, h:550, v: true},
                     {x: 11950, y:0, w:150, h:800, v: false}],
     bells: [{x: 10450, y: 0, w: 200, h: 320}],
+    bluepotions: [{x: 11035, y: 625, size: 1}],
     redapples: [{x: 1165, y: 600, size: 1 }, {x: 2295, y: 210, size: 1},
                 {x: 4275, y: 600, size: 1},{x: 6545, y: 165, size: 1}, 
-                {x: 7770, y: 200, size: 1},{x: 9485, y: 125, size: 1},
-                {x: 11055, y: 625, size: 1}, {x: 11055, y: 590, size: 1}],
+                {x: 7770, y: 200, size: 1},{x: 9485, y: 125, size: 1}],
     platforms: [{ x: 5800, y: 425, w: 270, h: 250 }, { x: 7400, y: 425, w: 270, h: 250 },
                 { x: 9000, y: 425, w: 270, h: 250 }],
     skeletons: [{x: 750, y: 450, size: 1}, {x: 3700, y: 450, size: 1}, {x: 4730, y: 450, size: 1},
@@ -132,7 +132,7 @@ var levelDebug = {
 };
 
 var bossRoom = {
-    music: "./music/AstralAcademy.mp3",
+    music: "./music/Clashing Steel.wav",
     label: "BossRoom",
     crates: [{ x: -130, y: 610, w: 130, h: 130}, {x: -130, y: 485, w: 130, h: 130}, {x: -130, y: 360, w: 130, h: 130}, {x: -130, y: 235, w: 130, h: 130},
         {x: -130, y: 110, w: 130, h: 130}, {x: -130, y: -15, w: 130, h: 130}, {x: -130, y: -140, w: 130, h: 130}, {x: 0, y: -140, w: 130, h: 130},],
