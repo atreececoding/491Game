@@ -472,8 +472,11 @@ class Knight {
 
         //Attacking the dragon, setting it to damaged state, logging the current frame of animation for sprite swapping
         if (entity instanceof Dragon && that.state === 4) {
-          entity.damaged = true;
-          entity.hurtframes = entity.animations[entity.state][entity.facing].currentFrame();
+          if(((that.lastRightSpearBB.right <= entity.BB.left) && (that.facing === 0)) || (that.lastLeftSpearBB.left >= entity.BB.right) && (that.facing === 1)) {
+            entity.damaged = true;
+            entity.hurtframes = entity.animations[entity.state][entity.facing].currentFrame();
+          }
+          
         }
 
 
