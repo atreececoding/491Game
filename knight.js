@@ -398,19 +398,19 @@ class Knight {
         if (that.facing === 0) {
           if ((entity.isImpassible || entity.isSpikes) 
             && (that.BB.right >= entity.BB.left) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
-            if (entity instanceof Rat) {
-              
-            }
-            if(entity instanceof Crate) {
-            }
             that.x = entity.BB.left - that.BB.width;
 
             that.velocity.x = 0;
-            that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
               ASSET_MANAGER.playSFX('./sfx/crate_hit.wav');
             }
           } 
+
+          else if ((entity instanceof Goblin || entity instanceof Dragon) && (that.BB.right >= entity.BB.left) &&
+           !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+            that.x = entity.BB.left - that.BB.width;
+            that.velocity.x = 0;
+          }
 
         }
         //facing left collssion
@@ -418,17 +418,20 @@ class Knight {
           if ((entity.isImpassible || entity.isSpikes) 
               && (that.BB.left <= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
             that.x = entity.BB.right;
-          console.log('colliding with impassible facing left');
 
             that.velocity.x = 0;
-            that.updateBB();
             if (entity instanceof Crate && (that.state === 1 || that.state === 2)) {
               ASSET_MANAGER.playSFX('./sfx/crate_hit.wav');
             }
-            if (entity instanceof Rat) {
-              
-            }
+           
           }
+
+          else if ((entity instanceof Goblin || entity instanceof Dragon) && 
+           (that.BB.left <= entity.BB.right) && !(that.lastBB.bottom <= entity.BB.top) && !(that.lastBB.top >= entity.BB.bottom)) {
+            that.x = entity.BB.left - that.BB.width;
+            that.velocity.x = 0;
+          }
+
         
         }
 
