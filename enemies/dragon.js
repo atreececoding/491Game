@@ -161,8 +161,42 @@
         true
       );
 
-      this.animations[6][1].elapsedTime = this.animations[0][1].elapsedTime;
-      this.animations[6][1].totalTime = this.animations[0][1].totalTime;
+      this.animations[7][1] = new Animator (
+        this.spritesheetDamaged,
+        726,
+        598,
+        140,
+        115,
+        4,
+        0.2,
+        true,
+        true
+      );
+
+      this.animations[8][1] = new Animator(
+        this.spritesheetMidAttackDamaged,
+        0,
+        0,
+        400,
+        200,
+        6,
+        0.15,
+        false,
+        true
+      );
+
+      this.animations[9][1] = new Animator(
+        this.spritesheetUpperAttackDamaged,
+        0,
+        0,
+        400,
+        200,
+        7,
+        0.15,
+        false,
+        true
+      );
+
     }
   
     updateBB() {
@@ -370,62 +404,102 @@
     }
   
     draw(ctx) {
-      // ctx.fillStyle = "white";
-      // ctx.font = '40px monospace';
-      // ctx.fillText("Current frame #: " + this.animations[this.state][this.facing].currentFrame(), this.x, this.y);
       if(this.lives > 0) {
 
         if(this.state === 1) {
-            this.animations[this.state][this.facing].drawFrame(
-            this.game.clockTick,
-            ctx,
-            this.x - this.game.camera.x - 300,
-            this.y - 100,
-            9
-            );
-        }
-        else if(this.state === 5) {
-          this.animations[this.state][this.facing].drawFrame(
-            this.game.clockTick,
-            ctx,
-            this.x - this.game.camera.x - 350,
-            this.y - 150,
-            9
-            );
-        }
-        //If we are not attacking in any of the 3 attack areas we are "idle"
-        else if (this.state === 4){
-          this.animations[this.state][this.facing].drawFrame(
-            this.game.clockTick,
-            ctx,
-            this.x - this.game.camera.x - 1200,
-            this.y - 475,
-            9
-            );
-        }
-        //If we are damaged while idle we are damaged and show the damaged spritesheet
-        //We check what frame we are on and set our damaged = false after 3 frames
-        else {
-          if (this.damaged && this.animations[this.state][this.facing].currentFrame() - this.hurtframes <= 1){
-            this.animations[6][this.facing].drawFrame(
+            if(this.damaged === false){
+              this.animations[this.state][this.facing].drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x - this.game.camera.x,
+                this.y,
+                9
+                );
+                this.animations[7][1].elapsedTime = this.animations[0][1].elapsedTime;
+            }
+            else{
+              this.damaged = false;
+              this.animations[this.state+6][this.facing].drawFrame(
               this.game.clockTick,
               ctx,
               this.x - this.game.camera.x,
               this.y,
               9
               );
-              this.animations[0][1].elapsedTime = this.animations[6][1].elapsedTime;
+              this.animations[0][1].elapsedTime = this.animations[7][1].elapsedTime;
+            }
+        }
+        else if(this.state === 5) {
+          if (this.damaged === false){
+            this.animations[this.state][this.facing].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - this.game.camera.x - 350,
+              this.y - 150,
+              9
+              );
+              this.animations[9][1].elapsedTime = this.animations[5][1].elapsedTime;
           }
           else{
             this.damaged = false;
+            this.animations[this.state+4][this.facing].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - this.game.camera.x - 350,
+              this.y - 150,
+              9
+              );
+              this.animations[5][1].elapsedTime = this.animations[9][1].elapsedTime;
+          }
+        }
+        //If we are not attacking in any of the 3 attack areas we are "idle"
+        else if (this.state === 4){
+          if (this.damaged === false){
             this.animations[this.state][this.facing].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - this.game.camera.x - 1200,
+              this.y - 475,
+              9
+              );
+              this.animations[8][1].elapsedTime = this.animations[4][1].elapsedTime;
+          }
+          else{
+            this.damaged = false;
+            this.animations[this.state+4][this.facing].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - this.game.camera.x - 1200,
+              this.y - 475,
+              9
+              );
+              this.animations[4][1].elapsedTime = this.animations[8][1].elapsedTime;
+          }
+
+        }
+        //If we are damaged while idle we are damaged and show the damaged spritesheet
+        //We check what frame we are on and set our damaged = false after 3 frames
+        else {
+          if (this.damaged === false){
+            this.animations[this.state][this.facing].drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x - this.game.camera.x,
+              this.y,
+              9
+              );
+              this.animations[6][1].elapsedTime = this.animations[0][1].elapsedTime;
+          }
+          else{
+            this.damaged = false;
+            this.animations[this.state+6][this.facing].drawFrame(
             this.game.clockTick,
             ctx,
             this.x - this.game.camera.x,
             this.y,
             9
             );
-            this.animations[6][1].elapsedTime = this.animations[0][1].elapsedTime;
+            this.animations[0][1].elapsedTime = this.animations[6][1].elapsedTime;
           }
         }
       } else if(this.lives <= 0 && !this.dead) {
