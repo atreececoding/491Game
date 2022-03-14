@@ -96,11 +96,20 @@ class Knight {
       PARAMS.BLOCKHEIGHT * .9
     );
 
-    this.lastSpearBB = this.spearBox;
-    this.spearBox = new BoundingBox(
-      this.x - 70,
+    this.lastLeftSpearBB = this.leftSpearBB;
+    this.leftSpearBB = new BoundingBox(
+      this.x + this.BB.width,
       this.y + 20,
-      PARAMS.BLOCKWIDTH * 2.5,
+      PARAMS.BLOCKWIDTH,
+      PARAMS.BLOCKHEIGHT * .5
+    );
+    
+
+    this.lastRightSpearBB = this.rightSpearBB;
+    this.rightSpearBB = new BoundingBox(
+      this.x - PARAMS.BLOCKWIDTH,
+      this.y + 20,
+      PARAMS.BLOCKWIDTH,
       PARAMS.BLOCKHEIGHT * .5
     );
   }
@@ -459,7 +468,7 @@ class Knight {
       }
 
       // Spear / attack hitbox code
-      if(entity.BB && that.spearBox.collide(entity.BB) && entity !== that) {
+      if(entity.BB && (that.leftSpearBB.collide(entity.BB) || that.rightSpearBB.collide(entity.BB)) && entity !== that) {
 
         //Attacking the dragon, setting it to damaged state, logging the current frame of animation for sprite swapping
         if (entity instanceof Dragon && that.state === 4) {
@@ -469,7 +478,7 @@ class Knight {
 
 
         if((entity instanceof Goblin || entity instanceof Dragon || entity instanceof Rat || entity instanceof Skeleton) && !entity.dead) {
-          if((that.lastSpearBB.right <= entity.BB.left || that.lastSpearBB.right >= entity.BB.left + 20)) {
+          if((that.lastRightSpearBB.right <= entity.BB.left) && (that.facing === 0)) {
             if(that.state === 4) {
               if (entity instanceof Goblin || entity instanceof Skeleton) {
                 entity.bounce();
@@ -488,7 +497,7 @@ class Knight {
               ASSET_MANAGER.playSFX('./sfx/spear_hit.mp3');
             }
           }
-          else if((that.lastSpearBB.left >= entity.BB.Right || that.lastSpearBB.right <= entity.BB.right - 20)) {
+          else if((that.lastLeftSpearBB.left >= entity.BB.right) && (that.facing === 1)) {
             if(that.state === 4) {
               if (entity instanceof Goblin || entity instanceof Skeleton) {
                 entity.bounce();
@@ -611,7 +620,10 @@ class Knight {
     if (this.game.options.debugging) {
       ctx.strokeStyle = "Red";
       ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-      ctx.strokeRect(this.spearBox.x - this.game.camera.x, this.spearBox.y, this.spearBox.width, this.spearBox.height);
+      ctx.strokeStyle = "White";
+      ctx.strokeRect(this.leftSpearBB.x - this.game.camera.x, this.leftSpearBB.y, this.leftSpearBB.width, this.leftSpearBB.height);
+      ctx.strokeStyle = "Blue";
+      ctx.strokeRect(this.rightSpearBB.x - this.game.camera.x, this.rightSpearBB.y, this.rightSpearBB.width, this.rightSpearBB.height);
     }
 
   }
