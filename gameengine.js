@@ -132,6 +132,9 @@ class GameEngine {
           break;
         case "Escape":
           that.paused = !that.paused;
+        case "Enter":
+          that.keys["enter"] = true;
+          break;
       }
     }
 

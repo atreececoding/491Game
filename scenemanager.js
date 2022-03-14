@@ -9,6 +9,7 @@ class SceneManager {
 
     this.gameOver = false;
     this.title = true;
+    this.storyScreen = false;
     this.level = null;
 
     this.knight = new Knight(this.game, this.lives, this.energy, this.gameOver);
@@ -48,7 +49,7 @@ class SceneManager {
     
 
 
-    if (!this.title && !this.winscreen) {
+    if (!this.title && !this.winscreen && !this.storyScreen) {
       if (level.music) {
         ASSET_MANAGER.playAsset(level.music);
       }
@@ -253,6 +254,15 @@ class SceneManager {
         800
       );
     }
+    if (this.storyScreen) {
+      ctx.drawImage(
+        ASSET_MANAGER.getAsset("./sprites/storyScreen.png"),
+        0,
+        0,
+        1200,
+        800
+      );
+    }
   }
   update() {
     let midpoint = 768/2 - PARAMS.BLOCKWIDTH/2;
@@ -283,11 +293,16 @@ class SceneManager {
     }
     else if (this.title && this.game.keys["click"]) {
       this.title = false;
-      this.loadLevel(levelOne, 0, 555, true, false, false);
+      this.storyScreen = true;
+      
     }
     // else if(!this.title && !this.knight.gameOver && !this.knight.winCondition && !levelOne) {
     //   this.loadLevel(this.level, 1, 1, true, false, false);
     // }
+    else if (this.storyScreen && this.game.keys["enter"]) {
+      this.storyScreen = false;
+      this.loadLevel(levelOne, 0, 555, true, false, false);
+    }
     else if (this.knight.gameOver) {
       this.knight.gameOver = false;
       this.clearEntities();
@@ -297,6 +312,10 @@ class SceneManager {
       }
       this.loadLevel(this.level, 0, 555, true, false, false);
       this.lives = 5;
+    }
+    else if (this.knight.storyScreen) {
+      this.storyScreen = true;
+
     }
     else if (this.knight.winCondition) {
       this.clearEntities();
